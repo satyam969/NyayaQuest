@@ -1,0 +1,44 @@
+[project]
+name = "nyayaquest"
+version = "0.1.0"
+description = "NyayaQuest: An AI-powered legal assistant powered by BGE semantic embeddings and Groq LLaMA-3."
+authors = [{name = "https://lawglance.com/" }]
+maintainers = [
+    {name = "Sreejith G", email = "gsreejith828@gmail.com"},
+    {name = "Midhun M I", email = "midhunmi2011@gmail.com"},
+    {name = "Meenu Dev", email = "mee.dev03@gmail.com"},
+    {name = "Brijesh", email = "brijesh@curvelogics.com"},
+    {name = "Haritha C", email = "harithac.contactmail@gmail.com"},
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "chroma-hnswlib==0.7.6",
+    "chromadb==0.5.11",
+    "ipykernel>=6.30.1",
+    "jupyter>=1.1.1",
+    "langchain==0.2.9",
+    "langchain-chroma==0.1.4",
+    "langchain-community==0.2.10",
+    "langchain-core==0.2.24",
+    "langchain-openai>=0.1.19",
+    "langchain-text-splitters==0.2.2",
+    "langchainhub==0.1.20",
+    "langdetect==1.0.9",
+    "langsmith==0.1.93",
+    "openai>=1.66.3",
+    "pymupdf==1.24.9",
+    "pymupdfb==1.24.9",
+    "redis>=6.3.0",
+    "streamlit==1.37.0",
+    "langchain-huggingface>=0.0.3",
+    "langchain-groq>=0.1.6",
+    "sentence-transformers>=3.0.0",
+    "flashrank>=0.2.8",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "ruff>=0.11.0",
+]

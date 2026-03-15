@@ -1,0 +1,14 @@
+hello.py
+hello-world/*
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.idea/
+
+# LawGlance / NyayaQuest Specific
+.env
+chroma_db_*/
+data/legal_pdfs/
+*.log
