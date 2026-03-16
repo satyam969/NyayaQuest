@@ -2,14 +2,6 @@
 name = "nyayaquest"
 version = "0.1.0"
 description = "NyayaQuest: An AI-powered legal assistant powered by BGE semantic embeddings and Groq LLaMA-3."
-authors = [{name = "https://lawglance.com/" }]
-maintainers = [
-    {name = "Sreejith G", email = "gsreejith828@gmail.com"},
-    {name = "Midhun M I", email = "midhunmi2011@gmail.com"},
-    {name = "Meenu Dev", email = "mee.dev03@gmail.com"},
-    {name = "Brijesh", email = "brijesh@curvelogics.com"},
-    {name = "Haritha C", email = "harithac.contactmail@gmail.com"},
-]
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
