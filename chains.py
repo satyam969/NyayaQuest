@@ -10,21 +10,23 @@ def get_rag_chain(llm, vector_store, system_prompt, qa_prompt):
     
     # Custom Multi-Query prompting to prioritize formal Statutes and Sections
     # Generating queries that look like exact fragments of law (e.g. "Whoever commits murder shall be punished")
-    template = """You are a senior Indian legal researcher. 
+    template = """You are a senior Indian legal researcher with deep knowledge of the Bharatiya Nyaya Sanhita (BNS) 2023.
+    The database contains chunks prefixed with [LAW_CODE YEAR] [CHAPTER] Section NUMBER.
+    
     Rewrite the user's question into 3 different versions:
     1. A formal Section lookup (e.g., "Section regarding penalty for murder in BNS")
     2. An exact statutory phrase (e.g., "Whoever commits murder shall be punished with death")
-    3. A legalistic research query (e.g., "BNS punishment for intentional culpable homicide amounting to murder")
+    3. A chapter-aware legal research query (e.g., "Chapter VI offences affecting human body punishment for intentional culpable homicide")
     
     Original question: {question}
     Generate only the 3 versions:"""
     from langchain.prompts import PromptTemplate
     mq_prompt = PromptTemplate(input_variables=["question"], template=template)
 
-    # Base Retriever
+    # Base Retriever - fetch enough chunks to capture multi-chunk sections
     base_retriever = vector_store.as_retriever(
         search_type="similarity", 
-        search_kwargs={"k": 15}
+        search_kwargs={"k": 20}
     )
     
     # Multi-Query with statutory prompt
