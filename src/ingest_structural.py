@@ -12,71 +12,103 @@ COLLECTION_NAME = "legal_knowledge"
 
 def clean_text(text):
     """Clean up header/footer noise from the PDF text."""
-    # Remove large blocks of whitespace
+    # Remove the massive Hindi/English Gazette initial publication header spanning across Page 1 and 2
+    text = re.sub(r'vlk/kkj\.k.*?CG-DL-E-\d+-\d+', '', text, flags=re.DOTALL)
+    
+    # Remove all the repetitive underscore lines used for visual formatting
+    text = re.sub(r'_+', '', text)
+    
+    # Remove "THE GAZETTE OF INDIA EXTRAORDINARY" and page number notations (e.g., "[Part II—" or "Sec. 1]")
+    text = re.sub(r'THE GAZETTE OF INDIA EXTRAORDINARY', '', text)
+    text = re.sub(r'\[?Part II—', '', text)
+    text = re.sub(r'Sec\.\s*\d+\]?', '', text)
+    
+    # Remove standalone small text lines, page numbers and excessive whitespace
+    text = re.sub(r'^\s*\d+\s*$', '', text, flags=re.MULTILINE)  # Empty lines with just a number
     text = re.sub(r'\n{3,}', '\n\n', text)
-    # Remove common PDF footer patterns (like page numbers)
-    text = re.sub(r'\n\s*\d+\s*\n', '\n', text)
+    
     return text.strip()
 
 def split_by_section(text):
     """
     Splits the document text by legally defined 'Sections' or 'Articles'.
-    Assumes sections start with a number followed by a period and a space or newline.
-    For BNS, it typically looks like: "103. (1) Whoever commits murder..."
     """
-    # Look for patterns like "\n103. " or "\nSection 103. "
-    # We use a lookahead assertion (?=\n\d+\.) so we split before the number but keep it in the next chunk.
     pattern = r'(?=\n\s*\d+\.\s)'
     chunks = re.split(pattern, text)
     
-    # Clean up chunks and remove empty ones
-    cleaned_chunks = [clean_text(chunk) for chunk in chunks if chunk.strip()]
-    return cleaned_chunks
+    # We don't just clean them; we want to preserve the raw strings to find Chapters
+    return chunks
 
 def preprocess_document(pdf_path):
     loader = PyMuPDFLoader(pdf_path)
     data = loader.load()
     
-    # Initially join all pages to treat the document as a continuous text stream
-    # This helps in crossing page boundaries when searching for sections.
     full_text = "\n".join([page.page_content for page in data])
+    full_text = clean_text(full_text)
     
-    sections = split_by_section(full_text)
+    raw_sections = split_by_section(full_text)
     
-    # Secondary splitter for dangerously large sections (like schedules)
     from langchain_text_splitters import RecursiveCharacterTextSplitter
-    secondary_splitter = RecursiveCharacterTextSplitter(chunk_size=250, chunk_overlap=20)
+    # The splitter ensures it NEVER cuts words in half. It splits on ["\n\n", "\n", " ", ""] in that order.
+    secondary_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=30)
 
-    # Post-process: inject context
+    # Parse law_code and year from filename (e.g., "BNS_2023.pdf" -> "BNS", "2023")
+    basename = os.path.basename(pdf_path)
+    name_match = re.match(r'^([A-Za-z]+)_(\d{4})', basename)
+    law_code = name_match.group(1).upper() if name_match else "UNKNOWN"
+    year = name_match.group(2) if name_match else "Unknown"
+
     enriched_sections = []
-    for section in sections:
-        # Try to extract the section number if it starts with one
-        match = re.match(r'^\s*(\d+)\.\s*(.*)', section, re.DOTALL)
+    current_chapter = "Unknown Chapter"
+    
+    for section in raw_sections:
+        section = section.strip()
+        if not section: continue
+        
+        # 1. Statefully Update Chapter
+        chap_match = re.search(r'(CHAPTER\s*[IVXLCDMivxlcdm]+)\s*\n+(.*?)(?=\n|$)', section)
+        if chap_match:
+            current_chapter = f"{chap_match.group(1)} - {chap_match.group(2).strip()}"
+            section = re.sub(r'CHAPTER\s*[IVXLCDMivxlcdm]+\s*\n+.*?(?=\n|$)', '', section).strip()
+            
+        # 2. Extract Section Number and clean text
+        match = re.match(r'^(\d+[A-Z]?)\.\s*(.*)', section, re.DOTALL)
         if match:
             section_num = match.group(1)
-            content = match.group(2)
-            # Prepend a clear header so the AI knows what this chunk represents
-            enriched_text = f"Section {section_num}: {content}"
+            content = match.group(2).strip()
             
-            # Split this section if it's too large
-            sub_chunks = secondary_splitter.split_text(enriched_text)
-            for sub in sub_chunks:
+            sub_chunks = secondary_splitter.split_text(content)
+            total_chunks = len(sub_chunks)
+            
+            for i, sub in enumerate(sub_chunks):
+                enriched_text = f"[{law_code} {year}] [{current_chapter}] Section {section_num}: {sub}"
+                
                 enriched_sections.append({
-                    "text": sub,
+                    "text": enriched_text,
                     "metadata": {
+                        "law_code": law_code,
+                        "year": year,
+                        "chapter": current_chapter,
                         "section_number": section_num,
-                        "source": os.path.basename(pdf_path)
+                        "chunk_index": i + 1,
+                        "total_chunks": total_chunks,
+                        "source": basename
                     }
                 })
         else:
-            if len(section) > 100: # Ignore tiny random strings
+            if len(section) > 100:
                 sub_chunks = secondary_splitter.split_text(section)
-                for sub in sub_chunks:
+                for i, sub in enumerate(sub_chunks):
                     enriched_sections.append({
                         "text": sub,
                         "metadata": {
+                            "law_code": law_code,
+                            "year": year,
+                            "chapter": current_chapter,
                             "section_number": "general",
-                            "source": os.path.basename(pdf_path)
+                            "chunk_index": i + 1,
+                            "total_chunks": len(sub_chunks),
+                            "source": basename
                         }
                     })
             
