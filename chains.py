@@ -5,11 +5,10 @@ from langchain_core.prompts import MessagesPlaceholder
 from langchain.retrievers import ContextualCompressionRetriever
 from langchain_community.document_compressors.flashrank_rerank import FlashrankRerank
 
-def get_rag_chain(llm, vector_store, system_prompt, qa_prompt):
+def get_rag_chain(llm, vector_store, system_prompt, qa_prompt, hybrid_retriever=None):
     from langchain.retrievers import MultiQueryRetriever
     
     # Custom Multi-Query prompting to prioritize formal Statutes and Sections
-    # Generating queries that look like exact fragments of law (e.g. "Whoever commits murder shall be punished")
     template = """You are a senior Indian legal researcher with deep knowledge of the Bharatiya Nyaya Sanhita (BNS) 2023.
     The database contains chunks prefixed with [LAW_CODE YEAR] [CHAPTER] Section NUMBER.
     
@@ -23,11 +22,14 @@ def get_rag_chain(llm, vector_store, system_prompt, qa_prompt):
     from langchain.prompts import PromptTemplate
     mq_prompt = PromptTemplate(input_variables=["question"], template=template)
 
-    # Base Retriever - fetch enough chunks to capture multi-chunk sections
-    base_retriever = vector_store.as_retriever(
-        search_type="similarity", 
-        search_kwargs={"k": 20}
-    )
+    # Use hybrid retriever if provided, otherwise fall back to vector-only
+    if hybrid_retriever is not None:
+        base_retriever = hybrid_retriever
+    else:
+        base_retriever = vector_store.as_retriever(
+            search_type="similarity", 
+            search_kwargs={"k": 20}
+        )
     
     # Multi-Query with statutory prompt
     mq_retriever = MultiQueryRetriever.from_llm(
