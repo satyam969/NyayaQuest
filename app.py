@@ -128,8 +128,12 @@ llm = ChatGroq(model='llama-3.3-70b-versatile', temperature=0.9, groq_api_key=gr
 embeddings = CustomEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 vector_store = Chroma(persist_directory="chroma_db_groq_legal", embedding_function=embeddings, collection_name="legal_knowledge")
 
-# Create NyayaQuest instance
-law = NyayaQuest(llm, embeddings, vector_store)
+# Build Hybrid Retriever (Vector + BM25)
+from hybrid_retriever import HybridRetriever
+hybrid_retriever = HybridRetriever.from_vector_store(vector_store, k=20, vector_weight=0.5, bm25_weight=0.5)
+
+# Create NyayaQuest instance with hybrid retrieval
+law = NyayaQuest(llm, embeddings, vector_store, hybrid_retriever=hybrid_retriever)
 
 # Get chat history from backend and display
 if "messages" not in st.session_state:

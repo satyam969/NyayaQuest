@@ -40,10 +40,11 @@ class NyayaQuest:
     store = {}
     store_lock = threading.Lock()
 
-    def __init__(self, llm, embeddings, vector_store, redis_url="redis://localhost:6379/0"):
+    def __init__(self, llm, embeddings, vector_store, redis_url="redis://localhost:6379/0", hybrid_retriever=None):
         self.llm = llm
         self.embeddings = embeddings
         self.vector_store = vector_store
+        self.hybrid_retriever = hybrid_retriever
         self.cache = RedisCache(redis_url)
 
     def get_session_history(self, session_id):
@@ -74,7 +75,7 @@ class NyayaQuest:
 
         logging.info(f"Cache miss for key: {cache_key}. Generating new answer.")
 
-        rag_chain = get_rag_chain(self.llm, self.vector_store, SYSTEM_PROMPT, QA_PROMPT)
+        rag_chain = get_rag_chain(self.llm, self.vector_store, SYSTEM_PROMPT, QA_PROMPT, hybrid_retriever=self.hybrid_retriever)
 
         chat_history_obj = self.get_session_history(session_id)
         messages = chat_history_obj.messages

@@ -27,6 +27,7 @@ dependencies = [
     "langchain-groq>=0.1.6",
     "sentence-transformers>=3.0.0",
     "flashrank>=0.2.8",
+    "rank-bm25>=0.2.2",
 ]
 
 [dependency-groups]
