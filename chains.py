@@ -1,13 +1,120 @@
+import logging
+from typing import List
+
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain, create_history_aware_retriever
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.prompts import MessagesPlaceholder
-from langchain.retrievers import ContextualCompressionRetriever
-from langchain_community.document_compressors.flashrank_rerank import FlashrankRerank
+from langchain_core.retrievers import BaseRetriever
+from langchain_core.documents import Document
+from langchain_core.callbacks.manager import CallbackManagerForRetrieverRun
+from sentence_transformers import CrossEncoder
+
+logger = logging.getLogger(__name__)
+
+# ---------------------------------------------------------------------------
+# Reranker — loaded ONCE at module import time (avoids per-request overhead)
+# ---------------------------------------------------------------------------
+# logger.info("Loading BAAI/bge-reranker-base cross-encoder …")
+# _RERANKER = CrossEncoder("BAAI/bge-reranker-base")
+# logger.info("Reranker loaded successfully.")
+
+_RERANKER = None
+
+def get_reranker():
+    global _RERANKER
+    if _RERANKER is None:
+        logger.info("Loading reranker model …")
+        _RERANKER = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+        logger.info("Reranker loaded successfully.")
+    return _RERANKER
+
+
+def rerank_documents(query: str, docs: List[Document], top_n: int = 5) -> List[Document]:  # TUNABLE: top_n
+    """
+    Re-rank *docs* against *query* using the BGE cross-encoder and return the
+    top-*top_n* documents ordered by descending relevance score.
+
+    Preserves all original document metadata (section number, act name, etc.).
+    """
+    if not docs:
+        return docs
+
+    pairs = [(query, doc.page_content) for doc in docs]
+    # scores = _RERANKER.predict(pairs, batch_size=32)
+
+    reranker = get_reranker()
+    scores = reranker.predict(pairs, batch_size=32)
+
+    ranked = sorted(zip(scores, docs), key=lambda x: x[0], reverse=True)
+
+    # 🔍 DEBUG: Print top reranked documents
+    for i, (score, doc) in enumerate(ranked[:top_n]):
+        logger.info(
+            "Rank %d | Score: %.4f | Section: %s | Text: %s",
+            i + 1,
+            float(score),
+            doc.metadata.get("section"),
+            doc.page_content[:150].replace("\n", " ")
+        )
+
+    top_docs = [doc for _, doc in ranked[:top_n]]
+
+    logger.info(
+        "Reranker: %d candidates → top-%d selected (scores: %s)",
+        len(docs),
+        top_n,
+        [round(float(s), 4) for s, _ in ranked[:top_n]],
+    )
+    return top_docs
+
+
+class RerankingRetriever(BaseRetriever):
+    """
+    Thin LangChain BaseRetriever wrapper that:
+      1. Delegates retrieval to an inner retriever (MultiQueryRetriever).
+     
+     
+     
+     
+     
+     
+     
+     
+           2. Applies cross-encoder reranking via rerank_documents().
+      3. Returns only the top-n reranked documents to the rest of the chain.
+
+    This keeps the reranking logic completely isolated from the rest of the
+    pipeline — nothing outside this class or rerank_documents() needs to change.
+    """
+
+    inner_retriever: BaseRetriever
+    query: str = ""          # set dynamically on each call
+    top_n: int = 5           # TUNABLE: number of docs returned to the LLM
+
+    class Config:
+        arbitrary_types_allowed = True
+
+    def _get_relevant_documents(
+        self,
+        query: str,
+        *,
+        run_manager: CallbackManagerForRetrieverRun,
+    ) -> List[Document]:
+        # 1. Retrieve candidate pool from MultiQueryRetriever
+        raw_docs = self.inner_retriever.get_relevant_documents(
+            query, callbacks=run_manager.get_child()
+        )
+        logger.info("RerankingRetriever: retrieved %d raw documents.", len(raw_docs))
+
+        # 2. Apply cross-encoder reranking
+        return rerank_documents(query, raw_docs, top_n=self.top_n)
+
 
 def get_rag_chain(llm, vector_store, system_prompt, qa_prompt, hybrid_retriever=None):
     from langchain.retrievers import MultiQueryRetriever
-    
+    from langchain.prompts import PromptTemplate
+
     # Custom Multi-Query prompting to prioritize formal Statutes and Sections
     template = """You are a senior Indian legal researcher with deep knowledge of the Bharatiya Nyaya Sanhita (BNS) 2023.
     The database contains chunks prefixed with [LAW_CODE YEAR] [CHAPTER] Section NUMBER.
@@ -19,7 +126,7 @@ def get_rag_chain(llm, vector_store, system_prompt, qa_prompt, hybrid_retriever=
     
     Original question: {question}
     Generate only the 3 versions:"""
-    from langchain.prompts import PromptTemplate
+
     mq_prompt = PromptTemplate(input_variables=["question"], template=template)
 
     # Use hybrid retriever if provided, otherwise fall back to vector-only
@@ -36,20 +143,31 @@ def get_rag_chain(llm, vector_store, system_prompt, qa_prompt, hybrid_retriever=
         retriever=base_retriever, llm=llm, prompt=mq_prompt
     )
 
+    # ── RERANKING LAYER ────────────────────────────────────────────────────
+    # Inserted EXACTLY between Retriever → LLM.
+    # The LLM only ever receives the top-5 reranked documents.
+    reranking_retriever = RerankingRetriever(
+        inner_retriever=mq_retriever,
+        top_n=5,   # TUNABLE: reduce to 3 for speed, increase to 8 for recall
+    )
+    # ── END RERANKING LAYER ────────────────────────────────────────────────
+
     contextualize_q_prompt = ChatPromptTemplate.from_messages([
         ("system", "Given a chat history and the latest user question which might reference context in the chat history, formulate a standalone question which can be understood without the chat history. Do NOT answer the question, just reformulate it if needed and otherwise return it as is."),
         MessagesPlaceholder("chat_history"),
         ("human", "{input}"),
     ])
-    
-    history_aware_retriever = create_history_aware_retriever(llm, mq_retriever, contextualize_q_prompt)
-    
+
+    history_aware_retriever = create_history_aware_retriever(
+        llm, reranking_retriever, contextualize_q_prompt   # ← uses reranked retriever
+    )
+
     qa_prompt_template = ChatPromptTemplate.from_messages([
         ("system", system_prompt),
         MessagesPlaceholder(variable_name="chat_history"),
         ("human", qa_prompt),
     ])
-    
+
     question_answer_chain = create_stuff_documents_chain(llm, qa_prompt_template)
     rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
     return rag_chain

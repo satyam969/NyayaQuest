@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-03-18T21:25:55.246207",
+  "timestamp": "2026-03-20T15:24:10.789768",
   "summary": {
     "top1_accuracy": 26.7,
     "top3_accuracy": 53.3,
     "top10_accuracy": 80.0,
     "top20_accuracy": 86.7,
-    "avg_precision": 18.7,
-    "citation_accuracy": 53.3,
+    "avg_precision": 18.3,
+    "citation_accuracy": 73.3,
     "total_chunks_in_db": 1555
   },
   "query_type_breakdown": {
@@ -16,19 +16,19 @@
       "total": 3
     },
     "definition": {
-      "pass": 4,
+      "pass": 6,
       "fail": 0,
-      "total": 4
+      "total": 6
     },
     "provision": {
       "pass": 2,
-      "fail": 0,
-      "total": 2
+      "fail": 2,
+      "total": 4
     },
     "multi-hop": {
-      "pass": 0,
+      "pass": 1,
       "fail": 1,
-      "total": 1
+      "total": 2
     }
   },
   "detailed_results": [
@@ -72,7 +72,7 @@
       ],
       "retrieval_passed": true,
       "citation": {
-        "answer_snippet": "Under Section 103, Chapter VI - Of Offences Affecting the Human Body, whoever commits murder shall be punished with death or imprisonment for life, and shall also be liable to fine.",
+        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant section for the punishment of murder is Section 103, Chapter VI - Of Offences Affecting the Human Body.\n\n## 📜 Provision\nThe provision under Section 103 states that whoever commits murder shall be punished.\n\n## 🚨 Pu",
         "section_cited": true,
         "keyword_score": 1.0,
         "passed": true
@@ -114,7 +114,7 @@
       ],
       "retrieval_passed": true,
       "citation": {
-        "answer_snippet": "Under Section 100, Chapter VI - OF OFFENCES AFFECTING THE HUMAN BODY, whoever causes death by doing an act with the intention of causing death, or with the intention of causing such bodily injury as is likely to cause death, or with the knowledge tha",
+        "answer_snippet": "## ⚖️ Relevant Section\nSection 101, Chapter VI - OF OFFENCES AFFECTING THE HUMAN BODY\n\n## 📜 Provision\nCulpable homicide is defined as an act that causes death, but it is not considered murder in certain exceptions, such as:\n* When committed without p",
         "section_cited": true,
         "keyword_score": 1.0,
         "passed": true
@@ -155,7 +155,7 @@
       ],
       "retrieval_passed": true,
       "citation": {
-        "answer_snippet": "Under Section 329, Chapter XVII - OF OFFENCES AGAINST PROPERTY, criminal trespass is defined as entering into or upon property in the possession of another with intent to commit an offence or to intimidate, insult or annoy any person in possession of",
+        "answer_snippet": "## ⚖️ Relevant Section\nSection 329, Chapter XVII - OF OFFENCES AGAINST PROPERTY, defines criminal trespass.\n\n## 📜 Provision\nCriminal trespass is said to be committed when a person enters into or remains in any building with intent to intimidate, insu",
         "section_cited": true,
         "keyword_score": 1.0,
         "passed": true
@@ -197,10 +197,10 @@
       ],
       "retrieval_passed": true,
       "citation": {
-        "answer_snippet": "Under Section 302 (Chapter XVII - OF OFFENCES AGAINST PROPERTY), the provisions related to theft are outlined. Additionally, Section 303 (Chapter XVII - OF OFFENCES AGAINST PROPERTY) provides that whoever commits theft shall be punished with imprison",
-        "section_cited": true,
-        "keyword_score": 1.0,
-        "passed": true
+        "answer_snippet": "## ⚖️ Relevant Section\nSection 304, Section 306, Section 307, and Section 302 of Chapter XVII - OF OFFENCES AGAINST PROPERTY of the BNS 2023.\n\n## 📜 Provision\nThe provisions related to theft are as follows:\n* Theft is defined, and snatching is conside",
+        "section_cited": false,
+        "keyword_score": 0.5,
+        "passed": false
       }
     },
     {
@@ -240,7 +240,7 @@
       ],
       "retrieval_passed": true,
       "citation": {
-        "answer_snippet": "Under Section 309 (Chapter XVII - OF OFFENCES AGAINST PROPERTY), the punishment for robbery is imprisonment for life, or with rigorous imprisonment for a term which may extend to ten years, and shall also be liable to fine. Additionally, if the robbe",
+        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for the punishment of robbery are Section 309, Section 311, and Section 312 of Chapter XVII - OF OFFENCES AGAINST PROPERTY of the BNS 2023.\n\n## 📜 Provision\nThe provisions under these sections outline the p",
         "section_cited": true,
         "keyword_score": 1.0,
         "passed": true
@@ -279,7 +279,7 @@
       ],
       "retrieval_passed": true,
       "citation": {
-        "answer_snippet": "Under Section 356 (Chapter XIX - OF CRIMINAL INTIMIDATION, INSULT, ANNOYANCE, DEFAMATION, ETC.), defamation is defined as making or publishing any imputation concerning a person, intending to harm or knowing that such imputation will harm the reputat",
+        "answer_snippet": "## ⚖️ Relevant Section\nSection 356, Chapter XIX - OF CRIMINAL INTIMIDATION, INSULT, ANNOYANCE, DEFAMATION, ETC.\n\n## 📜 Provision\nThe provision under Section 356 states that it is not defamation to express in good faith any opinion respecting the merit",
         "section_cited": true,
         "keyword_score": 1.0,
         "passed": true
@@ -310,10 +310,10 @@
         "152",
         "197",
         "303",
+        "65",
         "76",
         "81",
         "82",
-        "95",
         "96",
         "98"
       ],
@@ -327,10 +327,10 @@
       ],
       "retrieval_passed": false,
       "citation": {
-        "answer_snippet": "Under Section 20 (Chapter III - General Exceptions), nothing is an offence which is done by a child under seven years of age. Additionally, Section 21 (Chapter III - General Exceptions) states that nothing is an offence which is done by a child above",
-        "section_cited": true,
-        "keyword_score": 1.0,
-        "passed": true
+        "answer_snippet": "## ⚖️ Relevant Section\nSection 21, Chapter III - GENERAL EXCEPTIONS, and Section 3, Chapter II - OF PUNISHMENTS, provide information related to the age of criminal responsibility.\n\n## 📜 Provision\nAccording to Section 21, Chapter III, nothing is an of",
+        "section_cited": false,
+        "keyword_score": 0.67,
+        "passed": false
       }
     },
     {
@@ -354,8 +354,8 @@
         "182",
         "243",
         "318",
-        "320",
         "323",
+        "335",
         "336",
         "337",
         "339",
@@ -371,7 +371,7 @@
       ],
       "retrieval_passed": true,
       "citation": {
-        "answer_snippet": "Under Section 336 (Chapter XVIII - OF OFFENCES RELATING TO DOCUMENTS AND TO PROPERTY MARKS) of the Bharatiya Nyaya Sanhita, 2023 (BNS), forgery is defined as making any false document or false electronic record or part of a document or electronic rec",
+        "answer_snippet": "## ⚖️ Relevant Section\nSection 336, Chapter XVIII - OF OFFENCES RELATING TO DOCUMENTS AND TO PROPERTY MARKS, specifically subsections (2), (3), and (4), deal with the definition and punishment of forgery under BNS 2023.\n\n## 📜 Provision\nThe provision ",
         "section_cited": true,
         "keyword_score": 1.0,
         "passed": true
@@ -405,6 +405,7 @@
         "263",
         "265",
         "308",
+        "309",
         "87",
         "97"
       ],
@@ -416,7 +417,7 @@
       ],
       "retrieval_passed": true,
       "citation": {
-        "answer_snippet": "Under Section 140, Chapter VI - OF OFFENCES AFFECTING THE HUMAN BODY, the punishment for kidnapping or abducting any person is imprisonment for life or imprisonment of either description for a term which may extend to ten years, and shall also be lia",
+        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for the punishment of kidnapping are Section 140, Section 142, Section 97, and Section 139 of the Bharatiya Nyaya Sanhita, 2023.\n\n## 📜 Provision\nThe provisions under these sections deal with different aspe",
         "section_cited": false,
         "keyword_score": 0.5,
         "passed": false
@@ -464,7 +465,7 @@
       ],
       "retrieval_passed": false,
       "citation": {
-        "answer_snippet": "Under Section 117 (Chapter VI - OF OFFENCES AFFECTING THE HUMAN BODY), voluntarily causing grievous hurt is punishable with imprisonment of either description for a term which may extend to seven years, and shall also be liable to fine. \n\nAdditionall",
+        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for the provisions about hurt and grievous hurt are:\n* Section 117, Chapter VI - OF OFFENCES AFFECTING THE HUMAN BODY\n* Section 118, Chapter VI - OF OFFENCES AFFECTING THE HUMAN BODY\n* Section 124, Chapter",
         "section_cited": false,
         "keyword_score": 0.33,
         "passed": false
@@ -488,16 +489,16 @@
       "all_found_sections": [
         "1",
         "113",
-        "170",
+        "150",
         "199",
         "2",
         "230",
         "231",
-        "252",
-        "253",
+        "239",
         "318",
         "319",
         "356",
+        "47",
         "62",
         "69",
         "72"
@@ -510,10 +511,10 @@
       ],
       "retrieval_passed": true,
       "citation": {
-        "answer_snippet": "ERROR: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kd2x5g12ehft59z0vw2dvgjq` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99992, Requested 194. Please try again in 2m40.704s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
-        "section_cited": false,
-        "keyword_score": 0,
-        "passed": false
+        "answer_snippet": "## ⚖️ Relevant Section\nSection 318 and Section 319 of Chapter XVII - OF OFFENCES AGAINST PROPERTY of the Bharatiya Nyaya Sanhita, 2023.\n\n## 📜 Provision\nA person is said to cheat if they dishonestly induce another person to do something or omit to do ",
+        "section_cited": true,
+        "keyword_score": 1.0,
+        "passed": true
       }
     },
     {
@@ -523,7 +524,7 @@
       "expected_sections": [
         "152"
       ],
-      "first_hit_rank": 9,
+      "first_hit_rank": 8,
       "precision": 0.05,
       "coverage": {
         "chunks_found": 1,
@@ -533,6 +534,7 @@
       },
       "all_found_sections": [
         "1",
+        "113",
         "147",
         "148",
         "149",
@@ -542,23 +544,22 @@
         "153",
         "154",
         "197",
+        "231",
         "253",
-        "262",
-        "47",
-        "48"
+        "47"
       ],
       "missing_sections": [],
       "top_3_docs_preview": [
         "[BNS 2023] [CHAPTERVII - OF OFFENCES AGAINST THE STATE] Section 153: India.\nWaging war\nagainst\nGovernment\nof any foreign...",
         "[BNS 2023] [CHAPTERXIV - OF FALSE EVIDENCE AND OFFENCES AGAINST PUBLIC JUSTICE] Section 253: India, would have been puni...",
-        "[BNS 2023] [CHAPTERIV - OF ABETMENT, CRIMINAL CONSPIRACY AND ATTEMPT] Section 48: Illustration.\nA, in country X, instiga..."
+        "[BNS 2023] [CHAPTERXII - OF OFFENCES BY OR RELATING TO PUBLIC SERVANTS] Section 197: ill-will between such members and o..."
       ],
       "retrieval_passed": true,
       "citation": {
-        "answer_snippet": "ERROR: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kd2x5g12ehft59z0vw2dvgjq` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99988, Requested 193. Please try again in 2m36.384s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
-        "section_cited": false,
-        "keyword_score": 0,
-        "passed": false
+        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for sedition or acts against the sovereignty of India are Section 152 and Section 153 of Chapter VII - OF OFFENCES AGAINST THE STATE of the Bharatiya Nyaya Sanhita, 2023 (BNS).\n\n## 📜 Provision\nThe provisio",
+        "section_cited": true,
+        "keyword_score": 1.0,
+        "passed": true
       }
     },
     {
@@ -569,16 +570,17 @@
         "62"
       ],
       "first_hit_rank": 3,
-      "precision": 0.1,
+      "precision": 0.05,
       "coverage": {
-        "chunks_found": 2,
+        "chunks_found": 1,
         "has_definition": false,
         "has_punishment": true,
-        "combined_length": 684
+        "combined_length": 321
       },
       "all_found_sections": [
         "14",
         "147",
+        "152",
         "17",
         "217",
         "239",
@@ -600,10 +602,10 @@
       ],
       "retrieval_passed": true,
       "citation": {
-        "answer_snippet": "ERROR: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kd2x5g12ehft59z0vw2dvgjq` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99984, Requested 194. Please try again in 2m33.792s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
-        "section_cited": false,
-        "keyword_score": 0,
-        "passed": false
+        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant section for the question about attempt to commit an offence is Section 62, Chapter V - OF OFFENCES AGAINST WOMAN AND CHILD, and also Section 59 and Section 56, Chapter IV - OF ABETMENT, CRIMINAL CONSPIRACY AND ATTE",
+        "section_cited": true,
+        "keyword_score": 1.0,
+        "passed": true
       }
     },
     {
@@ -611,9 +613,9 @@
       "category": "General Exceptions",
       "query_type": "multi-hop",
       "expected_sections": [
-        "35",
-        "34",
         "37",
+        "34",
+        "35",
         "36"
       ],
       "first_hit_rank": 1,
@@ -647,10 +649,10 @@
       ],
       "retrieval_passed": true,
       "citation": {
-        "answer_snippet": "ERROR: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kd2x5g12ehft59z0vw2dvgjq` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99980, Requested 190. Please try again in 2m26.88s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
-        "section_cited": false,
-        "keyword_score": 0,
-        "passed": false
+        "answer_snippet": "## ⚖️ Relevant Section\nThe right of private defence is covered under [BNS 2023] [CHAPTERIII - GENERAL EXCEPTIONS] Sections 37, 38, 40, 41, and 43.\n\n## 📜 Provision\nThe provisions related to the right of private defence are as follows:\n- Section 38: Th",
+        "section_cited": true,
+        "keyword_score": 1.0,
+        "passed": true
       }
     },
     {
@@ -669,7 +671,6 @@
         "combined_length": 1537
       },
       "all_found_sections": [
-        "228",
         "262",
         "44",
         "45",
@@ -689,10 +690,10 @@
       ],
       "retrieval_passed": true,
       "citation": {
-        "answer_snippet": "ERROR: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kd2x5g12ehft59z0vw2dvgjq` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99976, Requested 190. Please try again in 2m23.424s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
-        "section_cited": false,
-        "keyword_score": 0,
-        "passed": false
+        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for criminal conspiracy are Section 61, Section 49, Section 56, and Section 59 of Chapter IV - OF ABETMENT, CRIMINAL CONSPIRACY AND ATTEMPT of the Bharatiya Nyaya Sanhita, 2023.\n\n## 📜 Provision\nThe provisi",
+        "section_cited": true,
+        "keyword_score": 1.0,
+        "passed": true
       }
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-18T21:46:56.427930",
+  "timestamp": "2026-03-20T15:18:54.895378",
   "total_tests": 15,
   "vector_only": {
     "name": "Vector-Only",
@@ -11,7 +11,7 @@
     "top3_pct": 53.3,
     "top10_pct": 80.0,
     "top20_pct": 86.7,
-    "avg_precision": 18.7
+    "avg_precision": 18.3
   },
   "hybrid": {
     "name": "Hybrid (V+BM25)",
@@ -23,7 +23,7 @@
     "top3_pct": 53.3,
     "top10_pct": 86.7,
     "top20_pct": 86.7,
-    "avg_precision": 16.0
+    "avg_precision": 15.7
   },
   "per_query_comparison": [
     {
@@ -185,11 +185,11 @@
       "category": "Forgery",
       "query_type": "definition",
       "vector_rank": 4,
-      "hybrid_rank": 10,
-      "vector_precision": 0.05,
+      "hybrid_rank": 6,
+      "vector_precision": 0.1,
       "hybrid_precision": 0.15,
       "vector_coverage": {
-        "chunks": 1,
+        "chunks": 2,
         "def": false,
         "pun": true
       },
@@ -251,16 +251,16 @@
       "category": "Cheating",
       "query_type": "definition",
       "vector_rank": 2,
-      "hybrid_rank": 4,
-      "vector_precision": 0.2,
-      "hybrid_precision": 0.15,
+      "hybrid_rank": 5,
+      "vector_precision": 0.15,
+      "hybrid_precision": 0.1,
       "vector_coverage": {
-        "chunks": 4,
+        "chunks": 3,
         "def": true,
         "pun": true
       },
       "hybrid_coverage": {
-        "chunks": 3,
+        "chunks": 2,
         "def": true,
         "pun": false
       },
@@ -296,10 +296,10 @@
       "query_type": "provision",
       "vector_rank": 3,
       "hybrid_rank": 1,
-      "vector_precision": 0.1,
+      "vector_precision": 0.05,
       "hybrid_precision": 0.05,
       "vector_coverage": {
-        "chunks": 2,
+        "chunks": 1,
         "def": false,
         "pun": true
       },

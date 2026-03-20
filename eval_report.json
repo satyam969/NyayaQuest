@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-03-18T21:15:18.841496",
+  "timestamp": "2026-03-20T15:22:03.161497",
   "total_tests": 15,
   "retrieval_accuracy": 86.66666666666667,
   "citation_accuracy": 93.33333333333333,
-  "avg_keyword_score": 90.0,
+  "avg_keyword_score": 83.33333333333334,
   "retrieval_results": [
     {
       "question": "What is the punishment for murder?",
@@ -224,7 +224,8 @@
         "259",
         "263",
         "265",
-        "308"
+        "308",
+        "309"
       ],
       "hits": [
         "137"
@@ -263,18 +264,18 @@
         "318"
       ],
       "found": [
-        "1",
         "2",
+        "47",
         "62",
         "69",
         "72",
         "81",
         "113",
+        "150",
         "170",
         "199",
         "230",
         "231",
-        "237",
         "318",
         "319",
         "356"
@@ -293,7 +294,7 @@
       "found": [
         "1",
         "47",
-        "48",
+        "113",
         "147",
         "148",
         "149",
@@ -303,8 +304,8 @@
         "153",
         "154",
         "197",
-        "253",
-        "262"
+        "231",
+        "253"
       ],
       "hits": [
         "152"
@@ -328,7 +329,7 @@
         "59",
         "62",
         "147",
-        "217",
+        "152",
         "239",
         "262",
         "265"
@@ -342,9 +343,9 @@
     {
       "question": "What is the right of private defence?",
       "expected": [
-        "36",
-        "34",
         "35",
+        "34",
+        "36",
         "37"
       ],
       "found": [
@@ -363,9 +364,9 @@
         "101"
       ],
       "hits": [
-        "36",
-        "34",
         "35",
+        "34",
+        "36",
         "37"
       ],
       "passed": true,
@@ -386,7 +387,6 @@
         "59",
         "60",
         "61",
-        "228",
         "262"
       ],
       "hits": [
@@ -399,7 +399,7 @@
   "citation_results": [
     {
       "question": "What is the punishment for murder?",
-      "answer_snippet": "Under Section 103, Chapter VI - OF OFFENCES AFFECTING THE HUMAN BODY, whoever commits murder shall be punished with death or imprisonment for life, and shall also be liable to fine.",
+      "answer_snippet": "## ⚖️ Relevant Section\nThe relevant section for the punishment of murder is Section 103, Chapter VI - OF OFFENCES AFFECTING THE HUMAN BODY.\n\n## 📜 Provision\nThe provision under Section 103 states that ...",
       "keywords_found": [
         "103",
         "murder",
@@ -413,7 +413,7 @@
     },
     {
       "question": "Define culpable homicide under BNS",
-      "answer_snippet": "Under Section 100, Chapter VI - Of Offences Affecting the Human Body, culpable homicide is defined as an act that causes death by doing something with the intention of causing death, or with the inten...",
+      "answer_snippet": "## ⚖️ Relevant Section\nSection 101, Chapter VI - OF OFFENCES AFFECTING THE HUMAN BODY, of the Bharatiya Nyaya Sanhita, 2023, defines culpable homicide.\n\n## 📜 Provision\nCulpable homicide is defined in ...",
       "keywords_found": [
         "101",
         "culpable homicide"
@@ -425,7 +425,7 @@
     },
     {
       "question": "What is criminal trespass?",
-      "answer_snippet": "Under Section 329 (Chapter XVII - OF OFFENCES AGAINST PROPERTY), criminal trespass is defined as when someone enters into or upon property in the possession of another with intent to commit an offence...",
+      "answer_snippet": "## ⚖️ Relevant Section\nSection 329, Chapter XVII - OF OFFENCES AGAINST PROPERTY, defines criminal trespass and its punishment.\n\n## 📜 Provision\nCriminal trespass is said to be committed when a person e...",
       "keywords_found": [
         "329",
         "trespass"
@@ -437,19 +437,20 @@
     },
     {
       "question": "What are the provisions related to theft?",
-      "answer_snippet": "Under Section 302 (Chapter XVII - OF OFFENCES AGAINST PROPERTY), the provisions related to theft are outlined. Additionally, Section 303 (Chapter XVII - OF OFFENCES AGAINST PROPERTY) provides that who...",
+      "answer_snippet": "## ⚖️ Relevant Section\nSection 304, Section 306, Section 307, and Section 302 of Chapter XVII - OF OFFENCES AGAINST PROPERTY\n\n## 📜 Provision\nThe provisions related to theft are as follows:\n* Section 3...",
       "keywords_found": [
-        "303",
         "theft"
       ],
-      "keywords_missing": [],
-      "score": 1.0,
+      "keywords_missing": [
+        "303"
+      ],
+      "score": 0.5,
       "passed": true,
       "category": "Property Offences"
     },
     {
       "question": "What is the punishment for robbery?",
-      "answer_snippet": "Under Section 309 (Chapter XVII - OF OFFENCES AGAINST PROPERTY), the punishment for robbery is imprisonment for life, or with rigorous imprisonment for a term which may extend to ten years, and shall ...",
+      "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for the punishment of robbery are Section 309, Section 311, and Section 312 of Chapter XVII - OF OFFENCES AGAINST PROPERTY of the BNS 2023.\n\n## 📜 Provision...",
       "keywords_found": [
         "309",
         "robbery"
@@ -461,7 +462,7 @@
     },
     {
       "question": "What constitutes defamation under BNS?",
-      "answer_snippet": "Under Section 356 (Chapter XIX - OF CRIMINAL INTIMIDATION, INSULT, ANNOYANCE, DEFAMATION, ETC.), defamation is defined as making or publishing any imputation concerning a person, intending to harm, or...",
+      "answer_snippet": "## ⚖️ Relevant Section\nSection 356, Chapter XIX - OF CRIMINAL INTIMIDATION, INSULT, ANNOYANCE, DEFAMATION, ETC.\n\n## 📜 Provision\nThe provision under Section 356 states that it is not defamation to expr...",
       "keywords_found": [
         "356",
         "defamation"
@@ -473,7 +474,7 @@
     },
     {
       "question": "What is the age of criminal responsibility in India?",
-      "answer_snippet": "Under Section 20 (Chapter III - General Exceptions) of the Bharatiya Nyaya Sanhita, 2023, nothing is an offence which is done by a child under seven years of age. Additionally, Section 21 (Chapter III...",
+      "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for determining the age of criminal responsibility in India are:\n* Section 20, Chapter III - General Exceptions\n* Section 21, Chapter III - General Excepti...",
       "keywords_found": [],
       "keywords_missing": [
         "15"
@@ -484,7 +485,7 @@
     },
     {
       "question": "Define forgery under BNS 2023",
-      "answer_snippet": "Under Section 335 (Chapter XVIII - OF OFFENCES RELATING TO DOCUMENTS AND TO PROPERTY MARKS), a person is said to make a false document or false electronic record if they dishonestly or fraudulently ma...",
+      "answer_snippet": "## ⚖️ Relevant Section\nSection 336, Chapter XVIII - OF OFFENCES RELATING TO DOCUMENTS AND TO PROPERTY MARKS, defines forgery under BNS 2023.\n\n## 📜 Provision\nThe provision states that whoever commits f...",
       "keywords_found": [
         "336",
         "forgery"
@@ -496,7 +497,7 @@
     },
     {
       "question": "What is the punishment for kidnapping?",
-      "answer_snippet": "Under Section 140 (Chapter VI - Of Offences Affecting the Human Body), the punishment for kidnapping or abducting any person is punishable with death, or imprisonment for life, and shall also be liabl...",
+      "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for the punishment of kidnapping are Section 140, Section 142, Section 97, and Section 139 of the Bharatiya Nyaya Sanhita, 2023.\n\n## 📜 Provision\nThe provis...",
       "keywords_found": [
         "kidnapping"
       ],
@@ -509,7 +510,7 @@
     },
     {
       "question": "What are the provisions about hurt and grievous hurt?",
-      "answer_snippet": "Under Section 117 (Chapter VI - OF OFFENCES AFFECTING THE HUMAN BODY), voluntarily causing grievous hurt is punishable with imprisonment of either description for a term which may extend to seven year...",
+      "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for the provisions about hurt and grievous hurt are:\n* Section 117, Chapter VI - OF OFFENCES AFFECTING THE HUMAN BODY\n* Section 118, Chapter VI - OF OFFENC...",
       "keywords_found": [
         "hurt"
       ],
@@ -520,19 +521,20 @@
     },
     {
       "question": "Define cheating under Bharatiya Nyaya Sanhita",
-      "answer_snippet": "Under Section 318 (Chapter XVII - OF OFFENCES AGAINST PROPERTY), cheating is defined as deceiving any person and thereby dishonestly inducing the person so deceived to deliver any property to any pers...",
+      "answer_snippet": "## ⚖️ Relevant Section\nThe relevant section for defining cheating under the Bharatiya Nyaya Sanhita, 2023, is Section 319, which falls under Chapter XVII - OF OFFENCES AGAINST PROPERTY.\n\n## 📜 Provisio...",
       "keywords_found": [
-        "318",
         "cheating"
       ],
-      "keywords_missing": [],
-      "score": 1.0,
+      "keywords_missing": [
+        "318"
+      ],
+      "score": 0.5,
       "passed": true,
       "category": "Fraud"
     },
     {
       "question": "What is sedition or acts against sovereignty of India?",
-      "answer_snippet": "Under Section 147, Chapter VII - OF OFFENCES AGAINST THE STATE, whoever wages war against the Government of India, or attempts to wage such war, or abets the waging of such war, shall be punished with...",
+      "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for sedition or acts against the sovereignty of India are Section 152 and Section 153 of Chapter VII - OF OFFENCES AGAINST THE STATE, and Section 150 of th...",
       "keywords_found": [
         "152"
       ],
@@ -543,7 +545,7 @@
     },
     {
       "question": "What does BNS say about attempt to commit an offence?",
-      "answer_snippet": "Under Section 62 (Chapter V - OF OFFENCES AGAINST WOMAN AND CHILD), whoever attempts to commit an offence punishable by this Sanhita with imprisonment for life or imprisonment, or to cause such an off...",
+      "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for the question about attempt to commit an offence are Section 62 of Chapter V and sections within Chapter IV, specifically sections related to abetment a...",
       "keywords_found": [
         "62",
         "attempt"
@@ -555,7 +557,7 @@
     },
     {
       "question": "What is the right of private defence?",
-      "answer_snippet": "Under Section 35, Chapter III - General Exceptions, every person has a right to defend their own body and the body of any other person against any offence affecting the human body, as well as the prop...",
+      "answer_snippet": "## ⚖️ Relevant Section\nThe right of private defence is governed by Sections 37, 38, 40, 41, and 43 of Chapter III - General Exceptions of the Bharatiya Nyaya Sanhita, 2023.\n\n## 📜 Provision\nThe provisi...",
       "keywords_found": [
         "private defence"
       ],
@@ -566,7 +568,7 @@
     },
     {
       "question": "What are the provisions about criminal conspiracy?",
-      "answer_snippet": "Under Section 61, Chapter IV - Of Abetment, Criminal Conspiracy and Attempt, a criminal conspiracy is defined as an agreement between two or more persons to do an illegal act or an act which is not il...",
+      "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for criminal conspiracy are Section 61, Section 49, Section 56, and Section 59 of Chapter IV - OF ABETMENT, CRIMINAL CONSPIRACY AND ATTEMPT of the Bharatiy...",
       "keywords_found": [
         "61",
         "conspiracy"
