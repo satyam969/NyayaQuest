@@ -32,9 +32,8 @@ def load_db_data():
             text = docs[i]
             meta = metas[i] if metas[i] else {}
             
-            # Extract section number from the injected header (e.g., "Section 103: ...")
-            section_match = re.search(r"Section (\d+[A-Z]?):", text)
-            section_num = section_match.group(1) if section_match else "Unknown"
+            # Extract section number directly from metadata instead of fragile text regex
+            section_num = meta.get("section_number", "Unknown")
             
             chunk_data.append({
                 "id": results['ids'][i],
@@ -45,6 +44,7 @@ def load_db_data():
                 "law_code": meta.get("law_code", "Unknown"),
                 "year": meta.get("year", "Unknown"),
                 "source": meta.get("source", "Unknown"),
+                "section_title": meta.get("section_title", ""),
                 "text": text,
                 "length": len(text)
             })
@@ -79,39 +79,43 @@ if not all_chunks:
 st.sidebar.header("📊 Database Stats")
 st.sidebar.metric("Total Chunks", len(all_chunks))
 
-# Extract unique values for filters
-unique_sections = sorted(list(set([c['section'] for c in all_chunks if c['section'] != "Unknown"])), 
-                         key=lambda x: int(re.match(r"(\d+)", x).group(1)) if re.match(r"(\d+)", x) else 9999)
-unique_chapters = sorted(list(set([c['chapter'] for c in all_chunks if c['chapter'] != "Unknown"])))
+# 1. First Filter: Law Act
 unique_laws = sorted(list(set([f"{c['law_code']} {c['year']}" for c in all_chunks if c['law_code'] != "Unknown"])))
-
-st.sidebar.markdown(f"**Unique Sections:** {len(unique_sections)} | **Chapters:** {len(unique_chapters)}")
-
-# --- SIDEBAR FILTERS ---
-st.sidebar.subheader("🔧 Filters")
-
 selected_law = st.sidebar.selectbox("📘 Filter by Law", ["All"] + unique_laws)
+
+# 2. Filter data by Law first to get relevant Chapters/Sections
+law_filtered_chunks = all_chunks
+if selected_law != "All":
+    law_code_val, year_val = selected_law.split(" ", 1)
+    law_filtered_chunks = [c for c in all_chunks if c['law_code'] == law_code_val and c['year'] == year_val]
+
+# 3. Second Filter: Chapter (Law-Aware)
+unique_chapters = sorted(list(set([c['chapter'] for c in law_filtered_chunks if c['chapter'] != "Unknown"])))
 selected_chapter = st.sidebar.selectbox("📂 Filter by Chapter", ["All"] + unique_chapters)
 
-# Apply sidebar filters
-filtered_chunks = all_chunks
-if selected_law != "All":
-    law_code, year = selected_law.split(" ", 1)
-    filtered_chunks = [c for c in filtered_chunks if c['law_code'] == law_code and c['year'] == year]
+# 4. Filter by Chapter
+chapter_filtered_chunks = law_filtered_chunks
 if selected_chapter != "All":
-    filtered_chunks = [c for c in filtered_chunks if c['chapter'] == selected_chapter]
+    chapter_filtered_chunks = [c for c in law_filtered_chunks if c['chapter'] == selected_chapter]
 
-# Provide a quick visual list of all sections
-with st.sidebar.expander("📋 List of All Ingested Sections", expanded=False):
+# 5. Get unique sections from the current level of filtering
+unique_sections = sorted(list(set([c['section'] for c in chapter_filtered_chunks if c['section'] != "Unknown"])), 
+                         key=lambda x: int(re.match(r"(\d+)", x).group(1)) if re.match(r"(\d+)", x) else 9999)
+
+# Provide a quick visual list of filtered sections
+with st.sidebar.expander("📋 List of Sections", expanded=False):
     section_text = " • ".join(unique_sections)
     st.markdown(f"<div style='font-size: 0.8em; line-height: 1.5;'>{section_text}</div>", unsafe_allow_html=True)
 
-with st.sidebar.expander("📂 List of All Chapters", expanded=False):
+with st.sidebar.expander("📂 List of Chapters", expanded=False):
     for ch in unique_chapters:
         st.markdown(f"- {ch}")
 
-# Search/Filter
-search_query = st.text_input("🔍 Search within chunks (or type a Section Number like '103')")
+# --- SEARCH & NAVIGATION ---
+search_query = st.text_input("🔍 Search within filtered results (Text or Section Number)")
+
+# Initialize filtered_chunks for display
+filtered_chunks = chapter_filtered_chunks
 
 if search_query:
     filtered_chunks = [c for c in filtered_chunks if search_query.lower() in c['text'].lower() or search_query.lower() == c['section'].lower()]
@@ -173,6 +177,8 @@ else:
             
             with col_a:
                 st.metric(label="Section", value=chunk['section'])
+                if chunk['section_title']:
+                    st.markdown(f"**{chunk['section_title']}**")
                 st.caption(f"📘 `{chunk['law_code']} {chunk['year']}`")
                 st.caption(f"📂 {chunk['chapter'][:30]}")
                 st.caption(f"🧩 Chunk {chunk['chunk_index']}/{chunk['total_chunks']}")
