@@ -1,0 +1,98 @@
+[
+    {
+        "question": "Does a person who buys goods for a commercial purpose qualify as a 'consumer'?",
+        "difficulty": "Easy",
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "answer_preview": "## \u2696\ufe0f Relevant Section\nSection 2, Chapter II - CONSUMER PROTECTION COUNCILS\n\n## \ud83d\udcdc Provision\nThe provision under Section 2 defines a \"consumer\" as any person who buys any goods for a consideration whic..."
+    },
+    {
+        "question": "Which specific authority is established by the Central Government to regulate false or misleading advertisements?",
+        "difficulty": "Easy",
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "answer_preview": "## \u2696\ufe0f Relevant Section\nThe relevant section for regulating false or misleading advertisements is Section 10 and Section 21 of Chapter III - Central Consumer Protection Authority of the CPA 2019.\n\n## \ud83d\udcdc..."
+    },
+    {
+        "question": "Does the Consumer Protection Act apply to goods bought through teleshopping or online internet transactions?",
+        "difficulty": "Easy",
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "answer_preview": "## \u2696\ufe0f Relevant Section\nThe relevant section for this query is Section 2 of the Consumer Protection Act, 2019, under Chapter II - Consumer Protection Councils.\n\n## \ud83d\udcdc Provision\nThe provision under Secti..."
+    },
+    {
+        "question": "What is the maximum value of goods or services paid as consideration for a complaint to be filed in the District Commission?",
+        "difficulty": "Medium",
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "answer_preview": "## \u2696\ufe0f Relevant Section\nThe relevant section for this query is Section 34, Chapter IV - CONSUMER DISPUTES REDRESSAL COMMISSION of the CPA 2019.\n\n## \ud83d\udcdc Provision\nThe provision under Section 34(1) states ..."
+    },
+    {
+        "question": "Within what time frame must an appeal be filed before the State Commission against an order passed by the District Commission?",
+        "difficulty": "Medium",
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "answer_preview": "## \u2696\ufe0f Relevant Section\nThe relevant section for the given query is Section 41, Chapter IV - CONSUMER DISPUTES REDRESSAL COMMISSION of the CPA 2019.\n\n## \ud83d\udcdc Provision\nThe provision under Section 41 state..."
+    },
+    {
+        "question": "If a consumer wants to settle their dispute outside of the formal commission hearings, what alternative mechanism is established by the Act?",
+        "difficulty": "Medium",
+        "passed": true,
+        "retrieval_hit": false,
+        "section_cited": true,
+        "answer_preview": "## \u2696\ufe0f Relevant Section\nThe relevant sections for alternative dispute resolution mechanisms outside of formal commission hearings are:\n- Section 37, Chapter IV - CONSUMER DISPUTES REDRESSAL COMMISSION\n..."
+    },
+    {
+        "question": "Under what specific conditions can a 'product manufacturer' be held liable in a product liability action?",
+        "difficulty": "Hard",
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "answer_preview": "## \u2696\ufe0f Relevant Section\nThe relevant sections for determining the liability of a product manufacturer in a product liability action are Section 84 and Section 86 of Chapter VI - Product Liability, and ..."
+    },
+    {
+        "question": "What is the maximum penalty and imprisonment the Central Authority can impose on a manufacturer for a subsequent offence of false or misleading advertisement?",
+        "difficulty": "Hard",
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "answer_preview": "## \u2696\ufe0f Relevant Section\nThe relevant section for the query is Section 21, Chapter III - CENTRAL CONSUMER PROTECTION AUTHORITY, and Section 89, Chapter VII - OFFENCES AND PENALTIES.\n\n## \ud83d\udcdc Provision\nThe ..."
+    },
+    {
+        "question": "Is a product seller (who is not the manufacturer) liable if the product causes harm due to the seller failing to exercise reasonable care in assembling the product?",
+        "difficulty": "Hard",
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "answer_preview": "## \u2696\ufe0f Relevant Section\nThe relevant section for this query is Section 86, Chapter VI - PRODUCT LIABILITY of the CPA 2019.\n\n## \ud83d\udcdc Provision\nAccording to Section 86, Chapter VI - PRODUCT LIABILITY, a pro..."
+    },
+    {
+        "question": "Can a celebrity or athlete who endorses a misleading advertisement be penalized, and if so, how can they avoid this penalty?",
+        "difficulty": "Twisted",
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "answer_preview": "## \u2696\ufe0f Relevant Section\nThe relevant sections for this query are Section 89 of Chapter VII and Section 21 of Chapter III of the CPA 2019.\n\n## \ud83d\udcdc Provision\nAccording to Section 89 of Chapter VII, any man..."
+    },
+    {
+        "question": "A consumer signs an 'unfair contract' with a builder for a flat worth 3 Crore Rupees. Where is the original jurisdiction to file a complaint specifically regarding the unfair contract?",
+        "difficulty": "Twisted",
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "answer_preview": "## \u2696\ufe0f Relevant Section\nThe relevant sections for determining the original jurisdiction to file a complaint regarding an unfair contract are Section 34, Section 47, and Section 58 of the Consumer Prote..."
+    },
+    {
+        "question": "If a doctor provides a medical service free of charge at a government hospital, can a patient sue for deficiency of service under the Consumer Protection Act?",
+        "difficulty": "Twisted",
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "answer_preview": "## \u2696\ufe0f Relevant Section\nSection 2, Chapter II - CONSUMER PROTECTION COUNCILS\n\n## \ud83d\udcdc Provision\nThe provision under Section 2 of the Consumer Protection Act, 2019, defines the terms used in the Act. Speci..."
+    }
+]
