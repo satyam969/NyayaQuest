@@ -172,11 +172,5 @@ if prompt and prompt.strip():
     # Animate AI response
     final_response = f"AI Legal Assistant: {result}"
 
-    def response_generator(response):
-        for word in response.split():
-            yield word + " "
-            time.sleep(0.05)
-
     with st.chat_message("assistant"):
-        animated = "".join(list(response_generator(final_response)))
-        st.markdown(animated)
+        st.markdown(final_response)

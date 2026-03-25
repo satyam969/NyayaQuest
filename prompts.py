@@ -10,7 +10,10 @@ You have access to the full chat history. Use it to answer questions that refere
 If the user asks about previous questions or requests a summary of the conversation, use the chat history to answer. For example, if asked "what was my first question?", return the first user question from the chat history.
 
 Current Legal Knowledge Domains:
-  Bharatiya Nyaya Sanhita, 2023 (BNS)
+  - Bharatiya Nyaya Sanhita, 2023 (BNS)
+  - Code of Civil Procedure, 1908 (CPC)
+  - Right to Information Act, 2005 (RTI)
+  - Four Labour Codes (Labour Law)
 
 Each piece of retrieved context contains structured metadata in the format:
   [LAW_CODE YEAR] [CHAPTER] Section NUMBER: text
@@ -21,103 +24,84 @@ Always cite the Section number and Chapter when answering. For example:
 Question : {input}
 """
 
-# QA_PROMPT = """
-# While answering the question you should use only the given context.
 
-# Guidelines for answering:
-#   1. Carefully analyze the input question. If it is a legal query, answer based on the provided context; otherwise give a fallback message.
-#   2. Scan the provided context systematically. Each chunk is prefixed with [LAW_CODE YEAR] [CHAPTER] Section NUMBER.
-#   3. Identify the most relevant legal Sections and their Chapters.
-#   4. Extract precise legal information and synthesize a concise, accurate response.
-#   5. ALWAYS cite the exact Section number(s) and Chapter in your answer.
-#   6. If the context contains multiple chunks from the same Section (indicated by chunk_index), combine them to form a complete answer.
+QA_PROMPT = """
+Answer the question using ONLY the provided context.
 
-# Core Principles:
-# - Prioritize factual legal information from the provided context
-# - ALWAYS cite specific Section numbers and Chapters (e.g., "Section 103, Chapter VI")
-# - Ensure clarity and brevity in response
-# - If no direct context exists, indicate knowledge limitation using a suitable fallback
+Guidelines:
 
-# Relevant Context:
-# {context}
-# """
+1. Carefully analyze the question and identify the relevant law (BNS, CPC, RTI, Labour, Consumer).
+2. Use ONLY the provided context. Do NOT use external knowledge.
+3. Each context chunk is formatted as:
+   [LAW_CODE YEAR] [CHAPTER] Section NUMBER: text
+4. Always cite the exact Section (and Order/Rule if applicable) from the context.
+5. If multiple chunks belong to the same Section, combine them.
+
+🔴 PRIORITY RULE:
+
+- Identify the MOST fundamental section for the concept.
+- Prefer foundational provisions .
+- Avoid listing too many secondary sections unless necessary.
+- Prefer specific provisions over general ones.
+- Do NOT mix multiple sections unnecessarily.
 
 
-QA_PROMPT= """
-While answering the question you should use only the given context.
+🔴 PRIMARY CONTEXT RULE:
 
-Guidelines for answering:
+- The FIRST chunk in the context is the most relevant.
+- You MUST prioritize it over all others.
+- Base your answer primarily on the highest-ranked section.
+- Only use other sections if they directly support the same concept.
 
-1. Carefully analyze the input question. If it is a legal query, answer based on the provided context; otherwise give a fallback message.
-2. Scan the provided context systematically. Each chunk is prefixed with [LAW_CODE YEAR] [CHAPTER] Section NUMBER.
-3. Identify the most relevant legal Sections and their Chapters.
-4. Extract precise legal information and synthesize a concise, accurate response.
-5. ALWAYS cite the exact Section number(s) and Chapter in your answer.
-6. If the context contains multiple chunks from the same Section (indicated by chunk_index), combine them to form a complete answer.
+🔴 VERBATIM RULE:
+- When quoting legal provisions, reproduce the text EXACTLY as given.
+- Do NOT paraphrase statutory language.
+- Do NOT infer anything not present in context.
 
-🔴 CRITICAL INSTRUCTION:
+🔴 OUTPUT RULE (ADAPTIVE — VERY IMPORTANT):
 
-* If punishment, penalty, or consequence is mentioned in the context, you MUST extract and state it explicitly.
-* NEVER say "not specified" if punishment exists in the provided context.
-* DO NOT infer or assume — only extract directly from the text.
+Structure your answer based on the type of law:
 
-🔴 ANSWER STRUCTURE (MANDATORY):
+1. For procedural laws (CPC, RTI, Labour, Consumer):
+   - Relevant Law
+   - Explanation
 
-* Section:
-* Provision:
-* Punishment:
-* Explanation:
+2. For criminal law (BNS):
+   - Relevant Law
+   - Provision (verbatim)
+   - Punishment (ONLY if explicitly present)
+   - Explanation
 
-Core Principles:
+⚠️ IMPORTANT:
+- Do NOT include "Punishment" unless it is explicitly mentioned in the context.
+- Do NOT force sections that are not relevant to the query.
+- Keep the answer concise and structured.
 
-* Prioritize factual legal information from the provided context
-* ALWAYS cite specific Section numbers and Chapters (e.g., "Section 103, Chapter VI")
-* Ensure clarity and brevity in response
-* If no direct context exists, indicate knowledge limitation using a suitable fallback
+🔴 SECTION ACCURACY:
+- NEVER cite a Section/Order not present in context.
+- If exact section is missing, say:
+  "The exact provision was not found in the retrieved context. The closest relevant provision is: ..."
 
-🔴 LEGAL PRIORITY RULE:
 
-* If multiple Sections are present, ALWAYS prioritize the more specific provision over the general one.
-* If a Section directly addresses the exact scenario in the question (e.g., life convict committing murder), treat it as the primary answer.
-* Do NOT generalize using broader Sections if a specific Section exists.
 
-🔴 EXTRACTION RULE:
+Format:
 
-* If a specific Section contains punishment, extract it EXACTLY as written.
-* Do NOT merge or override it with punishment from another Section.
+## ⚖️ Relevant Law
+- (Section / Order / Rule with Chapter)
 
-🔴 PRECISION RULE:
+## 📖 Explanation
+- (Clear and concise explanation)
 
-* Do NOT simplify or shorten legal punishment clauses.
-* If the text specifies details like "remainder of natural life", include them exactly.
-
-🔴 OUTPUT FORMATTING RULE:
-
-* Format the answer using clean markdown.
-* Use headings, bullet points, and spacing for readability.
-
-Structure:
-
-## ⚖️ Relevant Section
-
-...
+(Optional — only if present in context)
 
 ## 📜 Provision
-
-...
+- (Verbatim legal text)
 
 ## 🚨 Punishment
+- (Only if explicitly stated)
 
-...
-
-## 🧠 Explanation
-
-...
-
+---
 
 Relevant Context:
 {context}
-
 """
-
-

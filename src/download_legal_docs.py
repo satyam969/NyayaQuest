@@ -6,7 +6,7 @@ LEGAL_DOCS = {
     "BNS_2023": "https://mha.gov.in/sites/default/files/250883_english_01042024.pdf",
     "BNSS_2023": "https://mha.gov.in/sites/default/files/250880_english_01042024.pdf",
     "BSA_2023": "https://mha.gov.in/sites/default/files/250882_english_02042024.pdf",
-    "CPC_1908": "https://lddashboard.legislative.gov.in/sites/default/files/A1908-05.pdf",
+    "CPC_1908": "https://www.indiacode.nic.in/bitstream/123456789/13813/1/the_code_of_civil_procedure%2C_1908.pdf",
     "RTI_2005": "https://rti.gov.in/rti-act.pdf",
     "Consumer_Protection_2019": "https://consumeraffairs.nic.in/sites/default/files/CP%20Act%202019.pdf",
     "IT_Act_2000": "https://www.meity.gov.in/writereaddata/files/itbill2000.pdf",
