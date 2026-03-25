@@ -11,4 +11,5 @@ __pycache__/
 .env
 chroma_db_*/
 data/legal_pdfs/
+data/
 *.log
