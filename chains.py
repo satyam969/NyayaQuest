@@ -48,6 +48,10 @@ def rerank_documents(query: str, docs: List[Document], top_n: int = 5) -> List[D
 
     ranked = sorted(zip(scores, docs), key=lambda x: x[0], reverse=True)
 
+    # ✅ Attach score to metadata (IMPORTANT)
+    for score, doc in ranked:
+        doc.metadata["rerank_score"] = float(score)
+
     # 🔍 DEBUG: Print top reranked documents
     for i, (score, doc) in enumerate(ranked[:top_n]):
         logger.info(
@@ -90,7 +94,7 @@ class RerankingRetriever(BaseRetriever):
 
     inner_retriever: BaseRetriever
     query: str = ""          # set dynamically on each call
-    top_n: int = 5           # TUNABLE: number of docs returned to the LLM
+    top_n: int = 5          # TUNABLE: number of docs returned to the LLM
 
     class Config:
         arbitrary_types_allowed = True
@@ -116,16 +120,17 @@ def get_rag_chain(llm, vector_store, system_prompt, qa_prompt, hybrid_retriever=
     from langchain.prompts import PromptTemplate
 
     # Custom Multi-Query prompting to prioritize formal Statutes and Sections
-    template = """You are a senior Indian legal researcher with deep knowledge of the Bharatiya Nyaya Sanhita (BNS) 2023.
-    The database contains chunks prefixed with [LAW_CODE YEAR] [CHAPTER] Section NUMBER.
-    
-    Rewrite the user's question into 3 different versions:
-    1. A formal Section lookup (e.g., "Section regarding penalty for murder in BNS")
-    2. An exact statutory phrase (e.g., "Whoever commits murder shall be punished with death")
-    3. A chapter-aware legal research query (e.g., "Chapter VI offences affecting human body punishment for intentional culpable homicide")
-    
+    template = """You are a senior Indian legal researcher with expertise in the Bharatiya Nyaya Sanhita (BNS) 2023 and the Code of Civil Procedure, 1908 (CPC).
+    The database contains chunks prefixed with [LAW_CODE YEAR] [CHAPTER] Section NUMBER or [CPC 1908] Order ROMAN_NUMERAL — Title.
+
+    Rewrite the user's question into 4 different versions:
+    1. A formal Section lookup (e.g., "Section 103 BNS punishment for murder" or "Section 35B CPC costs for causing delay")
+    2. An exact statutory phrase (e.g., "Whoever commits murder shall be punished" or "shall not be allowed to take further steps")
+    3. A chapter-aware legal research query (e.g., "Chapter VI offences affecting human body" or "CPC Part I Suits in General costs adjournment")
+    4. A CPC Order/Rule lookup if applicable (e.g., "Order XXXVII Rule 2 summary suit leave to defend CPC 1908" or "Order I Rule 1 joined as plaintiffs CPC"); if not a CPC Order/Rule question, write a synonym/paraphrase of the original question instead.
+
     Original question: {question}
-    Generate only the 3 versions:"""
+    Generate only the 4 versions:"""
 
     mq_prompt = PromptTemplate(input_variables=["question"], template=template)
 
