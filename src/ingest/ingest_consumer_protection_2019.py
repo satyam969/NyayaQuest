@@ -1,5 +1,3 @@
-# File: src/ingest/ingest_consumer_protection_2019.py
-
 import os
 import re
 import fitz
@@ -16,7 +14,7 @@ YEAR = "2019"
 
 
 # -------------------------------
-# 1. LOAD + CLEAN PDF (SAFE)
+# 1. LOAD + CLEAN PDF (AGGRESSIVE)
 # -------------------------------
 def load_and_clean_pdf(pdf_path):
     doc = fitz.open(pdf_path)
@@ -26,17 +24,16 @@ def load_and_clean_pdf(pdf_path):
         text = page.get_text("text")
         full_text += text + "\n"
 
-    # --- CLEANING (SAFE VERSION) ---
+    # --- CLEANING ---
 
-    # Remove Gazette headers (safe)
-    full_text = re.sub(
-        r'THE GAZETTE OF INDIA.*?\n',
-        '',
-        full_text,
-        flags=re.IGNORECASE
-    )
+    # 1. Remove ANY line containing "THE GAZETTE OF INDIA" 
+    full_text = re.sub(r'(?im)^.*THE GAZETTE OF INDIA.*$', '', full_text)
 
-    # Remove arrangement section ONLY if clearly present
+    # 2. Remove generalized Part/Section tags left behind 
+    full_text = re.sub(r'\[?PART\s+[IVX]+[—\-\]]?', '', full_text, flags=re.IGNORECASE)
+    full_text = re.sub(r'SEC\.\s*\d+[A-Z]?(\(\w+\))?\]?', '', full_text, flags=re.IGNORECASE)
+
+    # 3. Remove arrangement section ONLY if clearly present
     full_text = re.sub(
         r'ARRANGEMENT OF SECTIONS.*?CHAPTER I',
         'CHAPTER I',
@@ -44,7 +41,7 @@ def load_and_clean_pdf(pdf_path):
         flags=re.DOTALL | re.IGNORECASE
     )
 
-    # Remove repeated headers
+    # 4. Remove repeated act titles
     full_text = re.sub(
         r'THE CONSUMER PROTECTION ACT,?\s*2019',
         '',
@@ -52,12 +49,30 @@ def load_and_clean_pdf(pdf_path):
         flags=re.IGNORECASE
     )
 
-    # Remove page numbers
+    # 5. Remove standalone page numbers
     full_text = re.sub(r'^\s*\d+\s*$', '', full_text, flags=re.MULTILINE)
 
-    # Normalize whitespace
+    # 6. Normalize whitespace
     full_text = re.sub(r'\r', '\n', full_text)
     full_text = re.sub(r'\n{3,}', '\n\n', full_text)
+
+    # ---------------------------------------------------------
+    # 7. THE AGGRESSIVE PREAMBLE SLICER
+    # ---------------------------------------------------------
+    # Erase the specific margin note that scrambles page 1
+    full_text = re.sub(r'Short title,?\s*extent,?\s*commencement\s*and\s*application\.?', '', full_text, flags=re.IGNORECASE | re.MULTILINE)
+    
+    # Erase the arrangement of sections and all preamble garbage
+    # We look strictly for "CHAPTER I" followed by "PRELIMINARY"
+    start_match = re.search(r'CHAPTER\s+I\s*\n*PRELIMINARY', full_text, flags=re.IGNORECASE)
+    
+    # If the parser split them up, fallback to the exact Section 1 text
+    if not start_match:
+        start_match = re.search(r'1\.\s*\(1\)\s*This Act may be called', full_text, flags=re.IGNORECASE)
+
+    if start_match:
+        full_text = full_text[start_match.start():]
+    # ---------------------------------------------------------
 
     return full_text.strip()
 
@@ -79,34 +94,22 @@ def split_by_section(text):
 
 
 # -------------------------------
-# 3. PARSE SECTION
+# 3. PARSE SECTION (BULLETPROOF)
 # -------------------------------
 def parse_section(section_text):
     """
-    Extract:
-    - section number
-    - title
-    - content
+    Extracts ONLY the section number and keeps the entire text strictly intact.
+    Drops title extraction to prevent splitting words like "sub-section".
     """
-
     match = re.match(r'^(\d+[A-Z]?)\.\s*(.+)', section_text, re.DOTALL)
     if not match:
         return None
 
     section_num = match.group(1)
-    remaining = match.group(2).strip()
+    content = match.group(2).strip()
 
-    # Split title/content safely
-    parts = re.split(r'—|-|\.\s*\n', remaining, maxsplit=1)
-
-    section_title = parts[0].strip()
-    content = parts[1].strip() if len(parts) > 1 else ""
-
-    # Fallback: if content too small, merge
-    if len(content) < 30:
-        content = remaining
-
-    return section_num, section_title, content
+    # Return "N/A" for the title to keep metadata structure intact
+    return section_num, "N/A", content
 
 
 # -------------------------------
@@ -168,10 +171,11 @@ def ingest_cpa():
             sub_chunks = splitter.split_text(content)
 
             for i, sub in enumerate(sub_chunks):
+                # Clean enriched text without [N/A]
                 enriched_text = (
                     f"[{LAW_CODE} {YEAR}] "
                     f"[{current_chapter}] "
-                    f"Section {section_num} [{section_title}]: {sub}"
+                    f"Section {section_num}: {sub}"
                 )
 
                 enriched_sections.append({
@@ -181,7 +185,7 @@ def ingest_cpa():
                         "year": YEAR,
                         "chapter": current_chapter,
                         "section_number": section_num,
-                        "section_title": section_title,
+                        "section_title": section_title, # Stays "N/A"
                         "chunk_index": i + 1,
                         "total_chunks": len(sub_chunks),
                         "source": os.path.basename(PDF_PATH)
@@ -205,6 +209,7 @@ def ingest_cpa():
                         "year": YEAR,
                         "chapter": current_chapter,
                         "section_number": "N/A",
+                        "section_title": "N/A",
                         "chunk_index": i + 1,
                         "total_chunks": len(sub_chunks),
                         "source": os.path.basename(PDF_PATH)
@@ -217,6 +222,13 @@ def ingest_cpa():
     # 5. STORE IN CHROMA
     # -------------------------------
     client = chromadb.PersistentClient(path=CHROMA_DIR)
+
+    # WIPES the old database so you get a clean ingest every time
+    # try:
+    #     client.delete_collection(name=COLLECTION_NAME)
+    #     print(f"🗑️ Cleaned up old database collection.")
+    # except Exception:
+    #     pass
 
     emb_fn = SentenceTransformerEmbeddingFunction(
         model_name="BAAI/bge-small-en-v1.5"
