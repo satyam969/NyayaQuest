@@ -1,9 +1,9 @@
 import os
 import glob
 import re
+import fitz                          # PyMuPDF — used directly for footer removal
 import chromadb
 from chromadb.utils import embedding_functions
-from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 PDF_DIR = "data/legal_pdfs"
@@ -39,7 +39,122 @@ def clean_text(text):
     # Collapse 3+ blank lines to 2
     text = re.sub(r'\n{3,}', '\n\n', text)
 
+    # Covers: amendment notices, substitution notes, and editorial state-amendment notes
+    # like "1. This Act has been amended in its application to Assam..."
+    # The [^\[\n]*? and \d{1,2} checks ensure we don't accidentally match and delete 
+    # repealed sections like "68. [Title...] - Rep. by..." which contain brackets.
+    text = re.sub(
+        r'\n\s*\d{1,2}\.\s+(?=[^\[\n]*?'
+        r'(Subs\.|Ins\.|Omitted|w\.e\.f\.|ibid\.|A\.O\.|Rep\.|'
+        r'amended in its application|extended to .{1,40} by Act|'
+        r'extended to the .{1,40} by)'
+        r')[^\n]+',
+        '',
+        text, flags=re.IGNORECASE
+    )
+
     return text.strip()
+
+
+# ---------------- FOOTER-AWARE TEXT EXTRACTION ----------------
+def extract_text_without_footers(pdf_path):
+    """
+    Extract the full text of a PDF page-by-page using native fitz,
+    stripping legal footnotes before joining pages.
+
+    Two-layer strategy (data-driven from PDF analysis):
+    ────────────────────────────────────────────────────
+    Layer 1 — Separator line (covers ~91% of pages):
+      The CPC PDF draws a short horizontal vector line (~144 pts wide)
+      between the main text and the footnote block.  We locate it with
+      page.get_drawings() and discard every text block whose top edge
+      (bbox[1]) is BELOW that line's y-coordinate.
+
+    Layer 2 — Keyword fallback (remaining ~9% of pages):
+      If no separator line is found, scan the extracted text lines from
+      the bottom upward and strip lines that look like legal footnotes:
+      numbered lines containing 'Subs.', 'Ins.', 'w.e.f.', 'A.O.' etc.
+    """
+    doc = fitz.open(pdf_path)
+    page_texts = []
+
+    for page in doc:
+        # ── Layer 1: find the separator line ──────────────────────────────
+        drawings = page.get_drawings()
+        # A separator line is horizontal (height < 2 pts), at least 50 pts wide,
+        # and sits in the lower half of the page (y > 40% of page height)
+        page_h = page.rect.height
+        sep_y = None
+        for d in drawings:
+            r = d['rect']
+            is_horizontal = abs(r.y0 - r.y1) < 2
+            is_wide_enough = r.width > 50
+            in_lower_half  = r.y0 > page_h * 0.40
+            if is_horizontal and is_wide_enough and in_lower_half:
+                # Use the top-most qualifying line (there is usually only one)
+                if sep_y is None or r.y0 < sep_y:
+                    sep_y = r.y0
+
+        # ── Extract text blocks — filter at LINE level ────────────────────
+        # IMPORTANT: PyMuPDF sometimes groups main text AND footnotes into the
+        # same block (Block 20 on page 35 is a real example: top=655, bot=769,
+        # meaning it spans from main text above the separator all the way down
+        # into the footnote zone below it).
+        # Filtering at block level (checking block_top) misses these cases.
+        # We must check each LINE's y-position individually.
+        blocks = page.get_text('dict')['blocks']
+        kept_lines = []
+        for b in blocks:
+            if 'lines' not in b:
+                continue
+
+            for line in b['lines']:
+                line_top = line['bbox'][1]
+
+                # Drop this line if its top edge is below (or at) the separator
+                if sep_y is not None and line_top >= sep_y:
+                    continue
+
+                line_text = ''.join(s['text'] for s in line['spans'] if s['size'] >= 8.0)
+                kept_lines.append(line_text)
+
+        page_text = '\n'.join(kept_lines)
+
+        # ── Layer 2: keyword scan — runs on ALL pages ──────────────────────
+        # Even when Layer 1 found a separator line, a few footnote blocks can
+        # still slip through if their bbox top is slightly above the line's y.
+        # Scanning from the bottom up on the already-filtered text is cheap
+        # and guarantees no footnotes leak into the chunks.
+        lines = page_text.split('\n')
+        i = len(lines) - 1
+        in_footer = True
+        while i >= 0 and in_footer:
+            stripped = lines[i].strip()
+            if not stripped:
+                i -= 1
+                continue
+            is_numbered     = bool(re.match(r'^\d{1,2}\.\s', stripped))
+            has_bracket     = '[' in stripped
+            has_footnote_kw = bool(re.search(
+                r'(Subs\.|Ins\.|Omitted|w\.e\.f\.|ibid\.|A\.O\.|Rep\.|'
+                r'amended in its application|extended to .{1,40} by Act|'
+                r'extended to the .{1,40} by)',
+                stripped, re.IGNORECASE
+            ))
+
+            if is_numbered and has_footnote_kw and not has_bracket:
+                del lines[i]
+                i -= 1
+            elif stripped.startswith('*') and has_footnote_kw:
+                i -= 1
+            else:
+                in_footer = False
+        page_text = '\n'.join(lines[:i + 1])
+
+        page_texts.append(page_text)
+
+    doc.close()
+    return '\n'.join(page_texts)
 
 
 # ---------------- REMOVE TOC ----------------
@@ -68,12 +183,14 @@ def remove_appendix(text):
     """
     Splits text into (main_sections_text, first_schedule_text).
     The First Schedule contains Orders I–LI and is ingested separately.
+    Appendix A–D (forms/templates) are stripped by extract_orders().
     """
     match = re.search(r'\nTHE FIRST SCHEDULE', text, re.IGNORECASE)
     if match:
         return text[:match.start()], text[match.start():]
 
-    match = re.search(r'\nAPPENDIX', text, re.IGNORECASE)
+    # Fallback: if First Schedule header is missing, stop at Appendix
+    match = re.search(r'\nAPPENDIX\s+[A-D]', text, re.IGNORECASE)
     if match:
         return text[:match.start()], ""
 
@@ -82,11 +199,11 @@ def remove_appendix(text):
 
 # ---------------- SPLIT SECTIONS ----------------
 def split_sections(text):
-    """
-    Split at each new section heading: '1.', '2A.', '10B.' etc.
-    Uses a lookahead so the delimiter is kept at the start of each chunk.
-    """
-    return re.split(r'(?=\n\s*\d{1,3}[A-Z]?\.\s)', text)
+    """Split the text into a list of section strings."""
+    # Splits on pattern: newline, optional spaces, optional asterisk, optional bracket, digits, optional A-Z, dot, optional space/capital
+    # e.g. " 1. ", "\n2A. ", "\n[89. ", "\n119.Unauthorized", "\n*[15A."
+    sections = re.split(r'(?=\n\s*\*?\[?\d{1,3}[A-Z]?\.(?:\s+|[A-Z]))', text)
+    return [s for s in sections if s.strip()]
 
 
 # ---------------- EXTRACT PART ----------------
@@ -110,49 +227,23 @@ def is_definition_section(content):
     return has_clauses and has_quotes and has_keywords
 
 
-# ---------------- SEMANTIC SYNONYM LINE ----------------
-def _semantic_header(section_number: str, section_title: str) -> str:
-    """
-    Returns a short 'Common queries:' line with alternative phrasings of the
-    section title.  This boosts both BM25 and vector recall for short sections
-    whose statutory text alone is too brief to rank well.
-    """
-    title = section_title.lower()
-    synonyms = [section_title]  # always include the official title
-
-    # ── Section-specific synonym map (catches known retrieval failures) ──
-    _SYNONYMS = {
-        "38":  ["court by which decree may be executed", "executing court", "which court executes decree", "power to execute decree"],
-        "35B": ["costs for causing delay", "adjournment costs", "shall not be allowed further steps", "delay costs not paid"],
-        "47":  ["questions determined by executing court", "no suit bar executing court", "executing court determines questions"],
-        "52":  ["execution against legal representative", "personal liability legal rep", "execution after death judgment-debtor"],
-        "21A": ["bar on suit to set aside decree", "no suit place of suing jurisdiction", "challenge decree jurisdiction"],
-        "34":  ["interest on principal sum adjudged", "court may order interest", "date of suit date of decree interest"],
-    }
-    if section_number in _SYNONYMS:
-        synonyms.extend(_SYNONYMS[section_number])
-    else:
-        # Generic: strip punctuation from title and add as extra term
-        synonyms.append(re.sub(r'[^a-zA-Z0-9 ]', '', section_title))
-
-    return "Common queries: " + " | ".join(synonyms)
-
-
-# ---------------- EXTRACT DEFINITIONS ----------------
 def extract_definitions(section_number, section_title, content):
     """
     Parse numbered sub-clauses from a definitions section.
     Returns one record per defined term, with the parent section number intact.
     """
-    # Pattern: (N) "term" means/includes ...
+    # Pattern: (N) "term" [optional text] means/includes/include ...
+    # We capture everything after the quotes as the "description" part to ensure nothing is lost.
     matches = re.findall(
-        r'\((\d+)\)\s*[\""\u201c](.*?)[\""\u201d]\s*(means|includes)\s*(.*?)(?=\(\d+\)|$)',
+        r'\n?\s*\((\d+)\)\s*[\""\u201c](.*?)[\""\u201d](.*?)(means|includes|include)\b\s*(.*?)(?=\n\s*\(\d+\)|$)',
         content,
-        re.DOTALL
+        re.DOTALL | re.IGNORECASE
     )
     results = []
-    for clause, term, _, desc in matches:
-        desc_clean = desc.strip()
+    for clause, term, pre_verb, verb, post_verb in matches:
+        desc_clean = (pre_verb + verb + " " + post_verb).strip()
+        # Clean up standalone asterisks left over from deleted repeal text 
+        desc_clean = re.sub(r'[\s\*]+$', '', desc_clean)
         results.append({
             "clause": clause,
             "term": term.strip(),
@@ -163,25 +254,39 @@ def extract_definitions(section_number, section_title, content):
 
 # ---------------- EXTRACT ORDERS (First Schedule) ----------------
 def extract_orders(schedule_text):
-    """Extract ORDER I, ORDER II … blocks from the First Schedule text."""
+    """Extract ORDER I, ORDER II … ORDER LI blocks from the First Schedule.
+
+    The schedule_text is truncated at the first APPENDIX A/B/C/D heading
+    before the regex runs.  Without this, ORDER LI (the last order) would
+    greedily consume all Appendix A–D template content that follows it,
+    causing form templates to be ingested as rule chunks.
+    """
+    # Hard-stop before Appendix A / B / C / D standalone headings.
+    # Must be ALL-CAPS on its own line to avoid matching inline citations
+    # like "...in Form No. 3 in Appendix C, with such variations..."
+    appendix_match = re.search(r'\nAPPENDIX\s+[A-D]\s*\n', schedule_text)
+    if appendix_match:
+        schedule_text = schedule_text[:appendix_match.start()]
+        print(f"DEBUG: Appendix boundary found at char {appendix_match.start()} — truncating schedule text")
+    else:
+        print("DEBUG: No APPENDIX A-D boundary found in schedule text")
+
     return re.findall(
-        r'(ORDER\s+[IVXLCDM]+[\s\S]*?)(?=\nORDER\s+[IVXLCDM]+|\Z)',
+        r'(\[?ORDER\s+[IVXLCDM]+[A-Z]?[\s\S]*?)(?=\n\[?ORDER\s+[IVXLCDM]+[A-Z]?|\Z)',
         schedule_text
     )
 
 
 # ---------------- EXTRACT RULES ----------------
 def extract_rules(order_text):
-    return re.split(r'(?=\n\s*\d+[A-Z]?\.\s)', order_text)
+    return re.split(r'(?=\n\s*\*?\[?\d+[A-Z]?\.(?:\s+|[A-Z]))', order_text)
 
 
 # ---------------- PREPROCESS ----------------
 def preprocess_document(pdf_path):
 
-    loader = PyMuPDFLoader(pdf_path)
-    pages  = loader.load()
-
-    full_text = "\n".join([p.page_content for p in pages])
+    # Extract full text with footers stripped (two-layer: separator line + keyword fallback)
+    full_text = extract_text_without_footers(pdf_path)
 
     # ── CLEAN ──────────────────────────────────────────────────────────
     full_text = clean_text(full_text)
@@ -208,17 +313,18 @@ def preprocess_document(pdf_path):
     # ================================================================
     # PART A — SECTIONS (main body, Sections 1–158)
     # ================================================================
-    sections = split_sections(main_text)
-    print(f"\nDEBUG: Total raw sections found: {len(sections)}")
+    raw_sections = split_sections(main_text)
+    print(f"\nDEBUG: Total raw sections found: {len(raw_sections)}")
 
-    for sec in sections:
+    for sec in raw_sections:
         sec = sec.strip()
         if not sec:
             continue
 
         current_part, sec = extract_part(sec, current_part)
 
-        match = re.match(r'^(\d+[A-Z]?)\.\s+(.*)', sec, re.DOTALL)
+        # Allow optional asterisk/bracket and optional spacing for typos like '119.Unauthorized'
+        match = re.match(r'^\*?\[?(\d+[A-Z]?)\.\s*(.*)', sec, re.DOTALL)
         if not match:
             continue
 
@@ -247,16 +353,12 @@ def preprocess_document(pdf_path):
                     results.append({
                         "text": text,
                         "metadata": {
-                            "type":           "definition",
-                            "law_code":       "CPC",
-                            "year":           "1908",
-                            "section":        section_number,   # parent section (e.g. "2")
-                            "section_number": section_number,   # alias for DB Explorer
-                            "clause":         d["clause"],
-                            "term":           d["term"],
-                            "chapter":        current_part,
-                            "part":           current_part,
-                            "source":         basename
+                            "type":    "definition",
+                            "section": section_number,   # parent section (e.g. "2")
+                            "clause":  d["clause"],
+                            "term":    d["term"],
+                            "part":    current_part,
+                            "source":  basename
                         }
                     })
                 continue  # definitions handled — skip normal chunking
@@ -264,27 +366,21 @@ def preprocess_document(pdf_path):
         # ── NORMAL SECTIONS ──────────────────────────────────────────
         chunks = splitter.split_text(raw_content)
         for i, chunk in enumerate(chunks):
-            # Always embed section number + title + semantic synonyms in every chunk for retrieval
-            synonym_line = _semantic_header(section_number, section_title)
+            # Always embed section number + title in every chunk for retrieval
             text = (
                 f"[CPC 1908] [{current_part}] Section {section_number} — {section_title}\n"
-                f"{synonym_line}\n"
                 f"{chunk}"
             )
             results.append({
                 "text": text,
                 "metadata": {
-                    "type":           "section",
-                    "law_code":       "CPC",
-                    "year":           "1908",
-                    "section":        section_number,
-                    "section_number": section_number,   # alias for DB Explorer
-                    "section_title":  section_title,
-                    "chapter":        current_part,
-                    "part":           current_part,
-                    "chunk_index":    i + 1,
-                    "total_chunks":   len(chunks),
-                    "source":         basename
+                    "type":         "section",
+                    "section":      section_number,
+                    "section_title": section_title,
+                    "part":         current_part,
+                    "chunk_index":  i + 1,
+                    "total_chunks": len(chunks),
+                    "source":       basename
                 }
             })
 
@@ -296,7 +392,8 @@ def preprocess_document(pdf_path):
         print(f"DEBUG: Orders found: {len(orders)}")
 
         for order_block in orders:
-            order_match = re.search(r'ORDER\s+([IVXLCDM]+)', order_block)
+            order_header = order_block.split('\n')[0]
+            order_match = re.search(r'^\[?ORDER\s+([IVXLCDM]+[A-Z]?)\s+(.*)', order_header, re.IGNORECASE)
             if not order_match:
                 continue
 
@@ -304,23 +401,23 @@ def preprocess_document(pdf_path):
 
             # Extract the Order title (line after ORDER N header)
             title_line = re.search(
-                r'ORDER\s+[IVXLCDM]+\s*\n+(.*?)(?:\nRULES|\n\d+\.)', order_block
+                r'ORDER\s+[IVXLCDM]+[A-Z]?\s*\n+(.*?)(?:\nRULES|\n\d+\.)', order_block
             )
             order_title = title_line.group(1).strip() if title_line else ""
 
             rules = extract_rules(order_block)
 
-            for rule in rules:
-                rule = rule.strip()
-                if not rule:
+            for rule_text in rules:
+                rule_text = rule_text.strip()
+                if not rule_text:
                     continue
 
-                match = re.match(r'^(\d+[A-Z]?)\.\s+(.*)', rule, re.DOTALL)
-                if not match:
+                rule_match = re.match(r'^\*?\[?(\d+[A-Z]?)\.\s*(.*)', rule_text, re.DOTALL)
+                if not rule_match:
                     continue
 
-                rule_number = match.group(1)
-                rule_content = match.group(2).strip()
+                rule_number = rule_match.group(1)
+                rule_content = rule_match.group(2).strip()
 
                 # Extract rule title
                 rule_title_match = re.match(r'^([^\n\.]+)', rule_content)
@@ -331,27 +428,23 @@ def preprocess_document(pdf_path):
 
                 chunks = splitter.split_text(rule_content)
                 for i, chunk in enumerate(chunks):
-                    # Combine Order + Rule + both titles in one BM25-searchable header line
+                    # Embed order number + rule number + titles in every chunk
                     text = (
-                        f"[CPC 1908] Order {order_number} Rule {rule_number} — {order_title} — {rule_title}\n"
-                        f"Common queries: Order {order_number} Rule {rule_number} {order_title} {rule_title} CPC 1908\n"
+                        f"[CPC 1908] Order {order_number} — {order_title}\n"
+                        f"Rule {rule_number} — {rule_title}\n"
                         f"{chunk}"
                     )
                     results.append({
                         "text": text,
                         "metadata": {
-                            "type":           "rule",
-                            "law_code":       "CPC",
-                            "year":           "1908",
-                            "order":          order_number,
-                            "section_number": f"Order {order_number} Rule {rule_number}",  # for DB Explorer
-                            "chapter":        f"Order {order_number} — {order_title}",
-                            "order_title":    order_title,
-                            "rule":           rule_number,
-                            "rule_title":     rule_title,
-                            "chunk_index":    i + 1,
-                            "total_chunks":   len(chunks),
-                            "source":         basename
+                            "type":        "rule",
+                            "order":       order_number,
+                            "order_title": order_title,
+                            "rule":        rule_number,
+                            "rule_title":  rule_title,
+                            "chunk_index": i + 1,
+                            "total_chunks": len(chunks),
+                            "source":      basename
                         }
                     })
     else:
