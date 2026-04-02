@@ -17,15 +17,15 @@
             "conclusively determine",
             "rights"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for the definition of \"decree\" under the Code of Civil Procedure, 1908, are:\n- [CPC 1908] Order XLV Rule 1\n- [CPC 1908] Section 2, Clause (2)\n\n## 📜 Provision\nThe provision regarding the definition of \"decree\" is as follows:\n- Under [CPC 1908] Order XLV Ru..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [Unknown Part] Section 2 — Definitions, Clause (2)\n\n## 📖 Explanation\n- The term 'decree' under the Code of Civil Procedure, 1908, means the formal expression of an adjudication which conclusively determines the rights of the parties with regard to all or any of the ma..."
     },
     {
         "question": "How is the term 'mesne profits' defined under Section 2 of the CPC?",
         "category": "Definitions",
         "difficulty": "Medium",
-        "passed": false,
-        "retrieval_hit": false,
-        "section_cited": false,
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
         "kw_score": 0.8,
         "expected_sections": [
             "2"
@@ -37,7 +37,7 @@
             "person in possession",
             "improvements"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe term 'mesne profits' is defined under [CPC 1908] [Unknown Part] Section 6.\n\n## 📜 Provision\nThe provision states that \"mesne profits” of property means those profits which the person in wrongful possession of such property actually received or might with ordinary diligence ..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] Section 2 — Definitions\n\n## 📖 Explanation\n- The term 'mesne profits' is defined under Section 2 of the CPC as those profits which the person in wrongful possession of property actually received or might with ordinary diligence have received therefrom, together with in..."
     },
     {
         "question": "What is the meaning of 'judgment-debtor' and 'decree-holder' under the CPC?",
@@ -56,7 +56,7 @@
             "decree",
             "legal representative"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for the terms 'judgment-debtor' and 'decree-holder' are:\n- Section 2, Clause (10) of the CPC 1908 for 'judgment-debtor'\n- Section 2, Clause (3) of the CPC 1908 for 'decree-holder'\n\n## 📜 Provision\n- **Judgment-Debtor**: As per Section 6 of the CPC 1908, Cl..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] Section 2 — Definitions, Clause (3) and Clause (10)\n\n## 📖 Explanation\n- Under [CPC 1908] Section 2 — Definitions, a \"decree-holder\" is defined as any person in whose favour a decree has been passed or an order capable of execution has been made, as per Clause (3). A \"..."
     },
     {
         "question": "Does Section 4 of the CPC override the provisions of any special or local law? Under what circumstances can the Code apply to Revenue Courts?",
@@ -77,7 +77,7 @@
             "Revenue Courts",
             "apply"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for this query are Section 4 and Section 5 of the Code of Civil Procedure, 1908 (CPC).\n\n## 📜 Provision\nAccording to Section 4 — Savings, \"nothing in this Code shall be deemed to limit or otherwise affect any special or local law now in force or any specia..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [Unknown Part] Section 4 — Savings\n- [CPC 1908] [Unknown Part] Section 5 — Application of the Code to Revenue Courts\n\n## 📖 Explanation\n- Under Section 4 of the CPC, the Code does not limit or otherwise affect any special or local law now in force or any special jurisd..."
     },
     {
         "question": "What is the principle of res judicata under the CPC?",
@@ -97,7 +97,7 @@
             "litigated",
             "bar"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe principle of res judicata is outlined in [CPC 1908] [PART I - SUITS IN GENERAL] Section 11.\n\n## 📜 Provision\nThe provision states: \"No Court shall try any suit or issue in which the matter directly and substantially in issue has been directly and substantially in issue in a..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART I - SUITS IN GENERAL] Section 11\n\n## 📖 Explanation\n- The principle of res judicata under the CPC means that no court shall try any suit or issue in which the matter directly and substantially in issue has been directly and substantially in issue in a former suit..."
     },
     {
         "question": "Under which section of the CPC can a court stay the proceedings of a suit, and what conditions must be met?",
@@ -117,14 +117,14 @@
             "previously instituted",
             "matter in issue"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant section for staying the proceedings of a suit is [CPC 1908] [PART I - SUITS IN GENERAL] Section 10.\n\n## 📜 Provision\nThe provision under Section 10 states: \"No Court shall proceed with the trial of any suit in which the matter in issue is also directly and substant..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART I - SUITS IN GENERAL] Section 10\n\n## 📖 Explanation\n- A court can stay the proceedings of a suit under Section 10 of the CPC, if the matter in issue is also directly and substantially in issue in a previously instituted suit between the same parties, or between p..."
     },
     {
         "question": "In which court should a suit for compensation for wrongs to a person or movables be instituted where the wrong was committed in one place and the defendant resides in another?",
         "category": "Jurisdiction",
         "difficulty": "Hard",
         "passed": true,
-        "retrieval_hit": false,
+        "retrieval_hit": true,
         "section_cited": true,
         "kw_score": 0.8,
         "expected_sections": [
@@ -137,14 +137,14 @@
             "compensation",
             "movables"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant section for this query is [CPC 1908] [PART I - SUITS IN GENERAL] Section 19 and Section 20.\n\n## 📜 Provision\nAccording to Section 19, \"Where a suit is for compensation for wrong done to the person or to movable property, if the wrong was done within the local limit..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART I - SUITS IN GENERAL] Section 19\n\n## 📖 Explanation\n- A suit for compensation for wrongs to a person or movables can be instituted at the option of the plaintiff in either of the Courts where the wrong was done or where the defendant resides, carries on business,..."
     },
     {
         "question": "A plaintiff seeks to set aside a decree on the ground that the court that passed it had no jurisdiction over the place of suing. Can the plaintiff file a fresh suit for this purpose after the decree has been passed?",
         "category": "Jurisdiction",
         "difficulty": "Twisted",
         "passed": true,
-        "retrieval_hit": false,
+        "retrieval_hit": true,
         "section_cited": true,
         "kw_score": 1.0,
         "expected_sections": [
@@ -158,7 +158,7 @@
             "place of suing",
             "suit"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant section for this query is [CPC 1908] [PART I - SUITS IN GENERAL] Section 21A — Bar on suit to set aside decree on objection as to place of suing.\n\n## 📜 Provision\nThe provision under Section 21A states: \"No suit shall lie challenging the validity of a decree passed..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART I - SUITS IN GENERAL] Section 21A — Bar on suit to set aside decree on objection as to place of suing.\n\n## 📖 Explanation\n- According to Section 21A of the Code of Civil Procedure, 1908, no suit shall lie challenging the validity of a decree passed in a former su..."
     },
     {
         "question": "How is a suit instituted under the CPC?",
@@ -177,14 +177,14 @@
             "presentation",
             "court"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for instituting a suit under the Code of Civil Procedure, 1908 (CPC) are:\n- Order IV Rule 1: Institution of suits\n- Order XXXIII Rule 1: Suits by indigent persons\n- Order XXXIII Rule 8: Procedure if application admitted\n- Section 26: Institution of suits\n..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART I - SUITS IN GENERAL] Section 26 — Institution of suits.\n\n## 📖 Explanation\n- A suit under the CPC is instituted by the presentation of a plaint or in such other manner as may be prescribed. Every suit shall be instituted by presenting a plaint in duplicate to th..."
     },
     {
         "question": "Under Section 34 of the CPC, at what rate can a court award interest on the principal sum adjudged, and from what date does it run?",
         "category": "Suits",
         "difficulty": "Medium",
         "passed": true,
-        "retrieval_hit": false,
+        "retrieval_hit": true,
         "section_cited": true,
         "kw_score": 0.6,
         "expected_sections": [
@@ -197,16 +197,16 @@
             "date of decree",
             "court may"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nSection 34 of the Code of Civil Procedure, 1908 (CPC), under Part I - Suits in General.\n\n## 📜 Provision\nThe Court may, in the decree, order interest at such rate as the Court deems reasonable to be paid on the principal sum adjudged, from the date of the suit to the date of th..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART I - SUITS IN GENERAL] Section 34 — Interest.\n\n## 📖 Explanation\n- Under Section 34 of the CPC, the court may order interest at such rate as the court deems reasonable to be paid on the principal sum adjudged, from the date of the suit to the date of the decree. A..."
     },
     {
         "question": "Under what circumstances can a court award compensatory costs under Section 35A of the CPC, and what is the maximum amount?",
         "category": "Suits",
         "difficulty": "Hard",
         "passed": true,
-        "retrieval_hit": false,
+        "retrieval_hit": true,
         "section_cited": true,
-        "kw_score": 0.8,
+        "kw_score": 1.0,
         "expected_sections": [
             "35A"
         ],
@@ -217,16 +217,16 @@
             "three thousand rupees",
             "claim or defence"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nSection 35A of the Code of Civil Procedure, 1908 (CPC), under Part I - Suits in General.\n\n## 📜 Provision\nThe provision under Section 35A states that if a party objects to a claim or defence on the ground that it is false or vexatious to the knowledge of the party by whom it ha..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART I - SUITS IN GENERAL] Section 35A\n\n## 📖 Explanation\n- A court can award compensatory costs under Section 35A of the CPC when a claim or defence is found to be false or vexatious. The amount awarded as compensatory costs cannot exceed three thousand rupees or the..."
     },
     {
         "question": "A defendant, in order to delay the trial, takes multiple frivolous adjournments. Can the court impose costs under Section 35B for the delay caused, and does the defendant lose the right to contest later steps if those costs are not paid?",
         "category": "Suits",
         "difficulty": "Twisted",
         "passed": false,
-        "retrieval_hit": false,
+        "retrieval_hit": true,
         "section_cited": true,
-        "kw_score": 0.2,
+        "kw_score": 0.4,
         "expected_sections": [
             "35B"
         ],
@@ -237,14 +237,14 @@
             "shall not be allowed",
             "further steps"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for this query are [CPC 1908] [PART II - EXECUTION] Section 8 and [CPC 1908] Order XVII Rule 1, as they pertain to the imposition of costs for frivolous adjournments and the consequences of not paying such costs.\n\n## 📜 Provision\nAccording to [CPC 1908] [P..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART II - EXECUTION] Section 35B — Costs for causing delay.\n\n## 📖 Explanation\n- Under Section 35B, if a party causes delay by failing to take a required step or obtains an adjournment, the Court may order that party to pay costs to the other party. The payment of suc..."
     },
     {
         "question": "Which court has the power to execute a decree under the CPC?",
         "category": "Execution",
         "difficulty": "Easy",
         "passed": true,
-        "retrieval_hit": true,
+        "retrieval_hit": false,
         "section_cited": true,
         "kw_score": 0.5,
         "expected_sections": [
@@ -256,7 +256,7 @@
             "transferred",
             "executing court"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant section for executing a decree under the CPC is Section 38 of the Code of Civil Procedure, 1908, which falls under Part II - Execution.\n\n## 📜 Provision\nAccording to Section 38, \"A decree may be executed either by the Court which passed it, or by the Court to which..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART II - EXECUTION] Section 38, Section 42, Order XXI Rule 8 and Rule 9\n\n## 📖 Explanation\n- The court that has the power to execute a decree under the CPC is either the Court which passed the decree or the Court to which it is sent for execution, as stated in Sectio..."
     },
     {
         "question": "What questions are to be determined by the executing court under Section 47 of the CPC, and can a fresh suit be brought on those questions?",
@@ -276,7 +276,7 @@
             "bar",
             "determine"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant section for determining questions by the executing court is Section 47 of the Code of Civil Procedure, 1908 (CPC), under Part II - Execution.\n\n## 📜 Provision\nUnder **Section 47 (Part II - Execution)** of the CPC, \"All questions arising between the parties to the s..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART II - EXECUTION] Section 47\n\n## 📖 Explanation\n- Under Section 47 of the CPC, all questions arising between the parties to the suit in which the decree was passed, or their representatives, and relating to the execution, discharge or satisfaction of the decree, sh..."
     },
     {
         "question": "What are the modes of execution available to a decree-holder under Section 51 of the CPC?",
@@ -297,7 +297,7 @@
             "detention",
             "appointing receiver"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant section for the query is Section 51 of the Code of Civil Procedure, 1908 (CPC), which falls under Part II - Execution.\n\n## 📜 Provision\nThe provision under Section 51 of the CPC states that the Court may, on the application of the decree-holder, order execution of ..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART II - EXECUTION] Section 51\n\n## 📖 Explanation\n- The modes of execution available to a decree-holder under Section 51 of the CPC are: (a) by delivery of any property specifically decreed; (b) by attachment and sale or by the sale without attachment of any property..."
     },
     {
         "question": "A decree was passed against a judgment-debtor who subsequently died. Can the decree be executed against his legal representative personally, and under what limitation does his liability fall?",
@@ -317,7 +317,7 @@
             "deceased",
             "execution against"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant sections for this query are [CPC 1908] [PART II - EXECUTION] Section 52 and [CPC 1908] [PART II - EXECUTION] Section 50.\n\n## 📜 Provision\nAccording to Section 52 of the Code of Civil Procedure, 1908, \"Where a decree is passed against a party as the legal representa..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART II - EXECUTION] Section 52 — Enforcement of decree against legal representative.\n\n## 📖 Explanation\n- A decree passed against a judgment-debtor who subsequently died can be executed against his legal representative, but the legal representative's liability is lim..."
     },
     {
         "question": "What is the right of appeal from an original decree under the CPC?",
@@ -336,55 +336,149 @@
             "appellate court",
             "every decree"
         ],
-        "answer_snippet": "## ⚖️ Relevant Section\nThe relevant section for the right of appeal from an original decree under the CPC is **Section 96, Part VII - APPEALS**.\n\n## 📜 Provision\nThe provision under **Section 96** states that \"an appeal shall lie from every decree passed by any Court exercising original jurisdiction ..."
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART VII - APPEALS] Section 96\n\n## 📖 Explanation\n- An appeal shall lie from every decree passed by any Court exercising original jurisdiction to the Court authorized to hear appeals from the decisions of such Court, except where otherwise expressly provided in the bo..."
     },
     {
         "question": "Under Section 100 of the CPC, what are the grounds on which a second appeal can lie to the High Court?",
         "category": "Appeals",
         "difficulty": "Medium",
-        "passed": false,
-        "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kkvxxsjwffybgpsj9v9fm6xv` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99753, Requested 329. Please try again in 1m10.848s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "kw_score": 0.75,
+        "expected_sections": [
+            "100"
+        ],
+        "expected_keywords": [
+            "second appeal",
+            "High Court",
+            "substantial question of law",
+            "arising out of"
+        ],
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART VII - APPEALS] Section 100\n\n## 📖 Explanation\n- A second appeal to the High Court can lie from every decree passed in appeal by any Court subordinate to the High Court, if the High Court is satisfied that the case involves a substantial question of law. The memor..."
     },
     {
         "question": "What are the powers of an appellate court with respect to the decree or order it can pass under Section 107 of the CPC?",
         "category": "Appeals",
         "difficulty": "Hard",
-        "passed": false,
-        "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kkvxxsjwffybgpsj9v9fm6xv` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99746, Requested 331. Please try again in 1m6.527999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "kw_score": 0.83,
+        "expected_sections": [
+            "107"
+        ],
+        "expected_keywords": [
+            "powers of appellate court",
+            "determine",
+            "remand",
+            "frame issues",
+            "take evidence",
+            "additional evidence"
+        ],
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART VII - APPEALS] Section 107\n- [CPC 1908] Order XLI — APPEALS FROM ORIGINAL DECREES, Rule 33\n\n## 📖 Explanation\n- The Appellate Court has the power to determine a case finally, remand a case, frame issues and refer them for trial, and take additional evidence or re..."
     },
     {
         "question": "A High Court exercises revisional jurisdiction under Section 115 to interfere with an order of the subordinate court. Can the High Court alter the finding of fact while exercising this jurisdiction?",
         "category": "Appeals",
         "difficulty": "Twisted",
         "passed": false,
-        "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kkvxxsjwffybgpsj9v9fm6xv` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99740, Requested 340. Please try again in 1m9.12s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        "retrieval_hit": true,
+        "section_cited": true,
+        "kw_score": 0.33,
+        "expected_sections": [
+            "115"
+        ],
+        "expected_keywords": [
+            "revision",
+            "jurisdiction",
+            "subordinate court",
+            "illegally",
+            "material irregularity",
+            "finding of fact"
+        ],
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] [PART IX - SPECIAL PROVISIONS RELATING TO THE [HIGH COURTS [NOT BEING THE COURT OF A] Section 115 — Revision.\n\n## 📖 Explanation\n- The High Court may call for the record of any case which has been decided by any Court subordinate to such High Court and in which no appe..."
     },
     {
         "question": "Who can be joined as plaintiffs in a suit under Order I of the CPC?",
         "category": "Orders & Rules",
         "difficulty": "Easy",
-        "passed": false,
-        "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kkvxxsjwffybgpsj9v9fm6xv` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99996, Requested 1914. Please try again in 27m30.24s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "kw_score": 0.6,
+        "expected_sections": [
+            "I"
+        ],
+        "expected_keywords": [
+            "joined as plaintiffs",
+            "same act",
+            "same transaction",
+            "common question",
+            "right to relief"
+        ],
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] Order I, Rule 1\n\n## 📖 Explanation\n- All persons may be joined in one suit as plaintiffs where any right to relief in respect of, or arising out of, the same act or transaction or series of acts or transactions is alleged to exist in such persons, whether jointly, seve..."
     },
     {
         "question": "What are the consequences when a plaint is not properly signed or verified under Order VI Rule 15 of the CPC?",
         "category": "Orders & Rules",
         "difficulty": "Medium",
-        "passed": false,
-        "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kkvxxsjwffybgpsj9v9fm6xv` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99989, Requested 328. Please try again in 4m33.888s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "kw_score": 0.6,
+        "expected_sections": [
+            "VI"
+        ],
+        "expected_keywords": [
+            "verification",
+            "pleading",
+            "signed",
+            "struck off",
+            "amendment"
+        ],
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] Order VI, Rule 15 — Verification of pleadings\n\n## 📖 Explanation\n- If a plaint is not properly signed or verified under Order VI Rule 15 of the CPC, the consequences are not directly stated in the provided context for Order VI Rule 15. However, according to Order VI Ru..."
     },
     {
         "question": "Under Order XXXVII of the CPC, what is the procedure for a summary suit, and when can a defendant be granted leave to defend?",
         "category": "Orders & Rules",
         "difficulty": "Hard",
         "passed": false,
-        "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kkvxxsjwffybgpsj9v9fm6xv` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99983, Requested 334. Please try again in 4m33.888s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        "retrieval_hit": true,
+        "section_cited": true,
+        "kw_score": 0.4,
+        "expected_sections": [
+            "XXXVII"
+        ],
+        "expected_keywords": [
+            "summary suit",
+            "leave to defend",
+            "negotiable instrument",
+            "acknowledgment of debt",
+            "unconditional leave"
+        ],
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] Order XXXVII, Rule 3 — Procedure for the appearance of defendant\n\n## 📖 Explanation\n- The procedure for a summary suit under Order XXXVII of the CPC involves the plaintiff serving a summons for judgment on the defendant, who may then apply for leave to defend the suit ..."
     },
     {
         "question": "Under Order XXXIX of the CPC, a plaintiff applies for a temporary injunction but fails to serve notice on the defendant before the order is passed ex parte. What conditions must the court satisfy before granting such an injunction, and what happens if the plaintiff provides false averments?",
         "category": "Orders & Rules",
         "difficulty": "Twisted",
-        "passed": false,
-        "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kkvxxsjwffybgpsj9v9fm6xv` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99976, Requested 359. Please try again in 4m49.44s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+        "passed": true,
+        "retrieval_hit": true,
+        "section_cited": true,
+        "kw_score": 0.57,
+        "expected_sections": [
+            "XXXIX"
+        ],
+        "expected_keywords": [
+            "temporary injunction",
+            "ex parte",
+            "notice",
+            "irreparable injury",
+            "balance of convenience",
+            "false averment",
+            "compensate"
+        ],
+        "answer_snippet": "## ⚖️ Relevant Law\n- [CPC 1908] Order XXXIX — Rule 1 and 2\n\n## 📖 Explanation\n- Under Order XXXIX of the CPC, a plaintiff can apply for a temporary injunction to restrain the defendant from committing a breach of contract or injury. The court may grant such an injunction on terms it thinks fit, inclu..."
     }
 ]
