@@ -80,57 +80,91 @@ class HybridRetriever(BaseRetriever):
         tokens = re.findall(r'\b\w+\b', text.lower())
         return tokens
     
+    @staticmethod
+    def _is_section_specific_query(query: str) -> bool:
+        """
+        Detect queries that reference an explicit Section or Order number.
+        These benefit from higher BM25 weight since BM25 excels at exact term matching.
+        Examples: 'Section 35B', 'Section 21A', 'Order XXXVII', 'Section 34'
+        """
+        return bool(re.search(
+            r'section\s+\d+[A-Z]?|order\s+[IVXLCDM]+',
+            query,
+            re.IGNORECASE
+        ))
+
     def _get_relevant_documents(self, query: str) -> List[Document]:
         """
         Main retrieval method called by LangChain.
         1. Get top-k from vector search
         2. Get top-k from BM25
-        3. Fuse using Reciprocal Rank Fusion
+        3. Fuse using Reciprocal Rank Fusion (with adaptive weights)
         """
+        # Adaptive weights: boost BM25 for section/order-specific queries
+        if self._is_section_specific_query(query):
+            vec_w  = 0.3
+            bm25_w = 0.7
+        else:
+            vec_w  = self.vector_weight
+            bm25_w = self.bm25_weight
+
         # Vector search results
         vector_docs = self.vector_retriever.invoke(query)
-        
+
         # BM25 search results
         tokenized_query = self._tokenize(query)
         bm25_scores = self.bm25.get_scores(tokenized_query)
-        
+
         # Get top-k BM25 indices
         top_bm25_indices = sorted(range(len(bm25_scores)), key=lambda i: bm25_scores[i], reverse=True)[:self.k]
         bm25_docs = [self.corpus_docs[i] for i in top_bm25_indices]
-        
-        # Reciprocal Rank Fusion
-        fused = self._reciprocal_rank_fusion(vector_docs, bm25_docs)
-        
+
+        # Reciprocal Rank Fusion with adaptive weights
+        fused = self._reciprocal_rank_fusion(vector_docs, bm25_docs, vec_w=vec_w, bm25_w=bm25_w)
+
         return fused[:self.k]
     
-    def _reciprocal_rank_fusion(self, vector_docs: List[Document], bm25_docs: List[Document], rrf_k: int = 60) -> List[Document]:
+    def _reciprocal_rank_fusion(
+        self,
+        vector_docs: List[Document],
+        bm25_docs: List[Document],
+        rrf_k: int = 60,
+        vec_w: float = None,
+        bm25_w: float = None,
+    ) -> List[Document]:
         """
         Reciprocal Rank Fusion (RRF) to combine two ranked lists.
         Score = weight * 1/(rrf_k + rank)
-        
+
+        vec_w / bm25_w allow per-call weight overrides (adaptive weighting).
         Higher rrf_k means less emphasis on top ranks (smoother fusion).
         """
+        if vec_w is None:
+            vec_w = self.vector_weight
+        if bm25_w is None:
+            bm25_w = self.bm25_weight
+
         doc_scores = {}  # page_content -> (score, doc)
-        
+
         # Score vector results
         for rank, doc in enumerate(vector_docs):
             key = doc.page_content
-            score = self.vector_weight * (1.0 / (rrf_k + rank + 1))
+            score = vec_w * (1.0 / (rrf_k + rank + 1))
             if key in doc_scores:
                 doc_scores[key] = (doc_scores[key][0] + score, doc)
             else:
                 doc_scores[key] = (score, doc)
-        
-        # Score BM25 results  
+
+        # Score BM25 results
         for rank, doc in enumerate(bm25_docs):
             key = doc.page_content
-            score = self.bm25_weight * (1.0 / (rrf_k + rank + 1))
+            score = bm25_w * (1.0 / (rrf_k + rank + 1))
             if key in doc_scores:
                 doc_scores[key] = (doc_scores[key][0] + score, doc)
             else:
                 doc_scores[key] = (score, doc)
-        
+
         # Sort by fused score (descending)
         sorted_docs = sorted(doc_scores.values(), key=lambda x: x[0], reverse=True)
-        
+
         return [doc for _, doc in sorted_docs]
