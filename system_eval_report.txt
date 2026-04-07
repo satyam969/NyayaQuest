@@ -1,0 +1,151 @@
+================================================================================
+  NyayaQuest GLOBAL RAG Evaluation (Multi-Law System Test)
+  Total Cases: 8
+================================================================================
+Loading embedding model...
+Connecting to ChromaDB...
+
+[1/8] [BNS 2023] Q: What is the punishment for murder under Section 103 of BNS 2023?
+     - Retrieved: [None] Section 103
+     - Retrieved: [None] Section 103
+     - Retrieved: [None] Section 263
+     - Retrieved: [None] Section 90
+     - Retrieved: [None] Section 111
+     - Retrieved: [None] Section 125
+     - Retrieved: [None] Section 107
+     - Retrieved: [None] Section 157
+     - Retrieved: [None] Section 111
+     - Retrieved: [None] Section 137
+   Response Time: 9.4s
+   Retrieval Match: Yes
+   Section Cited in Answer: Yes
+   Keyword Coverage: 100%
+   Result: ✅ PASS
+
+[2/8] [BNS 2023] Q: What constitutes organised crime under Section 111 of the new BNS?
+     - Retrieved: [None] Section 111
+     - Retrieved: [None] Section 111
+     - Retrieved: [None] Section 111
+     - Retrieved: [None] Section 111
+     - Retrieved: [None] Section 111
+     - Retrieved: [None] Section 111
+     - Retrieved: [None] Section 111
+     - Retrieved: [None] Section 111
+     - Retrieved: [None] Section 111
+     - Retrieved: [None] Section 111
+   Response Time: 2.5s
+   Retrieval Match: Yes
+   Section Cited in Answer: Yes
+   Keyword Coverage: 40%
+   Result: ✅ PASS
+
+[3/8] [RTI 2005] Q: What is the definition of 'information' under the RTI Act 2005?
+     - Retrieved: [None] Section 2
+     - Retrieved: [None] Section 25
+     - Retrieved: [None] Section 3
+     - Retrieved: [None] Section 1
+     - Retrieved: [None] Section 2
+     - Retrieved: [None] Section 4
+     - Retrieved: [None] Section 2
+     - Retrieved: [None] Section 25
+     - Retrieved: [None] Section 4
+     - Retrieved: [None] Section 8
+   Response Time: 2.8s
+   Retrieval Match: Yes
+   Section Cited in Answer: Yes
+   Keyword Coverage: 80%
+   Result: ✅ PASS
+
+[4/8] [RTI 2005] Q: How many days does a Public Information Officer have to respond to a request involving life or liberty?
+     - Retrieved: [None] Section 7
+     - Retrieved: [None] Section 5
+     - Retrieved: [None] Section 6
+     - Retrieved: [None] Section 5
+     - Retrieved: [None] Section 7
+     - Retrieved: [None] Section 11
+     - Retrieved: [None] Section 24
+     - Retrieved: [None] Section 24
+     - Retrieved: [None] Section 11
+     - Retrieved: [None] Section 10
+   Response Time: 3.1s
+   Retrieval Match: Yes
+   Section Cited in Answer: Yes
+   Keyword Coverage: 100%
+   Result: ✅ PASS
+
+[5/8] [CPA 2019] Q: What is the definition of a 'consumer' under the Consumer Protection Act 2019?
+     - Retrieved: [None] Section 2
+     - Retrieved: [None] Section N/A
+     - Retrieved: [None] Section 2
+     - Retrieved: [None] Section 2
+     - Retrieved: [None] Section 2
+     - Retrieved: [None] Section 2
+     - Retrieved: [None] Section 2
+     - Retrieved: [None] Section 2
+     - Retrieved: [None] Section 2
+     - Retrieved: [None] Section 2
+   Response Time: 3.4s
+   Retrieval Match: Yes
+   Section Cited in Answer: Yes
+   Keyword Coverage: 100%
+   Result: ✅ PASS
+
+[6/8] [CPA 2019] Q: What is the monetary jurisdiction of the District Commission for consumer complaints?
+     - Retrieved: [None] Section 34
+     - Retrieved: [None] Section 34
+     - Retrieved: [None] Section 34
+     - Retrieved: [None] Section 35
+     - Retrieved: [None] Section 28
+     - Retrieved: [None] Section 38
+     - Retrieved: [None] Section 35
+     - Retrieved: [None] Section 38
+     - Retrieved: [None] Section 35
+     - Retrieved: [None] Section 16
+   Response Time: 3.6s
+   Retrieval Match: Yes
+   Section Cited in Answer: Yes
+   Keyword Coverage: 100%
+   Result: ✅ PASS
+
+[7/8] [Labour Code (Wages)] Q: Under the Code on Wages 2019, how is the minimum wage fixed?
+     - Retrieved: [The Code On Wages, 2019] Section 6
+     - Retrieved: [The Code On Wages, 2019] Section 6
+     - Retrieved: [The Code On Wages, 2019] Section 6
+     - Retrieved: [The Code On Wages, 2019] Section 7
+     - Retrieved: [The Code On Wages, 2019] Section 12
+     - Retrieved: [The Code On Wages, 2019] Section 7
+     - Retrieved: [The Code On Wages, 2019] Section 10
+     - Retrieved: [The Code On Wages, 2019] Section Schedule/General
+     - Retrieved: [The Code On Wages, 2019] Section 13
+     - Retrieved: [The Code On Wages, 2019] Section 8
+   Response Time: 3.6s
+   Retrieval Match: Yes
+   Section Cited in Answer: Yes
+   Keyword Coverage: 100%
+   Result: ✅ PASS
+
+[8/8] [Labour Code (IR)] Q: What constitutes a 'strike' under the Industrial Relations Code 2020?
+     - Retrieved: [The Industrial Relations Code, 2020] Section Schedule/General
+     - Retrieved: [The Industrial Relations Code, 2020] Section 62
+     - Retrieved: [The Industrial Relations Code, 2020] Section Schedule/General
+     - Retrieved: [The Industrial Relations Code, 2020] Section 49
+     - Retrieved: [The Industrial Relations Code, 2020] Section 2017
+     - Retrieved: [The Industrial Relations Code, 2020] Section 2
+     - Retrieved: [The Industrial Relations Code, 2020] Section 93
+     - Retrieved: [The Industrial Relations Code, 2020] Section 64
+     - Retrieved: [The Industrial Relations Code, 2020] Section 104
+     - Retrieved: [The Industrial Relations Code, 2020] Section 62
+   Response Time: 3.9s
+   Retrieval Match: Yes
+   Section Cited in Answer: Yes
+   Keyword Coverage: 0%
+   Result: ❌ FAIL
+   [Debug Answer]: ## ⚖️ Relevant Section
+The relevant sections for understanding what constitutes a 'strike' under the Industrial Relations Code 2020 are found in [CHAPTER VIII - STRIKES AND LOCK-OUTS], specifically Section 62 and Section 63.
+
+## 📜 Provision
+According...
+
+================================================================================
+  FINAL SYSTEM SCORE: 7/8 (88%)
+================================================================================
