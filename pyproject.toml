@@ -28,6 +28,8 @@ dependencies = [
     "sentence-transformers>=3.0.0",
     "flashrank>=0.2.8",
     "rank-bm25>=0.2.2",
+    "firebase-admin>=6.5.0",
+    "extra-streamlit-components>=0.1.71",
 ]
 
 [dependency-groups]
