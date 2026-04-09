@@ -1,12 +1,12 @@
 import os
-import glob
 import re
 import chromadb
 from chromadb.utils import embedding_functions
 from langchain_community.document_loaders import PyMuPDFLoader
 
 # Configuration
-PDF_DIR = "data/legal_pdfs"
+# Notice we changed the name to PDF_PATH because it is a file, not a directory!
+PDF_PATH = "data/legal_pdfs/BNS_2023.pdf"
 CHROMA_DIR = "chroma_db_groq_legal"
 COLLECTION_NAME = "legal_knowledge"
 
@@ -121,49 +121,45 @@ def ingest_structural():
     
     emb_fn = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="BAAI/bge-small-en-v1.5")
     
-    # Reset collection for a clean re-ingestion
-    try:
-        client.delete_collection(COLLECTION_NAME)
-        print(f"Deleted old collection: {COLLECTION_NAME}")
-    except Exception:
-        pass
-
-    collection = client.create_collection(
+    collection = client.get_or_create_collection(
         name=COLLECTION_NAME,
         embedding_function=emb_fn
     )
 
-    pdf_files = glob.glob(os.path.join(PDF_DIR, "*.pdf"))
+    # FIX: We remove `glob` and the `for` loop entirely, and just process the single PDF_PATH!
+    if not os.path.exists(PDF_PATH):
+        print(f"❌ ERROR: File not found at {PDF_PATH}. Please check the path and filename.")
+        return
 
-    for pdf_path in pdf_files:
-        basename = os.path.basename(pdf_path)
-        print(f"Processing {basename} structurally...")
+    basename = os.path.basename(PDF_PATH)
+    print(f"Processing {basename} structurally...")
+    
+    try:
+        # Pass PDF_PATH directly to the preprocessor
+        structural_chunks = preprocess_document(PDF_PATH)
+        print(f"  Extracted {len(structural_chunks)} structural sections.")
         
-        try:
-            structural_chunks = preprocess_document(pdf_path)
-            print(f"  Extracted {len(structural_chunks)} structural sections.")
-            
-            if not structural_chunks:
-                print(f"  Warning: No structural chunks found for {basename}. Check formatting.")
-                continue
+        if not structural_chunks:
+            print(f"  Warning: No structural chunks found for {basename}. Check formatting.")
+            return
 
-            ids = [f"{basename}_sec_{chunk['metadata']['section_number']}_{i}" for i, chunk in enumerate(structural_chunks)]
-            texts = [chunk["text"] for chunk in structural_chunks]
-            metadatas = [chunk["metadata"] for chunk in structural_chunks]
-            
-            # Batch add to Chroma (reduced batch size for memory safety)
-            batch_size = 4
-            for i in range(0, len(texts), batch_size):
-                collection.add(
-                    ids=ids[i:i+batch_size],
-                    documents=texts[i:i+batch_size],
-                    metadatas=metadatas[i:i+batch_size]
-                )
-            
-            print(f"  Successfully added {basename} to collection.")
-            
-        except Exception as e:
-            print(f"  Failed to process {basename}: {e}")
+        ids = [f"{basename}_sec_{chunk['metadata']['section_number']}_{i}" for i, chunk in enumerate(structural_chunks)]
+        texts = [chunk["text"] for chunk in structural_chunks]
+        metadatas = [chunk["metadata"] for chunk in structural_chunks]
+        
+        # Batch add to Chroma
+        batch_size = 4
+        for i in range(0, len(texts), batch_size):
+            collection.add(
+                ids=ids[i:i+batch_size],
+                documents=texts[i:i+batch_size],
+                metadatas=metadatas[i:i+batch_size]
+            )
+        
+        print(f"  Successfully added {basename} to collection.")
+        
+    except Exception as e:
+        print(f"  Failed to process {basename}: {e}")
 
 if __name__ == "__main__":
     ingest_structural()
