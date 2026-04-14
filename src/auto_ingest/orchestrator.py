@@ -1,169 +1,347 @@
+"""
+orchestrator.py — Autonomous Hybrid PDF Ingestion Pipeline (NyayaQuest)
+
+Pipeline stages
+───────────────
+Stage 0  Extract text with footer removal; clean; filter TOC / blank pages.
+Stage 1  Detect document type (heuristic); segment multi-act PDFs.
+Stage 2  Select strategy (REGEX / HYBRID / SCHEMA) per detection confidence.
+Stage 3  Parse with selected strategy → list of chunk dicts.
+Stage 4  Evaluate quality (5-metric weighted score, threshold 0.70).
+Stage 5  If quality fails → Schema-refinement loop (max 3 retries).
+Stage 6  If still failing → 3-tier Fallback Engine (never-fail guarantee).
+Stage 7  Sub-split long chunks; upsert into ChromaDB (idempotent).
+
+CLI
+───
+python -m auto_ingest.orchestrator --pdf path/to/file.pdf [options]
+
+Options
+───────
+  --chroma-dir   DIR       ChromaDB persistence path  [chroma_db_groq_legal]
+  --collection   NAME      Collection name            [legal_knowledge]
+  --llm-model    MODEL     Groq model for LLM steps   [llama-3.3-70b-versatile]
+  --threshold    FLOAT     Quality-pass threshold      [0.70]
+  --no-llm                 Regex-only mode (skip all LLM calls)
+  --verbose                Enable DEBUG logging
+"""
+
+import argparse
+import logging
 import os
 import sys
-import json
-import re
-import fitz # PyMuPDF
+from typing import Any, Dict, List, Optional
+
 from dotenv import load_dotenv
 
-from langchain_groq import ChatGroq
-from langchain_core.messages import HumanMessage, SystemMessage
+# ── Stage imports ─────────────────────────────────────────────────────────────
+from .stage0_preprocess.extractor   import extract_text_without_footers, clean_text
+from .stage0_preprocess.page_filter import filter_blank_pages, remove_toc
 
-try:
-    from .prompts import CODER_SYSTEM_PROMPT, CRITIC_SYSTEM_PROMPT
-except ImportError:
-    from prompts import CODER_SYSTEM_PROMPT, CRITIC_SYSTEM_PROMPT
+from .stage1_detection.detector   import detect_document_type
+from .stage1_detection.segmenter  import segment_document
 
-load_dotenv()
+from .stage2_strategy.hybrid_selector import Strategy, select_strategy
+from .stage2_strategy.regex_strategy  import select_section_pattern
+from .stage2_strategy.schema_strategy import generate_schema
 
-# ==============================================================================
-# SAMPLER
-# ==============================================================================
-def sample_pdf(pdf_path: str, num_chunks: int = 5, words_per_chunk: int = 500) -> str:
-    """Extracts strategic sample blocks from Start, 25%, 50%, 75%, and End of PDF."""
+from .stage3_parsing.regex_parser  import parse_with_regex
+from .stage3_parsing.schema_chunker import SchemaChunker
+from .stage3_parsing.hybrid_parser  import parse_hybrid
+
+from .stage4_evaluation.quality_evaluator import QUALITY_THRESHOLD, evaluate_chunks
+from .stage4_evaluation.critic            import analyze_failures
+
+from .stage5_refinement.retry_controller import schema_refinement_loop
+
+from .stage6_fallback.fallback_engine import run_fallback
+
+from .stage7_storage.chunker import split_chunks
+from .stage7_storage.storage import store_chunks
+
+# ── Logging ───────────────────────────────────────────────────────────────────
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+logger = logging.getLogger("orchestrator")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# LLM factory
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _get_llm(model: str = "llama-3.3-70b-versatile"):
+    """Instantiate a Groq LLM from the GROQ_API_KEY env-var."""
+    load_dotenv()
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        logger.warning("GROQ_API_KEY not set — LLM features disabled")
+        return None
     try:
-        doc = fitz.open(pdf_path)
-    except Exception as e:
-        return f"Error opening PDF: {e}"
-        
-    num_pages = len(doc)
-    if num_pages == 0:
-        return ""
-        
-    # Pick strategic pages
-    indices = [
-        0,                                   # Beginning
-        max(1, int(num_pages * 0.25)),       # 25%
-        max(1, int(num_pages * 0.50)),       # Middle
-        max(1, int(num_pages * 0.75)),       # 75%
-        num_pages - 1                        # End
-    ]
-    # Remove duplicates if it's a short PDF
-    indices = sorted(list(set(indices)))
-    
-    samples = []
-    for idx in indices:
-        page = doc[idx]
-        text = page.get_text()
-        # Take first 1000 chars of that page to keep context limit safe
-        samples.append(f"--- SAMPLE FROM PAGE {idx+1} ---\n{text[:1000]}\n")
-        
-    return "\n".join(samples)
+        from langchain_groq import ChatGroq
+        return ChatGroq(model=model, temperature=0, api_key=api_key)
+    except Exception as exc:
+        logger.error(f"LLM init failed: {exc}")
+        return None
 
-# ==============================================================================
-# SANDBOX ENVIRONMENT
-# ==============================================================================
-def sandbox_run(config: dict, sample_text: str) -> dict:
-    """Runs the regex config native python code safely."""
-    results = {"chunks": [], "errors": None}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Per-segment processor
+# ─────────────────────────────────────────────────────────────────────────────
+
+def ingest_segment(
+    text: str,
+    segment_title: str,
+    pdf_path: str,
+    doc_type: str,
+    confidence: float,
+    features: Dict[str, Any],
+    llm,
+    chroma_dir: str,
+    collection_name: str,
+    threshold: float,
+) -> Dict[str, Any]:
+    """
+    Run stages 2–7 for a single document segment.
+
+    Returns a result summary dict.
+    """
+    result: Dict[str, Any] = {
+        "segment_title": segment_title,
+        "strategy_used": None,
+        "chunks_stored": 0,
+        "final_metrics": {},
+        "converged":     False,
+        "used_fallback": False,
+    }
+
+    # ── Stage 2: strategy selection ──────────────────────────────────────────
+    strategy = select_strategy(confidence, features)
+    result["strategy_used"] = strategy.value
+    logger.info(
+        f"[{segment_title}] strategy={strategy.value}  confidence={confidence:.2f}"
+    )
+
+    section_pattern = select_section_pattern(text, doc_type, features)
+    schema: Optional[Dict[str, Any]] = None
+    chunks: List[Dict[str, Any]] = []
+    metrics: Dict[str, float]    = {}
+
+    # ── Stage 3 + 4: parse → evaluate ────────────────────────────────────────
     try:
-        footer_pattern = config.get("footer_pattern", "")
-        split_pattern = config.get("section_split_pattern", "")
-        
-        # 1. Strip footers line by line
-        clean_lines = []
-        for line in sample_text.split('\n'):
-            if footer_pattern and re.search(footer_pattern, line, re.IGNORECASE):
-                continue
-            clean_lines.append(line)
-        clean_text = "\n".join(clean_lines)
-        
-        # 2. Split sections
-        if split_pattern:
-            chunks = re.split(split_pattern, clean_text)
-            chunks = [c.strip() for c in chunks if len(c.strip()) > 10]
-            results["chunks"] = chunks
-        else:
-            results["chunks"] = [clean_text]
-            
-    except Exception as e:
-        results["errors"] = str(e)
-        
-    return results
+        if strategy == Strategy.REGEX:
+            chunks = parse_with_regex(text, section_pattern, segment_title, doc_type, features)
+            passed, metrics = evaluate_chunks(chunks, threshold)
 
-# ==============================================================================
-# ORCHESTRATOR LOOP
-# ==============================================================================
-def run_agentic_loop(pdf_path: str, law_name: str, yield_logs=False):
-    """
-    Generator that orchestrates the Code-Gen and Critic pipeline.
-    Yields log dictionaries to the UI gracefully.
-    """
-    llm = ChatGroq(model_name="llama-3.1-8b-instant", temperature=0.1)
-    
-    yield {"step": "sampler", "status": "Extracting strategic samples..."}
-    samples = sample_pdf(pdf_path)
-    if not samples or "Error" in samples:
-        yield {"step": "error", "status": f"Failed to sample PDF: {samples}"}
-        return
-        
-    yield {"step": "sampler", "status": "Samples extracted successfully.", "data": samples[:500] + "..."}
-    
-    max_retries = 5
-    attempt = 1
-    feedback = "No feedback yet. This is the first attempt."
-    config = {}
-    
-    while attempt <= max_retries:
-        yield {"step": f"coder_{attempt}", "status": f"Attempt {attempt}/{max_retries} - Coder AI generating JSON Regex Config..."}
-        
-        # --- CODER AI ---
-        coder_prompt = f"{CODER_SYSTEM_PROMPT}\n\nFEEDBACK FROM CRITIC:\n{feedback}\n\nSAMPLE TEXT:\n{samples}"
-        raw_text = ""
-        try:
-            res = llm.invoke([SystemMessage(content=coder_prompt)])
-            raw_text = res.content.strip()
-            # Extract JSON block even if conversational padding exists
-            match = re.search(r'\{.*\}', raw_text, re.DOTALL)
-            if match:
-                raw_text = match.group(0)
-            config = json.loads(raw_text)
-        except Exception as e:
-            feedback = f"JSON Parsing failed. Do not return markdown. Error: {e}\nRaw output was: {raw_text}"
-            yield {"step": f"coder_{attempt}", "status": f"Coder failed to return valid JSON. Retrying.", "error": str(e)}
-            attempt += 1
-            continue
+        elif strategy == Strategy.HYBRID:
+            if llm:
+                schema = generate_schema(llm, text, doc_type, features)
+            chunks = parse_hybrid(text, section_pattern, schema, segment_title, doc_type, features)
+            passed, metrics = evaluate_chunks(chunks, threshold)
 
-        yield {"step": f"sandbox_{attempt}", "status": "Running Config in Sandbox...", "data": dict(config)}
-        
-        # --- SANDBOX ---
-        sandbox_out = sandbox_run(config, samples)
-        if sandbox_out["errors"]:
-            feedback = f"Sandbox Exception executing Regex: {sandbox_out['errors']}"
-            yield {"step": f"sandbox_{attempt}", "status": "Sandbox crashed with regex errors.", "error": sandbox_out["errors"]}
-            attempt += 1
-            continue
-            
-        chunks = sandbox_out["chunks"]
-        chunk_preview = "\n\n=== CHUNK BOUNDARY ===\n\n".join([c[:200] for c in chunks[:5]]) # show first 5
-        
-        # --- CRITIC AI ---
-        yield {"step": f"critic_{attempt}", "status": "Critic AI evaluating chunks..."}
-        critic_prompt = f"{CRITIC_SYSTEM_PROMPT}\n\nTOTAL CHUNKS GENERATED: {len(chunks)}\n\nCHUNK PREVIEWS (First 200 chars of first 5 chunks):\n{chunk_preview}"
-        
-        c_raw = ""
-        try:
-            c_res = llm.invoke([SystemMessage(content=critic_prompt)])
-            c_raw = c_res.content.strip()
-            match = re.search(r'\{.*\}', c_raw, re.DOTALL)
-            if match:
-                c_raw = match.group(0)
-            evaluation = json.loads(c_raw)
-        except Exception as e:
-            feedback = f"Critic failed to evaluate. Ensure it outputs valid JSON. Output was: {c_raw}"
-            yield {"step": f"critic_{attempt}", "status": "Critic JSON extraction failed.", "error": str(e)}
-            attempt += 1
-            continue
-            
-        yield {"step": f"evaluation_{attempt}", "status": f"Critic Evaluation Result: {'PASSED' if evaluation.get('success') else 'FAILED'}", "data": evaluation}
-        
-        if evaluation.get("success") == True or evaluation.get("success") == "true":
-            # SUCCESS!
-            yield {"step": "complete", "status": "Pipeline Succeeded!", "config": config}
-            return config
-            
-        feedback = evaluation.get("feedback", "General Failure.")
-        attempt += 1
-        
-    # --- FAILSAFE #1 & #3 TRIGGERS ---
-    yield {"step": "quarantine", "status": "Max retries (5) reached. PDF routed to Quarantine Failsafe.", "last_config": config}
-    return None
+        else:  # SCHEMA
+            if llm:
+                schema = generate_schema(llm, text, doc_type, features)
+            if schema:
+                chunker = SchemaChunker(schema, segment_title)
+                chunks  = chunker.parse(text)
+            else:
+                logger.warning(f"[{segment_title}] Schema gen failed — falling back to regex")
+                chunks = parse_with_regex(text, section_pattern, segment_title, doc_type, features)
+            passed, metrics = evaluate_chunks(chunks, threshold)
+
+    except Exception as exc:
+        logger.error(f"[{segment_title}] Parse stage raised: {exc}")
+        passed  = False
+        metrics = {"overall": 0.0}
+
+    logger.info(
+        f"[{segment_title}] initial parse: {len(chunks)} chunks  "
+        f"score={metrics.get('overall', 0):.3f}"
+    )
+
+    # ── Stage 5: schema refinement loop ──────────────────────────────────────
+    if not passed and llm:
+        logger.info(f"[{segment_title}] Quality below threshold → schema refinement")
+        if schema is None:
+            schema = generate_schema(llm, text, doc_type, features)
+
+        if schema:
+            text_sample = text[:3000]
+            ref_chunks, ref_metrics, converged = schema_refinement_loop(
+                llm, schema, text, segment_title, text_sample, threshold
+            )
+            if ref_metrics.get("overall", 0) > metrics.get("overall", 0):
+                chunks  = ref_chunks
+                metrics = ref_metrics
+                passed  = converged
+                result["converged"] = converged
+                logger.info(
+                    f"[{segment_title}] Refinement result: "
+                    f"score={metrics['overall']:.3f}  converged={converged}"
+                )
+
+    # ── Stage 6: fallback ─────────────────────────────────────────────────────
+    if not passed or not chunks:
+        logger.warning(f"[{segment_title}] Activating fallback engine")
+        result["used_fallback"] = True
+        fb_chunks = run_fallback(text, segment_title, pdf_path, metrics, llm)
+        if fb_chunks:
+            chunks  = fb_chunks
+            _, metrics = evaluate_chunks(chunks, threshold)
+
+    # ── Stage 7: sub-split + store ────────────────────────────────────────────
+    final_chunks = split_chunks(chunks)
+    stored       = store_chunks(final_chunks, chroma_dir, collection_name)
+
+    result["chunks_stored"] = stored
+    result["final_metrics"] = metrics
+
+    logger.info(
+        f"[{segment_title}] ✓ {stored} chunks stored  "
+        f"final_score={metrics.get('overall', 0):.3f}"
+    )
+    return result
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Main pipeline entry point
+# ─────────────────────────────────────────────────────────────────────────────
+
+def run_pipeline(
+    pdf_path:        str,
+    chroma_dir:      str   = "chroma_db_groq_legal",
+    collection_name: str   = "legal_knowledge",
+    llm_model:       str   = "llama-3.3-70b-versatile",
+    threshold:       float = QUALITY_THRESHOLD,
+    no_llm:          bool  = False,
+) -> List[Dict[str, Any]]:
+    """
+    Ingest a single PDF through the full pipeline.
+
+    Returns a list of per-segment result dicts (one per detected act).
+    """
+    if not os.path.exists(pdf_path):
+        logger.error(f"PDF not found: {pdf_path}")
+        sys.exit(1)
+
+    logger.info("═" * 60)
+    logger.info(f"Auto-Ingest Pipeline  →  {pdf_path}")
+    logger.info("═" * 60)
+
+    # LLM
+    llm = None if no_llm else _get_llm(llm_model)
+
+    # ── Stage 0 ───────────────────────────────────────────────────────────────
+    logger.info("Stage 0: extracting + cleaning text …")
+    raw_text = extract_text_without_footers(pdf_path)
+    text     = clean_text(raw_text)
+    text     = filter_blank_pages(text)
+    text     = remove_toc(text)
+    logger.info(f"Stage 0 complete — {len(text):,} chars after cleaning")
+
+    # ── Stage 1 ───────────────────────────────────────────────────────────────
+    logger.info("Stage 1: detecting document type …")
+    doc_type, confidence, features = detect_document_type(text)
+    logger.info(
+        f"Stage 1 — doc_type={doc_type}  confidence={confidence:.2f}  "
+        f"sections≈{features.get('approx_section_count', '?')}"
+    )
+
+    logger.info("Stage 1: segmenting …")
+    segments = segment_document(text)
+    logger.info(f"Stage 1 — {len(segments)} segment(s) found")
+
+    # ── Stages 2–7 per segment ────────────────────────────────────────────────
+    all_results: List[Dict[str, Any]] = []
+    for seg in segments:
+        logger.info(f"{'─' * 50}")
+        logger.info(f"Processing: {seg['title']}")
+        result = ingest_segment(
+            text            = seg["text"],
+            segment_title   = seg["title"],
+            pdf_path        = pdf_path,
+            doc_type        = doc_type,
+            confidence      = confidence,
+            features        = features,
+            llm             = llm,
+            chroma_dir      = chroma_dir,
+            collection_name = collection_name,
+            threshold       = threshold,
+        )
+        all_results.append(result)
+
+    # ── Summary ───────────────────────────────────────────────────────────────
+    total = sum(r["chunks_stored"] for r in all_results)
+    logger.info("═" * 60)
+    logger.info(
+        f"Pipeline complete — {total} total chunks stored "
+        f"across {len(segments)} segment(s)"
+    )
+    for r in all_results:
+        flag = " [FALLBACK]" if r["used_fallback"] else ""
+        logger.info(
+            f"  • {r['segment_title']}: strategy={r['strategy_used']}  "
+            f"chunks={r['chunks_stored']}  "
+            f"score={r['final_metrics'].get('overall', 0):.3f}{flag}"
+        )
+
+    return all_results
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CLI
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _build_parser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(
+        prog="python -m auto_ingest.orchestrator",
+        description="NyayaQuest — Autonomous Legal PDF → ChromaDB ingestion pipeline",
+    )
+    p.add_argument("--pdf",         required=True,
+                   help="Path to the PDF file to ingest")
+    p.add_argument("--chroma-dir",  default="chroma_db_groq_legal",
+                   help="ChromaDB persistence directory")
+    p.add_argument("--collection",  default="legal_knowledge",
+                   help="ChromaDB collection name")
+    p.add_argument("--llm-model",   default="llama-3.3-70b-versatile",
+                   help="Groq model for LLM-based steps")
+    p.add_argument("--threshold",   type=float, default=QUALITY_THRESHOLD,
+                   help="Quality score threshold (0.0–1.0)")
+    p.add_argument("--no-llm",      action="store_true",
+                   help="Disable all LLM features (regex-only mode)")
+    p.add_argument("--verbose",     action="store_true",
+                   help="Enable DEBUG-level logging")
+    return p
+
+
+def main() -> None:
+    args = _build_parser().parse_args()
+
+    if args.verbose:
+        logging.getLogger().setLevel(logging.DEBUG)
+
+    results = run_pipeline(
+        pdf_path        = args.pdf,
+        chroma_dir      = args.chroma_dir,
+        collection_name = args.collection,
+        llm_model       = args.llm_model,
+        threshold       = args.threshold,
+        no_llm          = args.no_llm,
+    )
+
+    total = sum(r["chunks_stored"] for r in results)
+    print(f"\n✅  Ingestion complete — {total} chunks stored")
+    for r in results:
+        flag = "  [FALLBACK]" if r["used_fallback"] else ""
+        score = r["final_metrics"].get("overall", 0)
+        print(
+            f"  • {r['segment_title']}\n"
+            f"    strategy={r['strategy_used']}  chunks={r['chunks_stored']}  "
+            f"score={score:.3f}{flag}"
+        )
+
+
+if __name__ == "__main__":
+    main()
