@@ -102,12 +102,23 @@ st.sidebar.metric("Total Chunks",   len(all_chunks))
 st.sidebar.metric("Chunks w/ Footer Text ⚠️", len(footer_chunks),
                   delta=f"{'CLEAN ✅' if not footer_chunks else 'Needs review'}")
 
-unique_laws     = sorted(set(f"{c['law_code']} {c['year']}" for c in all_chunks if c['law_code'] != "Unknown"))
-selected_law    = st.sidebar.selectbox("📘 Filter by Law", ["All"] + unique_laws)
+import os
+
+def build_law_label(c):
+    display_law = c.get("doc_title") if c.get("doc_title", "Unknown") != "Unknown" else f"{c.get('law_code', '')} {c.get('year', '')}".strip()
+    if display_law:
+        return f"{display_law} [{os.path.basename(c.get('source', 'Unknown'))}]"
+    return os.path.basename(c.get('source', 'Unknown'))
+
+for c in all_chunks:
+    c['law_dropdown_label'] = build_law_label(c)
+
+unique_laws     = sorted(set(c['law_dropdown_label'] for c in all_chunks))
+selected_law    = st.sidebar.selectbox("📘 Filter by Law / PDF", ["All"] + unique_laws)
 
 law_filtered    = all_chunks if selected_law == "All" else [
     c for c in all_chunks
-    if f"{c['law_code']} {c['year']}" == selected_law
+    if c['law_dropdown_label'] == selected_law
 ]
 
 unique_chapters = sorted(set(c['chapter'] for c in law_filtered if c['chapter'] != "Unknown"))
