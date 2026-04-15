@@ -11,17 +11,13 @@ OUTPUT_PDF_DIR = "data/legal_pdfs/labour_codes"
 CHROMA_DIR = "chroma_db_groq_legal"
 COLLECTION_NAME = "legal_knowledge"
 
-# Exact page ranges based on the compendium index (PyMuPDF is 0-indexed)
 CODES_METADATA = [
     {"name": "Code_on_Wages_2019", "start": 8, "end": 36, "code": "COW", "year": "2019"},
     {"name": "Industrial_Relations_Code_2020", "start": 37, "end": 92, "code": "IRC", "year": "2020"},
-    {"name": "Code_on_Social_Security_2020", "start": 93, "end": 208, "code": "CSS", "year": "2020"},
-    {"name": "OSH_Code_2020", "start": 209, "end": 294, "code": "OSH", "year": "2020"},
+    {"name": "Code_on_Social_Security_2020", "start": 93, "end": 209, "code": "CSS", "year": "2020"},
+    {"name": "OSH_Code_2020", "start": 210, "end": 294, "code": "OSH", "year": "2020"},
 ]
 
-# -------------------------------
-# 1. SPLIT MASTER PDF INTO 4
-# -------------------------------
 def split_compendium():
     print("✂️ Slicing compendium into 4 separate Code PDFs...")
     os.makedirs(OUTPUT_PDF_DIR, exist_ok=True)
@@ -43,22 +39,27 @@ def split_compendium():
             "year": info["year"],
             "filename": f"{info['name']}.pdf"
         })
-        print(f"   -> Created: {out_path}")
         
     doc.close()
     return generated_files
 
 # -------------------------------
-# 2. LOAD + CLEAN PDF 
+# 1. LOAD + CLEAN (WITH OMNI-CROP)
 # -------------------------------
 def load_and_clean_pdf(pdf_path):
     doc = fitz.open(pdf_path)
     full_text = ""
 
     for page in doc:
-        full_text += page.get_text("text") + "\n"
+        rect = page.rect
+        # 🛡️ THE OMNI-CROP 🛡️
+        # Crop 72 points (1 inch) from Top/Bottom to destroy page headers and footers
+        # Crop 50 points from Left/Right to destroy sidebars/margin notes
+        clip_box = fitz.Rect(50, 72, rect.width - 50, rect.height - 72)
+        
+        full_text += page.get_text("text", clip=clip_box) + "\n"
 
-    # Clean headers, footers, and redundant tags
+    # Standard cleanups
     full_text = re.sub(r'(?im)^.*THE GAZETTE OF INDIA.*$', '', full_text)
     full_text = re.sub(r'(?im)^.*MINISTRY OF LAW AND JUSTICE.*$', '', full_text)
     full_text = re.sub(r'\[?PART\s+[IVX]+[—\-\]]?', '', full_text, flags=re.IGNORECASE)
@@ -68,69 +69,53 @@ def load_and_clean_pdf(pdf_path):
     full_text = re.sub(r'\r', '\n', full_text)
     full_text = re.sub(r'\n{3,}', '\n\n', full_text)
 
-    # Aggressive preamble slicer: Jump straight to Chapter I
-    start_match = re.search(r'CHAPTER\s+I\s*\n*PRELIMINARY', full_text, flags=re.IGNORECASE)
-    if not start_match:
-        start_match = re.search(r'1\.\s*\(1\)\s*This Act may be called', full_text, flags=re.IGNORECASE)
-
+    # 🛡️ BULLETPROOF INDEX SKIPPER 🛡️
+    # Look for the exact phrase that starts the actual law body, skipping the Table of Contents entirely.
+    start_match = re.search(r'1\.\s*\(\s*1\s*\)\s*This\s+(Act|Code)\s+may\s+be\s+called', full_text, flags=re.IGNORECASE)
     if start_match:
-        full_text = full_text[start_match.start():]
+        preceding_text = full_text[:start_match.start()]
+        last_chapter_idx = preceding_text.upper().rfind("CHAPTER")
+        if last_chapter_idx != -1 and (start_match.start() - last_chapter_idx) < 200:
+            full_text = full_text[last_chapter_idx:]
+        else:
+            full_text = full_text[start_match.start():]
 
     return full_text.strip()
 
 # -------------------------------
-# 3. SPLIT BY SECTIONS & SCHEDULES
+# 2. SPLIT BY SECTIONS & CHAPTERS
 # -------------------------------
 def split_by_section(text):
-    """
-    Matches numbered sections OR Schedule headers to prevent massive blobs.
-    """
-    pattern = r'(?=\n\s*\d{1,3}[A-Z]?\.\s|\n\s*THE\s+[A-Z]+\s+SCHEDULE|\n\s*SCHEDULE\b)'
+    # Splits exactly when a real Chapter or Section starts
+    pattern = r'(?=\n\s*CHAPTER\s+[IVXLCDM]+\b|\n\s*\d{1,3}[A-Z]?\.\s|\n\s*THE\s+[A-Z]+\s+SCHEDULE|\n\s*SCHEDULE\b)'
     chunks = re.split(pattern, text, flags=re.IGNORECASE)
     return chunks
 
-# -------------------------------
-# 4. PARSE SECTION OR SCHEDULE
-# -------------------------------
 def parse_section(section_text):
     section_text = section_text.strip()
     
-    # Check if it's a Schedule
     schedule_match = re.match(r'^(THE\s+[A-Z]+\s+SCHEDULE|SCHEDULE)\s*(.*)', section_text, re.DOTALL | re.IGNORECASE)
     if schedule_match:
-        schedule_name = schedule_match.group(1).upper().strip()
-        content = schedule_match.group(2).strip()
-        return schedule_name, "N/A", content
+        return schedule_match.group(1).upper().strip(), "N/A", schedule_match.group(2).strip()
 
-    # Check if it's a standard numbered Section
     section_match = re.match(r'^(\d+[A-Z]?)\.\s*(.+)', section_text, re.DOTALL)
     if section_match:
-        section_num = section_match.group(1)
-        content = section_match.group(2).strip()
-        return section_num, "N/A", content
+        return section_match.group(1), "N/A", section_match.group(2).strip()
 
     return None
 
 # -------------------------------
-# 5. INGEST PIPELINE
+# 3. INGEST PIPELINE
 # -------------------------------
 def ingest_all_codes():
     if not os.path.exists(SOURCE_PDF_PATH):
-        print(f"❌ Error: '{SOURCE_PDF_PATH}' not found in the current directory!")
-        print("Please ensure the compendium PDF is in the exact same folder as this script.")
+        print(f"❌ Error: {SOURCE_PDF_PATH} not found!")
         return
 
-    # A: Split the PDF
     pdf_files = split_compendium()
     
-    # B: Setup ChromaDB
     client = chromadb.PersistentClient(path=CHROMA_DIR)
-    # try:
-    #     client.delete_collection(name=COLLECTION_NAME)
-    #     print("🗑️ Cleaned up old database collection for a fresh ingest.")
-    # except Exception:
-    #     pass
-
+    
     emb_fn = SentenceTransformerEmbeddingFunction(model_name="BAAI/bge-small-en-v1.5")
     collection = client.get_or_create_collection(name=COLLECTION_NAME, embedding_function=emb_fn)
     splitter = RecursiveCharacterTextSplitter(chunk_size=600, chunk_overlap=50)
@@ -140,7 +125,6 @@ def ingest_all_codes():
     all_ids = []
     global_chunk_idx = 0
 
-    # C: Process each generated PDF
     for file_info in pdf_files:
         print(f"🚀 Processing {file_info['law_code']} {file_info['year']}...")
         
@@ -154,18 +138,22 @@ def ingest_all_codes():
             if not section:
                 continue
 
-            # Detect Chapter
-            chap_match = re.search(r'(CHAPTER\s+[IVXLCDM]+)\s*\n+(.*)', section, re.IGNORECASE)
+            # CHAPTER EXTRACTION
+            chap_match = re.search(r'^(CHAPTER\s+[IVXLCDM]+)\s*\n+(.*)', section, re.IGNORECASE)
             if chap_match:
-                current_chapter = f"{chap_match.group(1).upper()} - {chap_match.group(2).strip()}"
-                section = re.sub(r'CHAPTER\s+[IVXLCDM]+\s*\n+.*', '', section, flags=re.IGNORECASE).strip()
+                chapter_title = chap_match.group(2).split('\n')[0].strip()
+                current_chapter = f"{chap_match.group(1).upper()} - {chapter_title}"
+                
+                section = re.sub(r'^CHAPTER\s+[IVXLCDM]+\s*\n+[^\n]*', '', section, flags=re.IGNORECASE).strip()
+                
+                if not section:
+                    continue
 
             parsed = parse_section(section)
             
             if parsed:
                 section_num, section_title, content = parsed
 
-                # Override Chapter for Schedules
                 if "SCHEDULE" in section_num.upper():
                     effective_chapter = "Schedules"
                 else:
@@ -188,7 +176,6 @@ def ingest_all_codes():
                     all_ids.append(f"{file_info['law_code']}_{global_chunk_idx}")
                     global_chunk_idx += 1
             else:
-                # Fallback chunk for unparsed blocks
                 sub_chunks = splitter.split_text(section)
                 for i, sub in enumerate(sub_chunks):
                     enriched_text = f"[{file_info['law_code']} {file_info['year']}] [{current_chapter}] {sub}"
@@ -205,8 +192,7 @@ def ingest_all_codes():
                     all_ids.append(f"{file_info['law_code']}_{global_chunk_idx}")
                     global_chunk_idx += 1
 
-    # D: Batch Insert into Chroma
-    print("💾 Saving chunks to ChromaDB (this may take a minute while it downloads the embedding model)...")
+    print("💾 Saving chunks to ChromaDB...")
     batch_size = 100
     for i in range(0, len(all_ids), batch_size):
         collection.add(
@@ -215,7 +201,7 @@ def ingest_all_codes():
             metadatas=all_metadatas[i:i + batch_size]
         )
     
-    print(f"🎉 Ingestion Complete! Total chunks added across 4 Labour Codes: {collection.count()}")
+    print(f"🎉 Ingestion Complete! Total chunks added: {collection.count()}")
 
 if __name__ == "__main__":
     ingest_all_codes()
