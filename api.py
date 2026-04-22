@@ -46,6 +46,10 @@ hybrid_retriever = HybridRetriever.from_vector_store(vector_store, k=20, vector_
 
 law_engine = NyayaQuest(llm, embeddings, vector_store, hybrid_retriever=hybrid_retriever)
 
+@app.get("/")
+async def root():
+    return {"status": "online", "message": "NyayaQuest AI Engine is running perfectly!"}
+
 # --- Pydantic Models ---
 
 class ChatRequest(BaseModel):
