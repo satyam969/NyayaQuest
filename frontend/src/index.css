@@ -151,3 +151,114 @@ input:focus {
 .prose p { margin-bottom: 1em; }
 .prose ul, .prose ol { margin-left: 1.5em; margin-bottom: 1em; }
 .prose strong { color: #fff; }
+
+/* ===== RESPONSIVE / MOBILE ===== */
+
+/* Sidebar */
+.sidebar-panel {
+  width: 280px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+/* Hamburger button — hidden on desktop */
+.mobile-menu-btn {
+  display: none;
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 200;
+  background: rgba(20, 26, 40, 0.9);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+}
+
+/* Overlay — hidden on desktop */
+.sidebar-overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    overflow: auto;
+  }
+
+  .app-container {
+    position: relative;
+  }
+
+  /* Show hamburger on mobile */
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Sidebar slides off-screen by default */
+  .sidebar-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 150;
+    transform: translateX(-100%);
+    width: 80vw;
+    max-width: 300px;
+    height: 100dvh;
+  }
+
+  /* Sidebar slides in when open */
+  .sidebar-panel.sidebar-open {
+    transform: translateX(0);
+  }
+
+  /* Dim overlay when sidebar is open */
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    backdrop-filter: blur(2px);
+  }
+
+  /* Chat area takes full width on mobile */
+  .chat-main {
+    width: 100vw !important;
+    padding-top: 56px; /* space for hamburger */
+  }
+
+  /* Chat input bar responsive */
+  .chat-input-bar {
+    padding: 12px 12px !important;
+  }
+
+  .chat-input-bar input,
+  .chat-input-bar textarea {
+    font-size: 16px !important; /* prevents iOS zoom */
+  }
+
+  /* Messages area padding */
+  .messages-area {
+    padding: 16px 12px !important;
+  }
+
+  /* Message bubbles full width */
+  .message-bubble {
+    max-width: 95% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-panel {
+    width: 90vw;
+  }
+}
+
