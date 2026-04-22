@@ -1,5 +1,6 @@
 import os
 import shutil
+import zipfile
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -18,10 +19,10 @@ load_dotenv()
 
 app = FastAPI(title="NyayaQuest API")
 
-# Enable CORS for the Vite frontend
+# Enable CORS for the Vite frontend and deployed Vercel app
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -40,13 +41,27 @@ class CustomEmbeddings:
 groq_api_key = os.getenv('GROQ_API_KEY')
 chroma_dir = os.getenv('CHROMA_PERSIST_DIR', 'chroma_db_groq_legal')
 
-# If running on Hugging Face (chroma_dir starts with /data) and it's empty,
-# copy our pre-built local database into the persistent volume so the AI has its knowledge!
-if chroma_dir.startswith('/data') and not os.path.exists(chroma_dir):
-    local_db = os.path.join(os.path.dirname(__file__), 'chroma_db_groq_legal')
-    if os.path.exists(local_db):
-        print(f"Syncing pre-built local database to persistent volume {chroma_dir}...")
-        shutil.copytree(local_db, chroma_dir)
+# --- Auto-Download ChromaDB from Google Drive if missing ---
+# This runs on first boot (e.g. on Hugging Face where /data is empty).
+# After the first run, the data persists in the volume and this is skipped.
+if not os.path.exists(chroma_dir):
+    print(f"[SETUP] ChromaDB not found at '{chroma_dir}'. Downloading from Google Drive...")
+    try:
+        import gdown
+        gdrive_id = "1TXr1pW-qBU5vLHekxjgb6IQ4BLeI4twq"
+        zip_path = "/tmp/chroma_db.zip"
+        gdown.download(id=gdrive_id, output=zip_path, quiet=False)
+        
+        print(f"[SETUP] Extracting database to '{chroma_dir}'...")
+        # Extract to parent directory so the folder name is preserved
+        extract_to = os.path.dirname(chroma_dir) or "."
+        with zipfile.ZipFile(zip_path, 'r') as zf:
+            zf.extractall(extract_to)
+        os.remove(zip_path)
+        print(f"[SETUP] ChromaDB ready at '{chroma_dir}'!")
+    except Exception as e:
+        print(f"[SETUP ERROR] Failed to download ChromaDB: {e}")
+
 
 llm = ChatGroq(model='llama-3.3-70b-versatile', temperature=0.9, groq_api_key=groq_api_key)
 embeddings = CustomEmbeddings(model_name="BAAI/bge-small-en-v1.5")
