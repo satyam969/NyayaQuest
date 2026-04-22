@@ -62,7 +62,7 @@ class HybridRetriever(BaseRetriever):
         tokenized_corpus = [cls._tokenize(doc.page_content) for doc in corpus_docs]
         bm25 = BM25Okapi(tokenized_corpus)
         
-        print(f"  ✅ BM25 index built with {len(corpus_docs)} documents")
+        print(f"  [SUCCESS] BM25 index built with {len(corpus_docs)} documents")
         
         return cls(
             vector_retriever=vector_retriever,
