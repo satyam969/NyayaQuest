@@ -1,1 +1,5 @@
 *.sqlite3 filter=lfs diff=lfs merge=lfs -text
+<<<<<<< HEAD
+=======
+chroma_db_groq_legal.zip filter=lfs diff=lfs merge=lfs -text
+>>>>>>> d7885ad15579824de9db11f04c5279f2140de3fb
