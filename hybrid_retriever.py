@@ -58,11 +58,14 @@ class HybridRetriever(BaseRetriever):
                 metadata=meta if meta else {}
             ))
         
-        # 3. Tokenize corpus for BM25
-        tokenized_corpus = [cls._tokenize(doc.page_content) for doc in corpus_docs]
-        bm25 = BM25Okapi(tokenized_corpus)
-        
-        print(f"  [SUCCESS] BM25 index built with {len(corpus_docs)} documents")
+        # 3. Tokenize corpus for BM25 (only if documents exist)
+        if len(corpus_docs) > 0:
+            tokenized_corpus = [cls._tokenize(doc.page_content) for doc in corpus_docs]
+            bm25 = BM25Okapi(tokenized_corpus)
+            print(f"  [SUCCESS] BM25 index built with {len(corpus_docs)} documents")
+        else:
+            bm25 = None
+            print("  [WARNING] Vector store is empty. BM25 index skipping.")
         
         return cls(
             vector_retriever=vector_retriever,
@@ -110,6 +113,10 @@ class HybridRetriever(BaseRetriever):
 
         # Vector search results
         vector_docs = self.vector_retriever.invoke(query)
+
+        # Fallback if BM25 is not initialized
+        if self.bm25 is None or not self.corpus_docs:
+            return vector_docs[:self.k]
 
         # BM25 search results
         tokenized_query = self._tokenize(query)
