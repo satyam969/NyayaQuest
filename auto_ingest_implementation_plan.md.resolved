@@ -1,0 +1,782 @@
+# NyayaQuest — Automated PDF Ingestion Pipeline
+## Implementation Plan
+
+---
+
+## 1. Overview & Motivation
+
+### The Current Problem
+Every new legal PDF requires:
+1. **Manual inspection** → share screenshots of PDF structure
+2. **Hand-written regex** → custom `clean_text()`, `split_by_section()` per file
+3. **Iterative debugging** → run → bad chunks → refine → repeat
+4. **Ad-hoc edge case handling** → CPC alone has 514 lines of custom logic
+
+### The Goal
+A single command that handles any legal PDF automatically:
+
+```bash
+uv run python -m src.ingest.auto_ingest --pdf data/legal_pdfs/NewLaw_2024.pdf
+```
+
+Internal execution:
+1. Intelligently filters pages (skip covers, TOC, blanks, signatures)
+2. Detects if the PDF contains multiple Acts/Codes and splits accordingly
+3. Analyzes the structure of each sub-document via LLM
+4. Runs chunking on a pilot sample and scores the quality
+5. Self-corrects the schema up to 3 times if quality is poor
+6. Ingests all chunks with rich metadata into ChromaDB
+7. Audits retrieval after ingest and produces a report
+
+---
+
+## 2. Complete Architecture
+
+```
+PDF Input
+    │
+    ▼
+[Stage 0] Page Intelligence Filter
+    │   • Classify every page (cover/toc/blank/legal/schedule/signature)
+    │   • Detect and strip headers/footers (positional + pattern-based)
+    │   • Handle scanned pages (detect + warn for OCR)
+    │   • Handle font encoding artifacts
+    │   → Output: PageManifest (page→classification map)
+    │
+    ▼
+[Stage 1] Document Segmenter
+    │   • Detect hard breaks between Acts/Codes within a single PDF
+    │   • Assign page ranges and titles to each segment
+    │   → Output: List[DocumentSegment]
+    │
+    ▼
+[Stage 2] Structure Analyzer  (LLM call per segment)
+    │   • Detect section/article/rule numbering patterns
+    │   • Detect chapter/part heading patterns
+    │   • Identify special structures (definitions, schedules, orders, tables)
+    │   • Generate schema JSON
+    │   → Output: SegmentSchema saved to .schema.json
+    │
+    ▼
+[Stage 3] Pilot Chunker
+    │   • Run chunker on 3 page slices (first/middle/last 5 pages) per segment
+    │   → Output: PilotReport with sample chunks + metrics
+    │
+    ▼
+[Stage 4] Quality Evaluator
+    │   • Heuristic scoring (section_capture_rate, chapter_coverage, etc.)
+    │   • LLM spot-check if score is borderline
+    │   → PASS: proceed to Stage 6
+    │   → FAIL: go to Stage 5 (up to 3 times)
+    │
+    ▼
+[Stage 5] Schema Refiner  (LLM call, max 3x loop)
+    │   • Feed bad chunk examples + failure metrics to LLM
+    │   • LLM produces a schema diff (patch, not full rewrite)
+    │   → Loop back to Stage 3
+    │   → If 3 failures: save partial schema, print human-readable fix guide
+    │
+    ▼
+[Stage 6] Full Ingest
+    │   • Run universal chunker on all kept pages per segment
+    │   • Parallel batched writes to ChromaDB
+    │   → Output: Chunk IDs written to ChromaDB
+    │
+    ▼
+[Stage 7] Post-Ingest Audit
+    │   • Query ChromaDB with 1 known query per segment
+    │   • Verify retrieval returns correct segment
+    │   • Check chunk counts per segment are within expected range
+    │   → Output: .ingest_report.json
+```
+
+---
+
+## 3. Module File Map
+
+```
+src/ingest/
+├── auto_ingest.py              # CLI entry point + pipeline orchestrator
+├── page_filter.py              # Stage 0: page classification, header/footer removal
+├── document_segmenter.py       # Stage 1: split multi-act PDFs into segments
+├── structure_analyzer.py       # Stage 2: LLM generates schema per segment
+├── schema_cache.py             # Read/write/patch .schema.json files
+├── pilot_chunker.py            # Stage 3: chunking on sampled pages
+├── quality_evaluator.py        # Stage 4: heuristic + LLM scoring
+├── schema_refiner.py           # Stage 5: LLM patches schema on failure
+├── universal_chunker.py        # Stage 6: full stateful chunker
+├── ingest_to_chroma.py         # Stage 6: batched write to ChromaDB
+└── post_ingest_audit.py        # Stage 7: retrieval verification
+```
+
+---
+
+## 4. Stage-by-Stage Implementation Details
+
+---
+
+### Stage 0 — Page Intelligence Filter (`page_filter.py`)
+
+#### 4.0.a Page Classification
+
+Every page is classified into one of:
+
+| Class | Action | Detection Signals |
+|---|---|---|
+| `cover` | SKIP | Text < 100 chars; likely has embedded image; no legal patterns |
+| `toc` | SKIP | >40% lines have dot-leaders `......\d+`; words "Contents"/"Index" present; no paragraph text |
+| `blank` | SKIP | < 20 meaningful characters |
+| `gazette_header` | STRIP header, keep body | Boilerplate "GAZETTE OF INDIA" / "vlk/kkj" at fixed top position |
+| `legal_content` | KEEP | Has section/article body text |
+| `schedule_table` | KEEP (table mode) | Dense tabular content; likely a Schedule or Appendix |
+| `signature_page` | SKIP | "By order", "Secretary to the Govt", date at end of document |
+| `scanned_page` | WARN + SKIP | Very low text yield (<50 chars) despite page having content; high image content ratio |
+
+**Classification is heuristic-only (no LLM)** — runs on every page and must be fast.
+
+#### 4.0.b Header/Footer Detection — Two-Pass Strategy
+
+**Pass 1 — Positional Fingerprinting (PyMuPDF block coordinates):**
+
+```python
+# Using fitz page.get_text('dict') to get block bounding boxes
+# Text blocks with bbox.y0 < 8% of page height → candidate header
+# Text blocks with bbox.y1 > 92% of page height → candidate footer
+# Compare across 5 random pages:
+#   if same text appears at same Y-position on ≥ 3 pages → universal header/footer
+```
+
+Catches static repeating text like:
+- `"THE CODE ON WAGES, 2019"` (top, every page)
+- `"101"` page number (bottom, every page)  
+- `"Ministry of Labour & Employment"` (footer)
+
+**Pass 2 — Legal Footnote Removal (CPC-style two-layer):**
+
+The CPC ingest script already solved this perfectly. The universal pipeline adopts the same approach:
+
+- **Layer 1:** Detect horizontal separator lines using `page.get_drawings()`. Any text block whose top Y-coordinate is below the separator line Y is a footnote → drop at line level (not block level — blocks can span the separator).
+- **Layer 2:** For pages without a separator line, scan from the bottom upward. Lines matching `^\d{1,2}\. .*(Subs\.|Ins\.|Omitted|w\.e\.f\.|Rep\.)` are amendment footnotes → strip.
+
+```python
+# Layer 2 keyword set (exhaustive)
+FOOTNOTE_KEYWORDS = [
+    "Subs.", "Ins.", "Omitted", "w.e.f.", "ibid.", "A.O.", "Rep.",
+    "amended in its application", "extended to .{1,40} by Act",
+    "extended to the .{1,40} by", "See footnote", "vide notification"
+]
+```
+
+#### 4.0.c Font Encoding Artifact Cleanup
+
+LLM-detected PDFs will include many encoding artifacts. The pipeline applies a **universal artifact map** first, before pattern matching:
+
+```python
+ENCODING_ARTIFACT_MAP = {
+    "ù":        " ",          # CPC PDF separator artifact
+    "\uf0b7":   " ",          # bullet
+    "\u2013":   "-",          # en-dash
+    "\u2014":   "--",         # em-dash
+    "\u201c":   '"',          # left smart quote
+    "\u201d":   '"',          # right smart quote
+    "\u2018":   "'",          # left smart single quote
+    "\u2019":   "'",          # right smart single quote
+    "\u00a0":   " ",          # non-breaking space
+    "\u200b":   "",           # zero-width space
+}
+
+# Then apply regex for gazette-specific gibberish
+GAZETTE_NOISE = r'vlk\/kkj\.k.*?CG-DL-E-\d+-\d+'  # Hindi gazette header
+```
+
+#### 4.0.d Running Headers (False Chapter Signals)
+
+If the chapter name appears in the running header of every page (common in Indian legal PDFs), naively detecting "CHAPTER II" on every page would reset chapter state incorrectly.
+
+**Solution:** During header fingerprinting in Pass 1, if a string that looks like a chapter heading appears at a position flagged as a header zone (top 8% of page), add it to the `header_patterns` list in the PageManifest. The Structure Analyzer and Chunker will then know to ignore those specific strings when encountered in-text.
+
+#### 4.0.e Watermark Detection
+
+Some PDFs embed watermark text (e.g., "DRAFT", "FOR OFFICIAL USE") as a separate transparent text layer.
+
+**Detection:** PyMuPDF returns watermark text with very low opacity or specific rendering modes. Filter text blocks where `block['type'] == 1` (image) or where spans have `color` indicating a light grey (e.g., RGB > 0.7 for all channels).
+
+#### 4.0.f Table / Schedule Pages
+
+Pages containing legal tables (penalty schedules, wage rates, forms):
+
+```python
+# PyMuPDF 1.24+ find_tables() API
+tables = page.find_tables()
+if len(tables) > 0 and text_density(page) > 0.6:
+    page_class = "schedule_table"
+```
+
+**Table chunking strategy:** Each table row becomes a chunk. The table header row is prepended to every chunk:
+
+```
+"[COW 2019] [Schedule I - Rates of Wages] 
+ Header: Category | Minimum Rate | Applicability
+ Row: Skilled Worker | ₹350/day | All States"
+```
+
+#### 4.0.g Scanned Page Handling
+
+If a page yields < 50 characters despite having content (visible from page image size > 50KB), it is likely a scanned image:
+
+```python
+if len(page_text.strip()) < 50 and page.get_image_info() and page_size_kb > 50:
+    page_class = "scanned_page"
+```
+
+**Action:** Log a warning, skip the page, and report in the ingest report:
+```
+⚠ WARNING: 3 scanned pages detected (pages 45, 46, 47). 
+  These pages were skipped. Consider running OCR preprocessing 
+  (tesseract / AWS Textract) if this content is critical.
+```
+
+OCR integration is out of scope for v1 but the warning points to the right tools.
+
+#### 4.0.h Output: PageManifest
+
+```python
+@dataclass
+class PageManifest:
+    pdf_path: str
+    total_pages: int
+    page_classifications: Dict[int, str]
+    header_patterns: List[str]           # text patterns to strip from all pages
+    footer_patterns: List[str]
+    running_header_strings: List[str]    # chapter-looking strings in header zone
+    encoding_artifacts_found: List[str]  # which artifacts were detected in this PDF
+    skipped_pages: List[int]
+    kept_pages: List[int]
+    table_pages: List[int]
+    scanned_pages: List[int]
+```
+
+---
+
+### Stage 1 — Document Segmenter (`document_segmenter.py`)
+
+#### 4.1.a Detecting Multiple Acts in One PDF
+
+**Hard-break signal patterns** that indicate the start of a new Act/Code:
+
+```python
+SEGMENT_BREAK_PATTERNS = [
+    r'^THE [A-Z ]+(?:ACT|CODE|ORDER|RULES),\s*\d{4}',   # "THE CODE ON WAGES, 2019"
+    r'^MINISTRY OF [A-Z ]+$',                              # Ministry header
+    r'^No\.\s+\d+\s+of\s+\d{4}',                         # Act number
+    r'^An Act to\b',                                       # Preamble start
+]
+```
+
+For a compendium like the Labour Codes PDF, the segmenter would detect 4 breaks → 4 segments.
+
+#### 4.1.b LLM Confirmation
+
+After heuristic detection, the LLM reviews a sample of the break points:
+> *"Here are 3 candidate page boundaries in a PDF. Does each boundary represent the start of a distinct Act/Code/Order? Return JSON: [{page: N, is_break: true/false, title: "...", doc_type: "act/code/order/rule"}]"*
+
+#### 4.1.c Output: DocumentSegment List
+
+```python
+@dataclass
+class DocumentSegment:
+    segment_id: str           # "Labour_Codes_seg_0", "Labour_Codes_seg_1", ...
+    parent_pdf: str
+    doc_title: str            # "Code on Wages, 2019"
+    doc_type: str             # act / code / order / notification / rules
+    year: str
+    page_start: int
+    page_end: int
+    kept_page_texts: List[str]   # filtered text for these pages
+```
+
+---
+
+### Stage 2 — Structure Analyzer (`structure_analyzer.py`)
+
+#### 4.2.a Sampling Strategy
+
+For each segment, sample:
+- First 5 non-TOC pages (catches numbering style, chapter format)
+- 5 pages from the 40–60% range (catches main body patterns)
+- Last 5 pages of the segment (catches schedules, signatures)
+
+#### 4.2.b LLM Prompt Design
+
+```
+You are analyzing a legal document to generate a chunking schema.
+
+Here is sample text from 3 parts of the document titled "{doc_title}":
+
+=== BEGINNING (pages 1-5) ===
+{sample_start}
+
+=== MIDDLE (pages {mid_start}-{mid_end}) ===
+{sample_middle}
+
+=== END (pages {end_start}-{end_end}) ===
+{sample_end}
+
+Identify the following. Return ONLY valid JSON:
+1. section_pattern: regex that matches section/article headings (e.g. "^\d+\.")
+2. chapter_pattern: regex that matches chapter headings (e.g. "CHAPTER\s+[IVX]+")
+3. part_pattern: regex for Part headings if present (or null)
+4. has_definitions_section: true/false (Section 2 "definitions" pattern)
+5. has_schedules: true/false
+6. has_orders: true/false (like CPC Orders I-LI)
+7. schedule_trigger: text that marks the start of schedules (e.g. "THE FIRST SCHEDULE")
+8. order_trigger: text that marks the start of orders (or null)
+9. noise_patterns: list of regex patterns for repetitive noise to strip
+10. section_title_on_same_line: true/false (is section title on same line as number?)
+11. numbering_style: "arabic" | "roman" | "alpha" | "mixed"
+12. hierarchy: list of levels in order (e.g. ["part", "chapter", "section", "sub_section", "clause"])
+13. proviso_pattern: regex for "Provided that" / "Explanation:" type sub-elements (or null)
+```
+
+#### 4.2.c Output: SegmentSchema
+
+```python
+@dataclass
+class SegmentSchema:
+    segment_id: str
+    doc_title: str
+    law_code: str
+    year: str
+    version: str            # "1.0", incremented by Schema Refiner
+    structure_type: str     # numbered_sections / articles / orders / rules / mixed
+    
+    # Pattern library
+    section_pattern: str
+    chapter_pattern: str
+    part_pattern: Optional[str]
+    schedule_trigger: Optional[str]
+    order_trigger: Optional[str]
+    proviso_pattern: Optional[str]
+    noise_patterns: List[str]
+    
+    # Flags
+    has_definitions_section: bool
+    has_schedules: bool
+    has_orders: bool
+    section_title_on_same_line: bool
+    
+    # Hierarchy
+    numbering_style: str
+    hierarchy: List[str]    # ["part", "chapter", "section", "sub_section", "clause"]
+```
+
+Saved to: `data/legal_pdfs/{pdf_name}.schema.json`
+
+---
+
+### Stage 3 — Pilot Chunker (`pilot_chunker.py`)
+
+Runs the Universal Chunker (Stage 6 logic) on a subset of pages:
+
+- pages[0:5] of the segment
+- pages[mid-2:mid+3] of the segment  
+- pages[-5:] of the segment
+
+Returns a `PilotReport`:
+
+```python
+@dataclass
+class PilotReport:
+    segment_id: str
+    schema_version: str
+    total_pilot_chunks: int
+    sample_chunks: List[dict]   # 5 representative chunks for LLM review
+    metrics: dict               # raw numbers for Quality Evaluator
+```
+
+---
+
+### Stage 4 — Quality Evaluator (`quality_evaluator.py`)
+
+#### 4.4.a Heuristic Metrics (Layer A — no LLM, fast)
+
+| Metric | Formula | Weight | Good Threshold |
+|---|---|---|---|
+| `section_capture_rate` | chunks with section_number ≠ "general" / total chunks | 30% | > 0.70 |
+| `chapter_coverage` | chunks with chapter ≠ "Unknown Chapter" / total chunks | 20% | > 0.60 |
+| `chunk_length_sanity` | chunks with 80 ≤ len(text) ≤ 700 chars / total chunks | 20% | > 0.75 |
+| `noise_ratio` | chunks where >50% is digits/symbols / total chunks (inverted) | 20% | < 0.10 |
+| `section_continuity` | are section numbers monotonically increasing? Detect big jumps | 10% | < 5 gaps |
+
+**Overall score = weighted sum. Pass threshold = 0.70.**
+
+Borderline zone = 0.58–0.70 → trigger Layer B.
+
+#### 4.4.b LLM Spot Check (Layer B — used only if borderline)
+
+Sends 5 sample chunks to LLM:
+> *"Rate each chunk 1-5: (1) Is the section number correctly captured in metadata? (2) Is the text coherent and non-truncated? (3) Is there any header/footer noise present? Return JSON with scores and specific failure reasons."*
+
+LLM score > 3.5 average → PASS with annotation. Below → FAIL.
+
+---
+
+### Stage 5 — Schema Refiner (`schema_refiner.py`)
+
+**Max 3 iterations. Schema version increments each time (1.0 → 1.1 → 1.2).**
+
+LLM prompt includes:
+- Original schema JSON
+- Pilot chunk samples that failed
+- Specific metric that scored lowest
+- Suspected root cause (auto-detected)
+
+**Root Cause Detection Logic:**
+
+| Failing Metric | Auto-Diagnosed Cause | Hint to LLM |
+|---|---|---|
+| `section_capture_rate` low | Section pattern not matching | "Check if leading whitespace or bracket `[` is needed before section numbers" |
+| `noise_ratio` high | Page numbers being captured as sections | "Add page number pattern to noise_patterns" |
+| `chunk_length_sanity` bad (too short) | Section split too aggressive | "Increase chunk_size or use overlap" |
+| `chapter_coverage` low | Chapter heading pattern wrong | "Check Roman vs Arabic for chapter numbers" |
+| `section_continuity` many gaps | Repeal markers (`[Omitted]`, `[Rep. by]`) being included | "Add omitted/repealed section filter" |
+
+**LLM returns a JSON Patch (RFC 6902 format)** — only the changed fields:
+
+```json
+{
+  "schema_version": "1.1",
+  "patch": [
+    {"op": "replace", "path": "/section_pattern", "value": "^\\s{0,4}(\\d+[A-Z]?)\\."},
+    {"op": "add", "path": "/noise_patterns/-", "value": "^\\d{1,3}\\s*$"}
+  ],
+  "explanation": "Added leading whitespace tolerance; added bare page number to noise list"
+}
+```
+
+**If all 3 iterations fail:**
+```
+⚠ INGEST ABORTED — quality threshold not met after 3 attempts
+
+Segment: "Code on Wages, 2019"
+Best score achieved: 0.58 / 0.70 threshold
+Failing metric: section_capture_rate (0.28)
+Suspected cause: Non-standard section numbering
+
+→ Schema saved to: data/legal_pdfs/Labour_Codes.schema.json
+→ Edit 'section_pattern' field and re-run:
+   uv run python -m src.ingest.auto_ingest \
+     --pdf data/legal_pdfs/Labour_Codes.pdf --use-cache
+```
+
+---
+
+### Stage 6 — Universal Chunker (`universal_chunker.py`)
+
+This is the core state machine that applies the schema to produce final chunks.
+
+#### 4.6.a State Machine
+
+```
+State maintained throughout the document traversal:
+    current_doc_title   : "Code on Wages, 2019"
+    current_part        : "Part I — Preliminary"  
+    current_chapter     : "Chapter II — Wages"
+    current_section     : "3"
+    current_section_title: "Wages payable on day of work"
+    current_mode        : "section" | "order" | "schedule" | "table" | "preamble"
+```
+
+When the chunker encounters a **mode-switch trigger** (e.g., text matches `schedule_trigger`), it:
+1. Saves all accumulated text with the current mode's metadata
+2. Resets `current_chapter`, `current_section` to "Unknown"
+3. Switches `current_mode` to "schedule" and applies schedule-specific patterns
+
+#### 4.6.b Special Content Handlers
+
+**Definitions Sections:**
+
+Detect using `is_definition_section()`:
+```python
+has_clauses  = re.search(r'\(\d+\)', content)
+has_quotes   = re.search(r'[""\u201c\u201d].+?[""\u201c\u201d]', content)
+has_keywords = re.search(r'\b(means|includes)\b', content, re.IGNORECASE)
+```
+
+If true, extract each definition as its own chunk:
+```python
+# Per-definition metadata
+{
+    "section_type": "definition",
+    "section_number": "2",        # parent section
+    "sub_section": "(1)",          # clause number  
+    "defined_term": "wages",       # the term being defined
+    ...
+}
+```
+
+**Provisos and Explanations:**
+
+Detect inline "Provided that..." and "Explanation:" as sub-elements:
+```python
+PROVISO_PATTERN = r'(?:^|\n)\s*(?:Provided|Explanation|Exception|Illustration)\s*(?:that|:)'
+```
+
+Provisos are kept as part of the section chunk but flagged:
+```python
+"has_proviso": True,    # metadata flag
+```
+
+For very long sections with multiple provisos, each proviso is also extracted as a separate chunk with:
+```python
+"section_type": "proviso",
+"parent_section": "3"
+```
+
+**Omitted/Repealed Sections:**
+
+Sections marked as `[Omitted]`, `[Rep. by Act X]` should be skipped entirely:
+```python
+OMITTED_PATTERN = r'^\s*\[?\s*(Omitted|Repealed|Rep\.\s+by)\s*[\.\]]'
+if re.match(OMITTED_PATTERN, content, re.IGNORECASE):
+    continue  # skip this section
+```
+
+But a short tombstone chunk is still created for search purposes:
+```python
+{
+    "text": "[CPC 1908] [Part III] Section 45: [Omitted by Amendment Act 1976]",
+    "metadata": {"section_type": "omitted", "section_number": "45", ...}
+}
+```
+
+**Section Numbering Restart Handling:**
+
+In compendiums where Section 1 appears multiple times (once per Act), IDs are prefixed with the segment ID to avoid ChromaDB collision:
+
+```python
+chunk_id = f"{segment_id}_sec_{section_number}_{chunk_index}"
+# e.g.: "Labour_Codes_seg_0_sec_1_0" vs "Labour_Codes_seg_1_sec_1_0"
+```
+
+**Amendment Inline Annotations:**
+
+Inline amendment notes that survived footnote stripping (e.g., "Subs. by Act 36 of 2021"):
+```python
+INLINE_AMENDMENT_PATTERN = (
+    r'\d{1,2}\.\s+(?=.*?(Subs\.|Ins\.|Omitted|w\.e\.f\.|ibid\.|'
+    r'A\.O\.|Rep\.|amended in its application|extended to .{1,40} by))'
+    r'[^\n]+'
+)
+```
+
+These are stripped before chunking, not included in the final text.
+
+#### 4.6.c Font/Bold Signals for Heading Detection
+
+PyMuPDF provides font metadata per text span. Section headings are often bold:
+
+```python
+for span in line['spans']:
+    is_bold = "Bold" in span['font'] or span['flags'] & 2**4  # bit 4 = bold
+    is_large = span['size'] > body_font_size * 1.1
+    
+    if (is_bold or is_large) and matches_section_pattern(span['text']):
+        # High-confidence section heading
+        confidence = "high"
+    else:
+        confidence = "pattern_only"
+```
+
+This prevents false positives in prose text that accidentally matches a section pattern.
+
+---
+
+### Stage 7 — Post-Ingest Audit (`post_ingest_audit.py`)
+
+After full ingest:
+
+1. For each segment, query ChromaDB with 1 known query:
+   - "Wage definition" for Code on Wages
+   - "Right to information" for RTI
+   - etc. (auto-generated by LLM from the doc_title)
+
+2. Verify top result belongs to the correct segment (`doc_title` in metadata)
+
+3. Check chunk count per segment is within expected range (±20% of pilot extrapolation)
+
+4. Generate ingest report:
+
+```json
+{
+    "pdf": "Labour_Codes.pdf",
+    "ingested_at": "2026-04-12T08:30:00Z",
+    "pipeline_version": "auto_ingest_v1",
+    "segments": [
+        {
+            "title": "Code on Wages, 2019",
+            "law_code": "COW",
+            "chunks": 312,
+            "quality_score": 0.87,
+            "schema_version": "1.1",
+            "refinement_iterations": 1,
+            "retrieval_spot_check": "PASSED",
+            "status": "OK"
+        }
+    ],
+    "skipped_pages": 12,
+    "scanned_pages_warned": 0,
+    "overall_status": "OK"
+}
+```
+
+---
+
+## 5. Complete Metadata Schema
+
+Every chunk written to ChromaDB uses this unified schema:
+
+```python
+{
+    # ── Source tracking ──────────────────────────────────────────────────
+    "source_pdf":          "Labour_Codes.pdf",
+    "source_page":         47,
+    "page_type":           "legal_content",
+    "headers_stripped":    True,
+    
+    # ── Document segment info ────────────────────────────────────────────
+    "parent_pdf":          "Labour_Codes.pdf",
+    "doc_title":           "Code on Wages, 2019",
+    "doc_type":            "code",             # act / code / order / rule / notification
+    "doc_page_start":      5,
+    "doc_page_end":        89,
+    
+    # ── Legal identity ───────────────────────────────────────────────────
+    "law_code":            "COW",
+    "year":                "2019",
+    "structure_type":      "numbered_sections",
+    
+    # ── Hierarchical position ────────────────────────────────────────────
+    "part":                "Part I — Preliminary",
+    "chapter":             "Chapter II — Wages",
+    "section_number":      "3",
+    "section_title":       "Wages payable on day of work",
+    "section_type":        "section",          # section / article / order / rule /
+                                               # schedule_table / definition / proviso /
+                                               # omitted / preamble
+    "sub_section":         "(1)",
+    "clause":              "(a)",
+    "hierarchy_path":      "Part I > Chapter II > Section 3 > (1)(a)",
+    
+    # ── Special fields for definitions ───────────────────────────────────
+    "defined_term":        "wages",            # only for section_type == "definition"
+    
+    # ── Special fields for schedules/orders ──────────────────────────────
+    "order":               null,               # "I", "II", etc. for CPC-style orders
+    "order_title":         null,
+    "rule":                null,               # rule number within an order
+    "schedule_name":       null,               # "Schedule I — Rates of Wages"
+    "table_row":           null,               # row index within a table chunk
+    
+    # ── Chunk positioning ────────────────────────────────────────────────
+    "chunk_index":         2,
+    "total_chunks":        4,
+    "chunk_char_length":   312,
+    "has_proviso":         False,
+    "boundary":            False,              # True if chunk is at a section boundary
+    
+    # ── Pipeline provenance ──────────────────────────────────────────────
+    "schema_version":      "1.1",
+    "quality_score":       0.87,
+    "ingested_at":         "2026-04-12T08:30:00Z",
+    "pipeline_version":    "auto_ingest_v1",
+}
+```
+
+---
+
+## 6. Edge Case Inventory
+
+All edge cases handled by this pipeline:
+
+| Edge Case | Handled By | Strategy |
+|---|---|---|
+| Multi-Act PDF | Stage 1 Segmenter | Hard-break detection + LLM confirmation |
+| Mixed section patterns (Section + Article + Order) | Stage 2 Schema: `structure_type: "mixed"` | Mode-switch in state machine |
+| Schedules with different numbering | Stage 6: `schedule_trigger` + mode switch | Separate chunking strategy for `current_mode == "schedule"` |
+| CPC-style Orders (Order I–LI) with Rules | Stage 6: `order_trigger` + order/rule extraction | Nested order→rule hierarchy |
+| Table-heavy Schedule pages | Stage 0: `schedule_table` classification | PyMuPDF `find_tables()` API |
+| Table of Contents pages | Stage 0: `toc` classification | Skipped entirely |
+| Cover / logo-only pages | Stage 0: `cover` classification | Skipped |
+| Signature/closing pages | Stage 0: `signature_page` classification | Skipped |
+| Blank pages | Stage 0: `blank` classification | Skipped |
+| Scanned/image-only pages | Stage 0: `scanned_page` detection | Skipped + warning |
+| Running headers (false chapter signals) | Stage 0: recorded in `running_header_strings` | Stage 6 ignores these strings when in header zone |
+| Static headers/footers | Stage 0: positional fingerprinting | Stripped universally |
+| Legal footnote annotations | Stage 0: two-layer (separator line + keyword scan) | Stripped before chunking |
+| Inline amendment annotations | Stage 6: `INLINE_AMENDMENT_PATTERN` | Stripped from content text |
+| Watermark text | Stage 0: opacity/color filter | Filtered from text extraction |
+| Font encoding artifacts | Stage 0: `ENCODING_ARTIFACT_MAP` | Normalized before any pattern matching |
+| Hindi/Devanagari gazette gibberish | Stage 0: `GAZETTE_NOISE` regex | Stripped |
+| Repealed/omitted sections | Stage 6: `OMITTED_PATTERN` | Skipped, tombstone chunk created |
+| Section numbering restart (compendium) | Stage 6: segment-prefixed IDs | `{segment_id}_sec_{n}` format |
+| Definition sections with sub-clauses | Stage 6: `is_definition_section()` + `extract_definitions()` | Each definition = 1 chunk, `defined_term` in metadata |
+| Provisos and Explanations | Stage 6: `proviso_pattern` | Flagged in metadata; extracted as separate chunks if long |
+| Bold/font-size heading signals | Stage 6: span font flags | Used as confirmation signal alongside regex |
+| Very long sections with many sub-clauses | Stage 6: `RecursiveCharacterTextSplitter` | Splits on `["\n\n", "\n", " ", ""]` with overlap |
+| Preamble ("WHEREAS...") | Stage 6: pre-section detection | `section_type: "preamble"`, `section_number: "preamble"` |
+| Section title on same line vs next line | Stage 2 Schema: `section_title_on_same_line` flag | Extraction logic branched |
+| Non-sequential section numbers | Stage 4 Quality Evaluator | `section_continuity` metric detects big gaps |
+| Poor schema on first attempt | Stage 5 Schema Refiner | Max 3 self-correction iterations |
+| Permanent failure after 3 attempts | Stage 5 fallback | Human-readable fix guide + partial schema saved |
+
+---
+
+## 7. CLI Reference
+
+```bash
+# Standard usage (full pipeline)
+uv run python -m src.ingest.auto_ingest --pdf data/legal_pdfs/NewLaw.pdf
+
+# Re-ingest using cached schema (no LLM re-analysis)
+uv run python -m src.ingest.auto_ingest --pdf data/legal_pdfs/NewLaw.pdf --use-cache
+
+# Force re-analysis (if PDF has been updated)
+uv run python -m src.ingest.auto_ingest --pdf data/legal_pdfs/NewLaw.pdf --reanalyze
+
+# Dry run: analyze and show sample chunks, don't write to ChromaDB
+uv run python -m src.ingest.auto_ingest --pdf data/legal_pdfs/NewLaw.pdf --dry-run
+
+# Override law_code
+uv run python -m src.ingest.auto_ingest --pdf data/legal_pdfs/NewLaw.pdf --law-code NL
+
+# Skip post-ingest audit (faster, use when iterating)
+uv run python -m src.ingest.auto_ingest --pdf data/legal_pdfs/NewLaw.pdf --no-audit
+```
+
+---
+
+## 8. Files Created Per PDF
+
+```
+data/legal_pdfs/
+├── Labour_Codes.pdf                  # original PDF (unchanged)
+├── Labour_Codes.schema.json          # generated/cached schema for all segments
+├── Labour_Codes.page_manifest.json   # page classification results
+└── Labour_Codes.ingest_report.json   # post-ingest audit results
+```
+
+---
+
+## 9. Implementation Order
+
+1. `page_filter.py` — everything depends on clean page text
+2. `document_segmenter.py` — segmentation before schema generation
+3. `structure_analyzer.py` + `schema_cache.py` — LLM schema generation
+4. `universal_chunker.py` — core chunking logic (most complex)
+5. `pilot_chunker.py` — thin wrapper around universal_chunker for sampling
+6. `quality_evaluator.py` — scoring logic
+7. `schema_refiner.py` — LLM patch generation
+8. `ingest_to_chroma.py` — ChromaDB write (reuse existing logic)
+9. `post_ingest_audit.py` — retrieval verification
+10. `auto_ingest.py` — CLI orchestrator tying all stages together

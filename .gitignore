@@ -13,3 +13,7 @@ chroma_db_*/
 data/legal_pdfs/
 data/
 *.log
+firebase-service-account.json
+credentials.json
+*.json.clean
+tmp/
