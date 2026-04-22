@@ -1,6 +1,7 @@
 import firebase_admin
 from firebase_admin import credentials, firestore, auth
 import os
+import json
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -18,22 +19,31 @@ FIREBASE_CONFIG = {
 def initialize_firebase():
     """Initializes the Firebase Admin SDK for Firestore access."""
     if not firebase_admin._apps:
-        # Check for service account JSON
-        service_account_path = os.getenv("FIREBASE_SERVICE_ACCOUNT", "firebase-service-account.json")
-        
-        if os.path.exists(service_account_path):
-            cred = credentials.Certificate(service_account_path)
-            firebase_admin.initialize_app(cred)
-            return firestore.client()
-        else:
-            # Fallback for local development or if JSON is not yet provided
-            # Note: This will only work if the user has logged into GCP locally
+        cred = None
+
+        # Option 1: JSON content directly in env var (Hugging Face Secrets)
+        service_account_json = os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON")
+        if service_account_json:
             try:
-                firebase_admin.initialize_app()
-                return firestore.client()
-            except Exception:
-                return None
-    
+                service_account_info = json.loads(service_account_json)
+                cred = credentials.Certificate(service_account_info)
+                print("[Firebase] Initialized from FIREBASE_SERVICE_ACCOUNT_JSON env var.")
+            except Exception as e:
+                print(f"[Firebase] Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON: {e}")
+
+        # Option 2: Path to a JSON file (local development)
+        if not cred:
+            service_account_path = os.getenv("FIREBASE_SERVICE_ACCOUNT", "firebase-service-account.json")
+            if os.path.exists(service_account_path):
+                cred = credentials.Certificate(service_account_path)
+                print(f"[Firebase] Initialized from file: {service_account_path}")
+
+        if cred:
+            firebase_admin.initialize_app(cred)
+        else:
+            print("[Firebase] WARNING: No service account found. Firestore will be unavailable.")
+            return None
+
     return firestore.client()
 
 db = initialize_firebase()
