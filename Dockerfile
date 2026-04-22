@@ -11,7 +11,7 @@ WORKDIR /app
 COPY --chown=user pyproject.toml .
 # Install uv and dependencies
 RUN pip install --no-cache-dir uv
-RUN uv pip install --system -r pyproject.toml
+RUN uv venv && uv pip install -r pyproject.toml
 
 # Copy the rest of the application
 COPY --chown=user . /app
@@ -23,4 +23,4 @@ EXPOSE 7860
 ENV CHROMA_PERSIST_DIR="/data/chroma_db_groq_legal"
 
 # Start the FastAPI server on port 7860
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD [".venv/bin/uvicorn", "api:app", "--host", "0.0.0.0", "--port", "7860"]
