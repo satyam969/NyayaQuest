@@ -1,0 +1,27 @@
+services:
+  # The FastAPI Backend
+  - type: web
+    name: nyayaquest-backend
+    env: python
+    buildCommand: "uv pip install -r pyproject.toml"
+    startCommand: "uvicorn api:app --host 0.0.0.1 --port 10000"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: GROQ_API_KEY
+        sync: false # Set this manually in Render dashboard
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: nyayaquest-redis
+          property: connectionString
+    # Persistent Disk for ChromaDB
+    disk:
+      name: chroma-data
+      mountPath: /opt/render/project/src/chroma_db_groq_legal
+      sizeGB: 5
+
+  # Managed Redis Service
+  - type: redis
+    name: nyayaquest-redis
+    ipAllowList: [] # Only accessible internally by the backend

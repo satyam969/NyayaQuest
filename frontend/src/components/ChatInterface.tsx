@@ -41,7 +41,8 @@ export default function ChatInterface({ user, threadId }: ChatInterfaceProps) {
 
   const loadHistory = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/conversations/${user.user_id}/${threadId}`);
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+      const response = await axios.get(`${apiUrl}/api/conversations/${user.user_id}/${threadId}`);
       setMessages(response.data.history || []);
     } catch (error) {
       console.error("Failed to load chat history", error);
@@ -69,7 +70,8 @@ export default function ChatInterface({ user, threadId }: ChatInterfaceProps) {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/chat', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+      const response = await axios.post(`${apiUrl}/api/chat`, {
         user_id: user.user_id,
         thread_id: threadId,
         message: userMessage

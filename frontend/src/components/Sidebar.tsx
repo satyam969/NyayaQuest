@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Scale, MessageSquare, PlusCircle, LogOut } from 'lucide-react';
 
@@ -26,7 +26,8 @@ export default function Sidebar({ user, activeThreadId, onSelectThread, onLogout
 
   const loadConversations = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/conversations/${user.user_id}`);
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+      const response = await axios.get(`${apiUrl}/api/conversations/${user.user_id}`);
       setConversations(response.data.conversations || []);
     } catch (error) {
       console.error("Failed to load conversations", error);
@@ -41,7 +42,8 @@ export default function Sidebar({ user, activeThreadId, onSelectThread, onLogout
 
   const handleNewChat = async () => {
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/conversations', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+      const response = await axios.post(`${apiUrl}/api/conversations`, {
         user_id: user.user_id
       });
       const newThreadId = response.data.thread_id;
@@ -62,7 +64,7 @@ export default function Sidebar({ user, activeThreadId, onSelectThread, onLogout
       padding: '20px 0',
       flexShrink: 0
     }}>
-      
+
       {/* Brand Header */}
       <div style={{ padding: '0 20px', marginBottom: '30px', display: 'flex', alignItems: 'center', gap: '12px' }}>
         <Scale size={28} color="var(--accent-gold)" />
@@ -71,8 +73,8 @@ export default function Sidebar({ user, activeThreadId, onSelectThread, onLogout
 
       {/* New Chat Button */}
       <div style={{ padding: '0 20px', marginBottom: '20px' }}>
-        <button 
-          className="btn-primary" 
+        <button
+          className="btn-primary"
           onClick={handleNewChat}
           style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
         >
@@ -86,7 +88,7 @@ export default function Sidebar({ user, activeThreadId, onSelectThread, onLogout
         <h4 style={{ padding: '0 10px', fontSize: '12px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>
           Recent Consultations
         </h4>
-        
+
         {loading ? (
           <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '14px' }}>Loading...</div>
         ) : conversations.length === 0 ? (
@@ -130,7 +132,7 @@ export default function Sidebar({ user, activeThreadId, onSelectThread, onLogout
         <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '12px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {user.email}
         </div>
-        <button 
+        <button
           className="btn-secondary"
           onClick={onLogout}
           style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
