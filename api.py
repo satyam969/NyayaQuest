@@ -37,9 +37,11 @@ class CustomEmbeddings:
 
 # Initialize AI Engine (Single global instance to save memory)
 groq_api_key = os.getenv('GROQ_API_KEY')
+chroma_dir = os.getenv('CHROMA_PERSIST_DIR', 'chroma_db_groq_legal')
+
 llm = ChatGroq(model='llama-3.3-70b-versatile', temperature=0.9, groq_api_key=groq_api_key)
 embeddings = CustomEmbeddings(model_name="BAAI/bge-small-en-v1.5")
-vector_store = Chroma(persist_directory="chroma_db_groq_legal", embedding_function=embeddings, collection_name="legal_knowledge")
+vector_store = Chroma(persist_directory=chroma_dir, embedding_function=embeddings, collection_name="legal_knowledge")
 hybrid_retriever = HybridRetriever.from_vector_store(vector_store, k=20, vector_weight=0.5, bm25_weight=0.5)
 
 law_engine = NyayaQuest(llm, embeddings, vector_store, hybrid_retriever=hybrid_retriever)
