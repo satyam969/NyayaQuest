@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import ChatInterface from './components/ChatInterface';
 import Auth from './components/Auth';
@@ -38,15 +38,15 @@ function App() {
 
   return (
     <div className="app-container">
-      <Sidebar 
-        user={user} 
-        activeThreadId={activeThreadId} 
-        onSelectThread={setActiveThreadId} 
+      <Sidebar
+        user={user}
+        activeThreadId={activeThreadId}
+        onSelectThread={setActiveThreadId}
         onLogout={handleLogout}
       />
-      <ChatInterface 
-        user={user} 
-        threadId={activeThreadId} 
+      <ChatInterface
+        user={user}
+        threadId={activeThreadId}
       />
     </div>
   );
