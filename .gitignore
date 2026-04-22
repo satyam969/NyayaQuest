@@ -9,7 +9,6 @@ __pycache__/
 
 # LawGlance / NyayaQuest Specific
 .env
-chroma_db_*/
 data/legal_pdfs/
 data/
 *.log

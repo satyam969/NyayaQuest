@@ -1,4 +1,5 @@
 import os
+import shutil
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -38,6 +39,14 @@ class CustomEmbeddings:
 # Initialize AI Engine (Single global instance to save memory)
 groq_api_key = os.getenv('GROQ_API_KEY')
 chroma_dir = os.getenv('CHROMA_PERSIST_DIR', 'chroma_db_groq_legal')
+
+# If running on Hugging Face (chroma_dir starts with /data) and it's empty,
+# copy our pre-built local database into the persistent volume so the AI has its knowledge!
+if chroma_dir.startswith('/data') and not os.path.exists(chroma_dir):
+    local_db = os.path.join(os.path.dirname(__file__), 'chroma_db_groq_legal')
+    if os.path.exists(local_db):
+        print(f"Syncing pre-built local database to persistent volume {chroma_dir}...")
+        shutil.copytree(local_db, chroma_dir)
 
 llm = ChatGroq(model='llama-3.3-70b-versatile', temperature=0.9, groq_api_key=groq_api_key)
 embeddings = CustomEmbeddings(model_name="BAAI/bge-small-en-v1.5")
