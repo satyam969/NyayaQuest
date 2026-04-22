@@ -19,8 +19,9 @@ export default function Auth({ onLogin }: AuthProps) {
     setLoading(true);
 
     try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
       const endpoint = isLogin ? '/api/auth/signin' : '/api/auth/signup';
-      const response = await axios.post(`http://127.0.0.1:8000${endpoint}`, {
+      const response = await axios.post(`${apiUrl}${endpoint}`, {
         email,
         password
       });
