@@ -1,0 +1,3318 @@
+[
+  {
+    "query": "What is the short title of the Act passed to consolidate and amend the provisions relating to offences under Act No. 45 of 2023?",
+    "expected_sections": ["Section 1(1)"]
+  },
+  {
+    "query": "Which authority has the power to appoint the date on which the Bharatiya Nyaya Sanhita, 2023 comes into force?",
+    "expected_sections": ["Section 1(2)"]
+  },
+  {
+    "query": "Is a person liable to punishment under the Sanhita for an act or omission contrary to its provisions committed within India?",
+    "expected_sections": ["Section 1(3)"]
+  },
+  {
+    "query": "How is a person dealt with under the Sanhita if they are liable by Indian law to be tried for an offence committed beyond India?",
+    "expected_sections": ["Section 1(4)"]
+  },
+  {
+    "query": "Does the Sanhita apply to offences committed by any citizen of India in any place without and beyond India?",
+    "expected_sections": ["Section 1(5)(a)"]
+  },
+  {
+    "query": "Does the Sanhita apply to offences committed by any person on any ship or aircraft registered in India wherever it may be?",
+    "expected_sections": ["Section 1(5)(b)"]
+  },
+  {
+    "query": "Does the Sanhita apply to a person outside India who commits an offence targeting a computer resource located in India?",
+    "expected_sections": ["Section 1(5)(c)"]
+  },
+  {
+    "query": "How is the word 'offence' defined in the context of extraterritorial application under Section 1?",
+    "expected_sections": ["Section 1 Explanation"]
+  },
+  {
+    "query": "Does the Sanhita affect the provisions of any Act for punishing mutiny and desertion of officers, soldiers, sailors, or airmen in the service of the Government of India?",
+    "expected_sections": ["Section 1(6)"]
+  },
+  {
+    "query": "Does the word 'act' denote a series of acts as well as a single act under the Sanhita?",
+    "expected_sections": ["Section 2(1)"]
+  },
+  {
+    "query": "How is an 'animal' defined under the Sanhita?",
+    "expected_sections": ["Section 2(2)"]
+  },
+  {
+    "query": "What is the age limit that defines a 'child' under the Sanhita?",
+    "expected_sections": ["Section 2(3)"]
+  },
+  {
+    "query": "What constitutes the act of 'counterfeiting' under the Sanhita?",
+    "expected_sections": ["Section 2(4)"]
+  },
+  {
+    "query": "Is it legally essential for a counterfeit imitation to be an exact replica?",
+    "expected_sections": ["Section 2(4) Explanation 1"]
+  },
+  {
+    "query": "What is the presumption when a person causes one thing to resemble another such that a person might be deceived?",
+    "expected_sections": ["Section 2(4) Explanation 2"]
+  },
+  {
+    "query": "Who is considered a 'Court' when acting judicially?",
+    "expected_sections": ["Section 2(5)"]
+  },
+  {
+    "query": "What does the term 'death' mean under the Sanhita unless the contrary appears from the context?",
+    "expected_sections": ["Section 2(6)"]
+  },
+  {
+    "query": "What does the term 'dishonestly' mean regarding wrongful gain and wrongful loss?",
+    "expected_sections": ["Section 2(7)"]
+  },
+  {
+    "query": "What constitutes a 'document' under the Sanhita, and does it include electronic and digital records?",
+    "expected_sections": ["Section 2(8)"]
+  },
+  {
+    "query": "Is the substance upon which letters, figures, or marks are formed material to the definition of a document?",
+    "expected_sections": ["Section 2(8) Explanation 1"]
+  },
+  {
+    "query": "Are marks explained by mercantile usage deemed to be expressed within the meaning of a document even if not actually expressed?",
+    "expected_sections": ["Section 2(8) Explanation 2"]
+  },
+  {
+    "query": "How is 'fraudulently' defined under the Sanhita?",
+    "expected_sections": ["Section 2(9)"]
+  },
+  {
+    "query": "Does the pronoun 'he' and its derivatives include transgender persons under the BNS?",
+    "expected_sections": ["Section 2(10)"]
+  },
+  {
+    "query": "What elements are required for an act or belief to be considered done in 'good faith'?",
+    "expected_sections": ["Section 2(11)"]
+  },
+  {
+    "query": "How is 'Government' defined under the Sanhita?",
+    "expected_sections": ["Section 2(12)"]
+  },
+  {
+    "query": "What acts are included in the definition of 'harbour' for evading apprehension?",
+    "expected_sections": ["Section 2(13)"]
+  },
+  {
+    "query": "How is 'injury' defined regarding body, mind, reputation, or property?",
+    "expected_sections": ["Section 2(14)"]
+  },
+  {
+    "query": "To what acts is the word 'illegal' applicable, and when is a person said to be 'legally bound to do' something?",
+    "expected_sections": ["Section 2(15)"]
+  },
+  {
+    "query": "Who is included in the definition of a 'Judge' besides a person officially designated as one?",
+    "expected_sections": ["Section 2(16)"]
+  },
+  {
+    "query": "What does 'life' denote under the BNS?",
+    "expected_sections": ["Section 2(17)"]
+  },
+  {
+    "query": "What is meant by a 'local law'?",
+    "expected_sections": ["Section 2(18)"]
+  },
+  {
+    "query": "How is a 'man' defined under the Sanhita?",
+    "expected_sections": ["Section 2(19)"]
+  },
+  {
+    "query": "What calendar is used to reckon the words 'month' and 'year' under the Sanhita?",
+    "expected_sections": ["Section 2(20)"]
+  },
+  {
+    "query": "Are things attached to the earth considered 'movable property' under the Sanhita?",
+    "expected_sections": ["Section 2(21)"]
+  },
+  {
+    "query": "Do words importing the singular number include the plural number under the Sanhita?",
+    "expected_sections": ["Section 2(22)"]
+  },
+  {
+    "query": "Does the definition of 'oath' include a solemn affirmation substituted by law?",
+    "expected_sections": ["Section 2(23)"]
+  },
+  {
+    "query": "How is the word 'offence' generally defined under the Sanhita?",
+    "expected_sections": ["Section 2(24)"]
+  },
+  {
+    "query": "Does the word 'omission' denote a series of omissions as well as a single omission?",
+    "expected_sections": ["Section 2(25)"]
+  },
+  {
+    "query": "Does the term 'person' include an unincorporated association or body of persons?",
+    "expected_sections": ["Section 2(26)"]
+  },
+  {
+    "query": "How is 'public' defined under the BNS?",
+    "expected_sections": ["Section 2(27)"]
+  },
+  {
+    "query": "Is every commissioned officer in the Army, Navy or Air Force considered a 'public servant'?",
+    "expected_sections": ["Section 2(28)(a)"]
+  },
+  {
+    "query": "When is a person said to have 'reason to believe' a thing?",
+    "expected_sections": ["Section 2(29)"]
+  },
+  {
+    "query": "What is the definition of a 'special law'?",
+    "expected_sections": ["Section 2(30)"]
+  },
+  {
+    "query": "What type of document qualifies as a 'valuable security'?",
+    "expected_sections": ["Section 2(31)"]
+  },
+  {
+    "query": "How is a 'vessel' defined under the Sanhita?",
+    "expected_sections": ["Section 2(32)"]
+  },
+  {
+    "query": "When is a person said to cause an effect 'voluntarily'?",
+    "expected_sections": ["Section 2(33)"]
+  },
+  {
+    "query": "What does the term 'will' mean under the Sanhita?",
+    "expected_sections": ["Section 2(34)"]
+  },
+  {
+    "query": "How is a 'woman' defined under the Sanhita?",
+    "expected_sections": ["Section 2(35)"]
+  },
+  {
+    "query": "What constitutes 'wrongful gain'?",
+    "expected_sections": ["Section 2(36)"]
+  },
+  {
+    "query": "What constitutes 'wrongful loss'?",
+    "expected_sections": ["Section 2(37)"]
+  },
+  {
+    "query": "When is a person said to 'gain wrongfully' or 'lose wrongfully'?",
+    "expected_sections": ["Section 2(38)"]
+  },
+  {
+    "query": "How are words and expressions not defined in the Sanhita but defined in the Information Technology Act, 2000 or the Bharatiya Nagarik Suraksha Sanhita, 2023 interpreted?",
+    "expected_sections": ["Section 2(39)"]
+  },
+  {
+    "query": "Are the penal provisions and illustrations of the Sanhita subject to the exceptions contained in the 'General Exceptions' chapter even if not explicitly repeated?",
+    "expected_sections": ["Section 3(1)"]
+  },
+  {
+    "query": "Is an expression explained in any Part of the Sanhita used in conformity with that explanation throughout every Part of the Sanhita?",
+    "expected_sections": ["Section 3(2)"]
+  },
+  {
+    "query": "When property is in the possession of a person's spouse, clerk, or servant on account of that person, is it legally considered in that person's possession?",
+    "expected_sections": ["Section 3(3)"]
+  },
+  {
+    "query": "Do words referring to acts done extend also to illegal omissions under the Sanhita?",
+    "expected_sections": ["Section 3(4)"]
+  },
+  {
+    "query": "If a criminal act is done by several persons in furtherance of a common intention, what is the liability of each person?",
+    "expected_sections": ["Section 3(5)"]
+  },
+  {
+    "query": "When an act is criminal only by reason of being done with a criminal knowledge or intention, what is the liability of each person joining the act?",
+    "expected_sections": ["Section 3(6)"]
+  },
+  {
+    "query": "Is causing an effect partly by an act and partly by an omission considered the same offence?",
+    "expected_sections": ["Section 3(7)"]
+  },
+  {
+    "query": "What is the liability when an offence is committed by means of several acts and a person intentionally cooperates in the commission by doing any one of those acts?",
+    "expected_sections": ["Section 3(8)"]
+  },
+  {
+    "query": "Can several persons engaged in the commission of a criminal act be guilty of different offences by means of that same act?",
+    "expected_sections": ["Section 3(9)"]
+  },
+  {
+    "query": "Are the definitions of offences and penal provisions in the Sanhita subject to the 'General Exceptions' chapter even if those exceptions are not explicitly repeated in the definition?",
+    "expected_sections": ["Section 3(1)"]
+  },
+  {
+    "query": "If a child under seven years of age commits an act defined as an offence, why is it not considered an offence under the Sanhita?",
+    "expected_sections": ["Section 3(1) Illustration (a)"]
+  },
+  {
+    "query": "If a police officer apprehends a murderer without a warrant, why is the officer not guilty of the offence of wrongful confinement?",
+    "expected_sections": ["Section 3(1) Illustration (b)"]
+  },
+  {
+    "query": "How should an expression that is explained in one Part of the Sanhita be interpreted when used in another Part?",
+    "expected_sections": ["Section 3(2)"]
+  },
+  {
+    "query": "If property is in the possession of a person's spouse, clerk, or servant on account of that person, is it legally considered to be in that person's possession?",
+    "expected_sections": ["Section 3(3)"]
+  },
+  {
+    "query": "Is a person employed temporarily on a particular occasion in the capacity of a clerk considered a 'clerk' for the purposes of determining property possession?",
+    "expected_sections": ["Section 3(3) Explanation"]
+  },
+  {
+    "query": "Do words referring to acts done under the Sanhita also extend to illegal omissions?",
+    "expected_sections": ["Section 3(4)"]
+  },
+  {
+    "query": "If a criminal act is done by several persons in furtherance of the common intention of all, what is the extent of liability for each person?",
+    "expected_sections": ["Section 3(5)"]
+  },
+  {
+    "query": "When an act is criminal only because it is done with a criminal knowledge or intention, what is the liability of multiple persons who join in the act with that same knowledge or intention?",
+    "expected_sections": ["Section 3(6)"]
+  },
+  {
+    "query": "If an offence involves causing a certain effect, is causing that effect partly by an act and partly by an omission considered the same offence?",
+    "expected_sections": ["Section 3(7)"]
+  },
+  {
+    "query": "If a person intentionally causes someone's death partly by illegally omitting to give them food and partly by beating them, what offence has been committed?",
+    "expected_sections": ["Section 3(7) Illustration"]
+  },
+  {
+    "query": "If an offence is committed by means of several acts, is a person guilty if they intentionally cooperate by doing only one of those acts?",
+    "expected_sections": ["Section 3(8)"]
+  },
+  {
+    "query": "If two people agree to murder a person by giving him small doses of poison severally and at different times, and the person dies from the combined effects, are both guilty of murder?",
+    "expected_sections": ["Section 3(8) Illustration (a)"]
+  },
+  {
+    "query": "If two joint jailors knowingly cooperate in causing a prisoner's death by illegally omitting to furnish food during their respective shifts, are both guilty of murder?",
+    "expected_sections": ["Section 3(8) Illustration (b)"]
+  },
+  {
+    "query": "If a jailor starves a prisoner but is dismissed before the prisoner dies, and his successor independently starves the prisoner to death without collusion, what is the liability of the first jailor?",
+    "expected_sections": ["Section 3(8) Illustration (c)"]
+  },
+  {
+    "query": "Can several persons engaged in the commission of the same criminal act be guilty of different offences by means of that act?",
+    "expected_sections": ["Section 3(9)"]
+  },
+  {
+    "query": "If a person attacks someone under grave provocation (amounting only to culpable homicide), but a bystander assists in the killing with premeditated ill-will, what offence is the bystander guilty of?",
+    "expected_sections": ["Section 3(9) Illustration"]
+  },
+  {
+    "query": "What are the six specific forms of punishment to which offenders are liable under the provisions of the Sanhita? [cite: 2963, 2964, 2965, 2966, 2969, 2970, 2971]",
+    "expected_sections": ["Section 4"]
+  },
+  {
+    "query": "Does the appropriate Government have the power to commute any punishment under the Sanhita to any other punishment without the consent of the offender? [cite: 2972]",
+    "expected_sections": ["Section 5"]
+  },
+  {
+    "query": "Which authority is defined as the 'appropriate Government' to commute a sentence of death, or a sentence for an offence relating to the executive power of the Union? [cite: 2973, 2974]",
+    "expected_sections": ["Section 5 Explanation (a)"]
+  },
+  {
+    "query": "Which authority is defined as the 'appropriate Government' to commute a sentence for an offence relating to the executive power of the State? [cite: 2973, 2976]",
+    "expected_sections": ["Section 5 Explanation (b)"]
+  },
+  {
+    "query": "In calculating fractions of terms of punishment, imprisonment for life is reckoned as equivalent to how many years? [cite: 2977]",
+    "expected_sections": ["Section 6"]
+  },
+  {
+    "query": "Does a Court sentencing an offender to imprisonment have the discretion to direct that the imprisonment be wholly rigorous, wholly simple, or a mix of both? [cite: 2978]",
+    "expected_sections": ["Section 7"]
+  },
+  {
+    "query": "If an offence expresses no maximum sum to which a fine may extend, is the fine amount unlimited and can it be excessive? [cite: 2979]",
+    "expected_sections": ["Section 8(1)"]
+  },
+  {
+    "query": "Is it competent for a Court to direct that an offender shall suffer an additional term of imprisonment in default of payment of a fine? [cite: 2980, 2983]",
+    "expected_sections": ["Section 8(2)"]
+  },
+  {
+    "query": "What is the maximum term of imprisonment a Court can direct in default of payment of a fine if the offence is punishable with both imprisonment and fine? [cite: 2987]",
+    "expected_sections": ["Section 8(3)"]
+  },
+  {
+    "query": "What description of imprisonment can the Court impose in default of payment of a fine or community service? [cite: 2988]",
+    "expected_sections": ["Section 8(4)"]
+  },
+  {
+    "query": "What description of imprisonment must the Court impose in default of payment if the main offence is punishable only with a fine or community service? [cite: 2989]",
+    "expected_sections": ["Section 8(5)"]
+  },
+  {
+    "query": "What is the maximum term of simple imprisonment in default of payment if the fine does not exceed five thousand rupees? [cite: 2989, 2990]",
+    "expected_sections": ["Section 8(5)(a)"]
+  },
+  {
+    "query": "What is the maximum term of simple imprisonment in default of payment if the fine does not exceed ten thousand rupees? [cite: 2989, 2991]",
+    "expected_sections": ["Section 8(5)(b)"]
+  },
+  {
+    "query": "What is the maximum term of simple imprisonment in default of payment in cases where the fine exceeds ten thousand rupees for an offence punishable only with fine? [cite: 2989, 2992]",
+    "expected_sections": ["Section 8(5)(c)"]
+  },
+  {
+    "query": "At what exact point does an imprisonment term imposed in default of payment of a fine legally terminate? [cite: 2993]",
+    "expected_sections": ["Section 8(6)(a)"]
+  },
+  {
+    "query": "If a proportional part of a fine is paid or levied before the expiration of the default imprisonment term, does the imprisonment terminate? [cite: 2994]",
+    "expected_sections": ["Section 8(6)(b)"]
+  },
+  {
+    "query": "If A is sentenced to a fine of one thousand rupees and 4 months imprisonment in default, and 750 rupees are paid before the first month expires, when will A be discharged? [cite: 2995, 2996, 2997]",
+    "expected_sections": ["Section 8(6) Illustration"]
+  },
+  {
+    "query": "Within what maximum time frame may an unpaid fine be levied after the passing of a sentence if the offender is liable to imprisonment for less than six years? [cite: 3001]",
+    "expected_sections": ["Section 8(7)"]
+  },
+  {
+    "query": "Does the death of an offender discharge their property from legal liability for an unpaid fine? [cite: 3002]",
+    "expected_sections": ["Section 8(7)"]
+  },
+  {
+    "query": "If an offence is made up of parts which are themselves offences, is the offender punished separately with the punishment of more than one of such parts? [cite: 3003]",
+    "expected_sections": ["Section 9(1)"]
+  },
+  {
+    "query": "How is an offender punished if their act falls within two or more separate definitions of offences, or when combined constitute a different offence? [cite: 3004, 3005, 3019]",
+    "expected_sections": ["Section 9(2)"]
+  },
+  {
+    "query": "If A gives Z fifty strokes with a stick, why is A only liable to one punishment for the whole beating rather than fifty separate punishments? [cite: 3020, 3021, 3022, 3023]",
+    "expected_sections": ["Section 9(2) Illustration (a)"]
+  },
+  {
+    "query": "If A is beating Z and intentionally strikes Y who interferes, is A liable to one punishment for hitting Z and another for hitting Y? [cite: 3024]",
+    "expected_sections": ["Section 9(2) Illustration (b)"]
+  },
+  {
+    "query": "If a judgment states that a person is guilty of one of several offences but it is doubtful which one, how is the severity of the punishment determined? [cite: 3025]",
+    "expected_sections": ["Section 10"]
+  },
+  {
+    "query": "What is the maximum limit of solitary confinement a Court can order if the total term of rigorous imprisonment does not exceed six months? [cite: 3026, 3027]",
+    "expected_sections": ["Section 11(a)"]
+  },
+  {
+    "query": "What is the maximum limit of solitary confinement a Court can order if the total term of rigorous imprisonment exceeds six months but not one year? [cite: 3026, 3028]",
+    "expected_sections": ["Section 11(b)"]
+  },
+  {
+    "query": "What is the maximum duration of solitary confinement a Court can order if the total term of rigorous imprisonment exceeds one year? [cite: 3026, 3029]",
+    "expected_sections": ["Section 11(c)"]
+  },
+  {
+    "query": "What is the maximum number of consecutive days an offender can be kept in solitary confinement at one time, and what must the interval duration be? [cite: 3030]",
+    "expected_sections": ["Section 12"]
+  },
+  {
+    "query": "If the total imprisonment awarded exceeds three months, what is the maximum number of days of solitary confinement permitted in any one month? [cite: 3031]",
+    "expected_sections": ["Section 12"]
+  },
+  {
+    "query": "What is the enhanced punishment for an offender previously convicted under Chapter X or XVII who is found guilty of a subsequent similar offence punishable with three years or more? [cite: 3032]",
+    "expected_sections": ["Section 13"]
+  },
+  {
+    "query": "Under the Sanhita, is an act considered an offence if it is done by a person who, due to a mistake of fact and not a mistake of law, believes in good faith that they are bound by law to do it?",
+    "expected_sections": ["Section 14"]
+  },
+  {
+    "query": "If a soldier fires on a mob by the order of a superior officer in conformity with the commands of the law, has the soldier committed an offence?",
+    "expected_sections": ["Section 14 Illustration (a)"]
+  },
+  {
+    "query": "If an officer of a Court, ordered to arrest Y, arrests Z after due enquiry because they mistakenly believe in good faith that Z is Y, is it an offence?",
+    "expected_sections": ["Section 14 Illustration (b)"]
+  },
+  {
+    "query": "Are acts done by a Judge when acting judicially in the exercise of a power they believe in good faith is given by law considered offences?",
+    "expected_sections": ["Section 15"]
+  },
+  {
+    "query": "Is an act an offence if it is done in pursuance of a Court judgment, even if the Court had no jurisdiction to pass it, provided the person believed in good faith that the Court had jurisdiction?",
+    "expected_sections": ["Section 16"]
+  },
+  {
+    "query": "Is an act an offence if done by a person who, by mistake of fact, believes themselves to be justified by law in doing it?",
+    "expected_sections": ["Section 17"]
+  },
+  {
+    "query": "If A sees Z commit what appears to be murder and, exercising their lawful power in good faith, seizes Z, has A committed an offence even if Z was actually acting in self-defence?",
+    "expected_sections": ["Section 17 Illustration"]
+  },
+  {
+    "query": "What are the legal requirements for an act to be excused on the grounds of accident or misfortune?",
+    "expected_sections": ["Section 18"]
+  },
+  {
+    "query": "If a person is at work with a hatchet and the head flies off, killing a bystander, under what condition is this act excusable?",
+    "expected_sections": ["Section 18 Illustration"]
+  },
+  {
+    "query": "Can an act be excused if it is done with the knowledge that it is likely to cause harm, provided it is done in good faith to prevent other harm to person or property?",
+    "expected_sections": ["Section 19"]
+  },
+  {
+    "query": "Who determines whether the harm to be prevented was so imminent as to justify the risk of doing an act likely to cause harm?",
+    "expected_sections": ["Section 19 Explanation"]
+  },
+  {
+    "query": "If the captain of a vessel alters course to avoid sinking a boat with thirty passengers, but inevitably runs down a smaller boat with two passengers, is he guilty of an offence?",
+    "expected_sections": ["Section 19 Illustration (a)"]
+  },
+  {
+    "query": "If a person pulls down houses in a great fire to prevent the conflagration from spreading, is their action legally justified?",
+    "expected_sections": ["Section 19 Illustration (b)"]
+  },
+  {
+    "query": "Is an act done by a child under seven years of age considered a criminal offence?",
+    "expected_sections": ["Section 20"]
+  },
+  {
+    "query": "What is the age range and required mental state for a child to be exempt from criminal liability due to immature understanding?",
+    "expected_sections": ["Section 21"]
+  },
+  {
+    "query": "Is a person legally liable if, at the time of doing an act, they are incapable of knowing its nature due to unsoundness of mind?",
+    "expected_sections": ["Section 22"]
+  },
+  {
+    "query": "Does intoxication excuse a person from criminal liability if the intoxicating substance was administered without their knowledge or against their will?",
+    "expected_sections": ["Section 23"]
+  },
+  {
+    "query": "If an offence requires a particular intent or knowledge, how is a voluntarily intoxicated person judged under the Sanhita?",
+    "expected_sections": ["Section 24"]
+  },
+  {
+    "query": "Can an act be excused if it causes harm to a person above eighteen years of age who has consented to take the risk, provided there was no intent to cause death or grievous hurt?",
+    "expected_sections": ["Section 25"]
+  },
+  {
+    "query": "If two people agree to fence for amusement and one accidentally hurts the other without foul play, has an offence been committed?",
+    "expected_sections": ["Section 25 Illustration"]
+  },
+  {
+    "query": "Does consent justify an act done in good faith for a person's benefit if the act is known to be likely to cause harm but not intended to cause death?",
+    "expected_sections": ["Section 26"]
+  },
+  {
+    "query": "If a surgeon performs a risky operation in good faith for a patient's benefit with their consent and the patient dies, is the surgeon guilty of an offence?",
+    "expected_sections": ["Section 26 Illustration"]
+  },
+  {
+    "query": "Is the consent of a guardian valid to justify an act done in good faith for the benefit of a child under twelve years of age?",
+    "expected_sections": ["Section 27"]
+  },
+  {
+    "query": "Can a guardian's consent legally justify the intentional causing of death or an attempt to cause death to a child or person of unsound mind?",
+    "expected_sections": ["Section 27 Proviso (a)"]
+  },
+  {
+    "query": "Does a guardian's consent justify an act likely to cause death if it is not done for the purpose of preventing death, grievous hurt, or curing a grievous disease?",
+    "expected_sections": ["Section 27 Proviso (b)"]
+  },
+  {
+    "query": "Does a guardian's consent justify the voluntary causing of grievous hurt if not done to prevent death or cure a grievous disease?",
+    "expected_sections": ["Section 27 Proviso (c)"]
+  },
+  {
+    "query": "Can a guardian's consent extend to the abetment of an offence?",
+    "expected_sections": ["Section 27 Proviso (d)"]
+  },
+  {
+    "query": "If a father has a surgeon operate on his child to cure a disease, knowing it may cause death but not intending it, is the father protected from criminal liability?",
+    "expected_sections": ["Section 27 Illustration"]
+  },
+  {
+    "query": "Is consent legally valid if it is given by a person under fear of injury and the person doing the act knows of this fear?",
+    "expected_sections": ["Section 28(a)"]
+  },
+  {
+    "query": "Is consent legally valid if given under a misconception of fact?",
+    "expected_sections": ["Section 28(a)"]
+  },
+  {
+    "query": "Is consent valid if given by a person who is unable to understand the consequences due to unsoundness of mind or intoxication?",
+    "expected_sections": ["Section 28(b)"]
+  },
+  {
+    "query": "Unless the context specifies otherwise, is the consent of a child under twelve years of age considered legally valid?",
+    "expected_sections": ["Section 28(c)"]
+  },
+  {
+    "query": "Do the exceptions regarding consent apply to acts that are offences independently of any harm they might cause to the consenting person?",
+    "expected_sections": ["Section 29"]
+  },
+  {
+    "query": "Can the consent of a woman or her guardian justify the act of causing a miscarriage if not done in good faith to save her life?",
+    "expected_sections": ["Section 29 Illustration"]
+  },
+  {
+    "query": "Can an act be legally justified if done for a person's benefit without their consent, if obtaining consent is impossible and they have no guardian present?",
+    "expected_sections": ["Section 30"]
+  },
+  {
+    "query": "Does the exception for acts done for benefit without consent extend to the intentional causing of death?",
+    "expected_sections": ["Section 30 Proviso (a)"]
+  },
+  {
+    "query": "Does the exception for acts done without consent extend to acts likely to cause death if they are not done to prevent death or grievous disease?",
+    "expected_sections": ["Section 30 Proviso (b)"]
+  },
+  {
+    "query": "Can a person voluntarily cause hurt for a person's benefit without their consent if it is not to prevent death or hurt?",
+    "expected_sections": ["Section 30 Proviso (c)"]
+  },
+  {
+    "query": "Does the exception for acts done without consent extend to the abetment of an offence?",
+    "expected_sections": ["Section 30 Proviso (d)"]
+  },
+  {
+    "query": "If a surgeon finds a man insensible after falling from a horse and performs a trepan operation for his benefit before he can consent, is the surgeon guilty?",
+    "expected_sections": ["Section 30 Illustration (1)"]
+  },
+  {
+    "query": "If Z is carried off by a tiger and A fires at the tiger, accidentally giving Z a mortal wound but intending Z's benefit, has A committed an offence?",
+    "expected_sections": ["Section 30 Illustration (2)"]
+  },
+  {
+    "query": "If a surgeon performs an immediately necessary fatal operation on a child without guardian consent and against the child's entreaties, is the surgeon guilty?",
+    "expected_sections": ["Section 30 Illustration (3)"]
+  },
+  {
+    "query": "If a person drops a child from a burning house into a blanket knowing it may kill the child but intending to save them, is it an offence?",
+    "expected_sections": ["Section 30 Illustration (4)"]
+  },
+  {
+    "query": "Does the term 'benefit' in the General Exceptions chapter include mere pecuniary benefit?",
+    "expected_sections": ["Section 30 Explanation"]
+  },
+  {
+    "query": "Is a communication made in good faith an offence if it causes harm to the person receiving it, provided it was made for their benefit?",
+    "expected_sections": ["Section 31"]
+  },
+  {
+    "query": "If a surgeon in good faith tells a patient they cannot live and the patient dies of shock, has the surgeon committed an offence?",
+    "expected_sections": ["Section 31 Illustration"]
+  },
+  {
+    "query": "Is an act compelled by threats that reasonably cause apprehension of instant death considered an offence?",
+    "expected_sections": ["Section 32"]
+  },
+  {
+    "query": "What specific offences are excluded from the defence of being compelled by threats of instant death?",
+    "expected_sections": ["Section 32"]
+  },
+  {
+    "query": "Can a person claim the defence of compulsion if they voluntarily placed themselves in the situation subjecting them to constraint?",
+    "expected_sections": ["Section 32 Proviso"]
+  },
+  {
+    "query": "If a person voluntarily joins a gang of dacoits, can they later claim they were compelled by their associates to commit an offence?",
+    "expected_sections": ["Section 32 Explanation 1"]
+  },
+  {
+    "query": "If a smith is seized by a gang of dacoits and forced under threat of instant death to open a door for plunder, is he entitled to the defence of compulsion?",
+    "expected_sections": ["Section 32 Explanation 2"]
+  },
+  {
+    "query": "Is an act considered an offence if it causes harm so slight that a person of ordinary sense and temper would not complain?",
+    "expected_sections": ["Section 33"]
+  },
+  {
+    "query": "Is anything done in the exercise of the right of private defence an offence?",
+    "expected_sections": ["Section 34"]
+  },
+  {
+    "query": "Does the right of private defence of the body apply only to one's own body, or does it extend to defending the body of any other person?",
+    "expected_sections": ["Section 35(a)"]
+  },
+  {
+    "query": "Against what specific property-related offences does the right of private defence of property apply?",
+    "expected_sections": ["Section 35(b)"]
+  },
+  {
+    "query": "Does the right of private defence exist against acts committed by a person lacking mature understanding or suffering from unsoundness of mind?",
+    "expected_sections": ["Section 36"]
+  },
+  {
+    "query": "If a person of unsound mind attempts to kill A, does A have the right of private defence against them?",
+    "expected_sections": ["Section 36 Illustration (a)"]
+  },
+  {
+    "query": "If Z, taking A for a house-breaker, attacks A under a misconception, does A have the right of private defence against Z?",
+    "expected_sections": ["Section 36 Illustration (b)"]
+  },
+  {
+    "query": "Does the right of private defence exist against an act done by a public servant acting in good faith under colour of his office if there is no apprehension of death or grievous hurt?",
+    "expected_sections": ["Section 37(1)(a)"]
+  },
+  {
+    "query": "Does the right of private defence exist against an act done by the direction of a public servant if there is no apprehension of death or grievous hurt?",
+    "expected_sections": ["Section 37(1)(b)"]
+  },
+  {
+    "query": "Is there a right of private defence in cases where there is time to have recourse to the protection of the public authorities?",
+    "expected_sections": ["Section 37(1)(c)"]
+  },
+  {
+    "query": "Can the right of private defence be used to inflict more harm than is strictly necessary for the purpose of defence?",
+    "expected_sections": ["Section 37(2)"]
+  },
+  {
+    "query": "Is a person deprived of the right of private defence against a public servant if they do not know or have reason to believe the person is a public servant?",
+    "expected_sections": ["Section 37 Explanation 1"]
+  },
+  {
+    "query": "If a person is acting under the direction of a public servant, what must they do to deprive another of the right of private defence against them?",
+    "expected_sections": ["Section 37 Explanation 2"]
+  },
+  {
+    "query": "Under what condition does an assault causing apprehension of death allow the right of private defence to extend to causing death?",
+    "expected_sections": ["Section 38(a)"]
+  },
+  {
+    "query": "Under what condition does an assault causing apprehension of grievous hurt allow the right of private defence to extend to causing death?",
+    "expected_sections": ["Section 38(b)"]
+  },
+  {
+    "query": "Does the right of private defence extend to causing death to prevent an assault with the intention of committing rape?",
+    "expected_sections": ["Section 38(c)"]
+  },
+  {
+    "query": "Does the right of private defence extend to causing death to prevent an assault with the intention of gratifying unnatural lust?",
+    "expected_sections": ["Section 38(d)"]
+  },
+  {
+    "query": "Does the right of private defence extend to causing death to prevent kidnapping or abducting?",
+    "expected_sections": ["Section 38(e)"]
+  },
+  {
+    "query": "Does the right of private defence extend to causing death against wrongful confinement if the victim fears they cannot have recourse to public authorities?",
+    "expected_sections": ["Section 38(f)"]
+  },
+  {
+    "query": "Does the right of private defence extend to causing death against an act of throwing or administering acid?",
+    "expected_sections": ["Section 38(g)"]
+  },
+  {
+    "query": "If an assault does not fall under the descriptions in Section 38, can the right of private defence still extend to voluntarily causing harm other than death?",
+    "expected_sections": ["Section 39"]
+  },
+  {
+    "query": "At what exact moment does the right of private defence of the body commence?",
+    "expected_sections": ["Section 40"]
+  },
+  {
+    "query": "How long does the right of private defence of the body continue?",
+    "expected_sections": ["Section 40"]
+  },
+  {
+    "query": "Does the right of private defence of property extend to causing death in the case of robbery?",
+    "expected_sections": ["Section 41(a)"]
+  },
+  {
+    "query": "Does the right of private defence of property extend to causing death in the case of house-breaking after sunset and before sunrise?",
+    "expected_sections": ["Section 41(b)"]
+  },
+  {
+    "query": "Does the right of private defence of property extend to causing death against mischief by fire committed on a building used as a human dwelling?",
+    "expected_sections": ["Section 41(c)"]
+  },
+  {
+    "query": "Under what conditions does theft, mischief, or house-trespass allow the right of private defence of property to extend to causing death?",
+    "expected_sections": ["Section 41(d)"]
+  },
+  {
+    "query": "If an offence against property is theft, mischief, or criminal trespass (not falling under Section 41), does the right of defence extend to causing harm other than death?",
+    "expected_sections": ["Section 42"]
+  },
+  {
+    "query": "At what moment does the right of private defence of property commence?",
+    "expected_sections": ["Section 43(a)"]
+  },
+  {
+    "query": "Against the offence of theft, when does the right of private defence of property legally terminate?",
+    "expected_sections": ["Section 43(b)"]
+  },
+  {
+    "query": "How long does the right of private defence of property continue in cases of robbery?",
+    "expected_sections": ["Section 43(c)"]
+  },
+  {
+    "query": "How long does the right of private defence of property continue against criminal trespass or mischief?",
+    "expected_sections": ["Section 43(d)"]
+  },
+  {
+    "query": "How long does the right of private defence of property continue in cases of house-breaking after sunset and before sunrise?",
+    "expected_sections": ["Section 43(e)"]
+  },
+  {
+    "query": "If a defender exercising the right of private defence against a deadly assault cannot do so without risking harm to an innocent person, does their right extend to running that risk?",
+    "expected_sections": ["Section 44"]
+  },
+  {
+    "query": "If a person is attacked by a mob with intent to murder and must fire on the mob to defend themselves, risking harm to children mingled within it, do they commit an offence if a child is harmed?",
+    "expected_sections": ["Section 44 Illustration"]
+  },
+  {
+    "query": "What are the three specific ways in which a person is said to abet the doing of a thing?",
+    "expected_sections": ["Section 45"]
+  },
+  {
+    "query": "Is a person who by wilful misrepresentation or concealment of a material fact voluntarily causes a thing to be done considered to have instigated it?",
+    "expected_sections": ["Section 45 Explanation 1"]
+  },
+  {
+    "query": "If a public officer authorized to apprehend Z intentionally misrepresents to a magistrate that C is Z, causing C to be apprehended, is the officer guilty of abetting the apprehension of C?",
+    "expected_sections": ["Section 45 Explanation 1 Illustration"]
+  },
+  {
+    "query": "Is a person who facilitates the commission of an act prior to or at the time of its commission said to intentionally aid the doing of that act?",
+    "expected_sections": ["Section 45 Explanation 2"]
+  },
+  {
+    "query": "How is an 'abettor' legally defined under the Sanhita?",
+    "expected_sections": ["Section 46"]
+  },
+  {
+    "query": "Is the abetment of the illegal omission of an act considered an offence even if the abettor is not legally bound to do that act themselves?",
+    "expected_sections": ["Section 46 Explanation 1"]
+  },
+  {
+    "query": "Is it legally necessary for the abetted act to be successfully committed, or for the expected effect to be caused, to constitute the offence of abetment?",
+    "expected_sections": ["Section 46 Explanation 2"]
+  },
+  {
+    "query": "If A instigates B to murder C, but B refuses to do so, is A still guilty of abetting B to commit murder?",
+    "expected_sections": ["Section 46 Explanation 2 Illustration (a)"]
+  },
+  {
+    "query": "If A instigates B to murder D, and B stabs D but D recovers from the wound, is A guilty of instigating B to commit murder?",
+    "expected_sections": ["Section 46 Explanation 2 Illustration (b)"]
+  },
+  {
+    "query": "Is it legally necessary that the person abetted be legally capable of committing an offence, or have the same guilty intention as the abettor?",
+    "expected_sections": ["Section 46 Explanation 3"]
+  },
+  {
+    "query": "If A instigates a person of unsound mind to commit an act that would be a crime for a sane person, is A guilty of abetment?",
+    "expected_sections": ["Section 46 Explanation 3 Illustration (a)"]
+  },
+  {
+    "query": "If A instigates a child under seven years of age to set fire to a dwelling-house, is A liable to the punishment for setting fire to a dwelling-house?",
+    "expected_sections": ["Section 46 Explanation 3 Illustration (b)"]
+  },
+  {
+    "query": "If A instigates B to carry off property believing it belongs to A, but A knows it does not, is A guilty of abetting theft even if B takes it innocently?",
+    "expected_sections": ["Section 46 Explanation 3 Illustration (c)"]
+  },
+  {
+    "query": "Is the abetment of an abetment legally considered an offence under the Sanhita?",
+    "expected_sections": ["Section 46 Explanation 4"]
+  },
+  {
+    "query": "If A instigates B to instigate C to murder Z, and Z is murdered by C, are A and B both liable to the same punishment for murder?",
+    "expected_sections": ["Section 46 Explanation 4 Illustration"]
+  },
+  {
+    "query": "Is it legally necessary that an abettor by conspiracy concert the offence directly with the person who actually commits it?",
+    "expected_sections": ["Section 46 Explanation 5"]
+  },
+  {
+    "query": "If A, B, and C conspire to poison Z, and C procures the poison and delivers it to A through B without knowing A, is C guilty of abetment if A administers the poison?",
+    "expected_sections": ["Section 46 Explanation 5 Illustration"]
+  },
+  {
+    "query": "Is a person in India liable for abetting the commission of an act beyond India which would be an offence if committed in India?",
+    "expected_sections": ["Section 47"]
+  },
+  {
+    "query": "If A in India instigates B, a foreigner in Country X, to commit a murder in Country X, is A guilty of abetting murder?",
+    "expected_sections": ["Section 47 Illustration"]
+  },
+  {
+    "query": "What is the punishment for an abettor if the abetted act is committed in consequence of the abetment and no express provision is made for its punishment?",
+    "expected_sections": ["Section 48"]
+  },
+  {
+    "query": "When is an act or offence legally said to be committed 'in consequence of abetment'?",
+    "expected_sections": ["Section 48 Explanation"]
+  },
+  {
+    "query": "What is the liability of an abettor if the person abetted commits the act with a different intention or knowledge from that of the abettor?",
+    "expected_sections": ["Section 49"]
+  },
+  {
+    "query": "What is the liability of an abettor when one act is abetted but a different act is done?",
+    "expected_sections": ["Section 50"]
+  },
+  {
+    "query": "Under what specific condition is an abettor liable for a different act committed by the person abetted?",
+    "expected_sections": ["Section 50 Proviso"]
+  },
+  {
+    "query": "If A instigates B to burn Z's house, and B additionally commits theft there, is A liable for the theft?",
+    "expected_sections": ["Section 50 Illustration (a)"]
+  },
+  {
+    "query": "If A instigates B and C to rob Z, and B and C murder Z during the robbery, is A liable for the murder if it was a probable consequence of the robbery?",
+    "expected_sections": ["Section 50 Illustration (b)"]
+  },
+  {
+    "query": "Is an abettor liable to cumulative punishment for both the act abetted and the different act done if they constitute distinct offences?",
+    "expected_sections": ["Section 51"]
+  },
+  {
+    "query": "If A instigates B to break into Z's house to steal, and B also assaults someone inside, is A liable for both the trespass and the assault if the assault was a probable consequence?",
+    "expected_sections": ["Section 51 Illustration"]
+  },
+  {
+    "query": "Is an abettor liable for an effect caused by the abetted act that is different from what the abettor intended, if that effect was a probable consequence?",
+    "expected_sections": ["Section 52"]
+  },
+  {
+    "query": "If A instigates B to cause grievous hurt to Z, and Z dies as a probable consequence, is A liable for murder?",
+    "expected_sections": ["Section 52 Illustration"]
+  },
+  {
+    "query": "How is an absent abettor treated under law if they are physically present when the abetted offence is actually committed?",
+    "expected_sections": ["Section 53"]
+  },
+  {
+    "query": "What is the default punishment for abetting an offence punishable with death or life imprisonment if the offence is not committed?",
+    "expected_sections": ["Section 54(1)"]
+  },
+  {
+    "query": "What is the enhanced punishment for abetting an offence punishable with death or life imprisonment if an act causing harm is done in consequence?",
+    "expected_sections": ["Section 54(2)"]
+  },
+  {
+    "query": "If A instigates B to murder Z, and B wounds Z but Z survives, what is A's maximum term of imprisonment?",
+    "expected_sections": ["Section 54 Illustration"]
+  },
+  {
+    "query": "What is the default punishment for abetting an offence punishable with imprisonment if the offence is not committed in consequence of the abetment?",
+    "expected_sections": ["Section 55(1)"]
+  },
+  {
+    "query": "What is the punishment for abetting an offence punishable with imprisonment if the abettor or the person abetted is a public servant whose duty it is to prevent that offence?",
+    "expected_sections": ["Section 55(2)"]
+  },
+  {
+    "query": "If A instigates B to give false evidence, but B does not do so, what is A's maximum punishment?",
+    "expected_sections": ["Section 55 Illustration"]
+  },
+  {
+    "query": "What is the punishment if a public servant, whose duty it is to prevent an offence punishable with death or life imprisonment, abets that offence?",
+    "expected_sections": ["Section 56"]
+  },
+  {
+    "query": "What is the punishment for abetting the commission of an offence by the public generally or by any number or class of persons exceeding ten?",
+    "expected_sections": ["Section 58"]
+  },
+  {
+    "query": "If A affixes a placard inciting a sect consisting of more than ten members to meet and attack members of an adverse sect, what is A's maximum punishment?",
+    "expected_sections": ["Section 58 Illustration"]
+  },
+  {
+    "query": "What is the punishment for voluntarily concealing a design to commit an offence punishable with death or imprisonment for life?",
+    "expected_sections": ["Section 59"]
+  },
+  {
+    "query": "If A knows of a dacoity plot and informs the Magistrate that it will happen in a different village to mislead him, is A guilty of concealing the design?",
+    "expected_sections": ["Section 59 Illustration"]
+  },
+  {
+    "query": "What is the punishment for a public servant who voluntarily conceals a design to commit an offence which it is their legal duty to prevent?",
+    "expected_sections": ["Section 60"]
+  },
+  {
+    "query": "What specific agreement between two or more persons legally constitutes a 'criminal conspiracy'?",
+    "expected_sections": ["Section 61(1)"]
+  },
+  {
+    "query": "Is an agreement to commit an act that is not an offence considered a criminal conspiracy without an overt act done in pursuance thereof?",
+    "expected_sections": ["Section 61(1) Proviso"]
+  },
+  {
+    "query": "In a criminal conspiracy, does it matter whether the illegal act is the ultimate object of the agreement or merely incidental to it?",
+    "expected_sections": ["Section 61(1) Explanation"]
+  },
+  {
+    "query": "What is the punishment for being a party to a criminal conspiracy to commit an offence punishable with death or imprisonment for life?",
+    "expected_sections": ["Section 61(2)(a)"]
+  },
+  {
+    "query": "What is the punishment for being a party to a criminal conspiracy other than one to commit a serious offence punishable with death, life imprisonment, or rigorous imprisonment for two years or more?",
+    "expected_sections": ["Section 61(2)(b)"]
+  },
+  {
+    "query": "What is the default punishment for attempting to commit an offence punishable with imprisonment for life or other imprisonment where no express provision is made?",
+    "expected_sections": ["Section 62"]
+  },
+  {
+    "query": "If A breaks open a box intending to steal jewels but finds it empty, is A guilty of an attempt to commit theft?",
+    "expected_sections": ["Section 62 Illustration (a)"]
+  },
+  {
+    "query": "If A puts his hand into Z's pocket intending to pick it but finds nothing, is A guilty of an attempt to commit theft?",
+    "expected_sections": ["Section 62 Illustration (b)"]
+  },
+  {
+    "query": "What specific acts of penetration, insertion, or manipulation by a man constitute the offence of rape?",
+    "expected_sections": ["Section 63(a), (b), (c), (d)"]
+  },
+  {
+    "query": "Under what seven specific circumstances are the acts described in Section 63 considered to be rape?",
+    "expected_sections": ["Section 63(i) to (vii)"]
+  },
+  {
+    "query": "Does the term 'vagina' include labia majora for the purposes of defining rape under the Sanhita?",
+    "expected_sections": ["Section 63 Explanation 1"]
+  },
+  {
+    "query": "How is 'consent' legally defined in the context of the offence of rape?",
+    "expected_sections": ["Section 63 Explanation 2"]
+  },
+  {
+    "query": "If a woman does not physically resist the act of penetration, is that fact alone regarded as consent to the sexual activity?",
+    "expected_sections": ["Section 63 Explanation 2 Proviso"]
+  },
+  {
+    "query": "Can a medical procedure or intervention legally constitute rape under the Sanhita?",
+    "expected_sections": ["Section 63 Exception 1"]
+  },
+  {
+    "query": "Is sexual intercourse or sexual acts by a man with his own wife, if she is not under eighteen years of age, considered rape?",
+    "expected_sections": ["Section 63 Exception 2"]
+  },
+  {
+    "query": "What is the general punishment prescribed for the offence of rape where no specific aggravating circumstances apply?",
+    "expected_sections": ["Section 64(1)"]
+  },
+  {
+    "query": "What is the minimum and maximum punishment for a police officer who commits rape within the limits of their police station or on a woman in their custody?",
+    "expected_sections": ["Section 64(2)(a)"]
+  },
+  {
+    "query": "What is the punishment for a public servant who commits rape on a woman in their custody or the custody of a subordinate?",
+    "expected_sections": ["Section 64(2)(b)"]
+  },
+  {
+    "query": "What is the punishment for a member of the armed forces who commits rape in an area where they are deployed by the Government?",
+    "expected_sections": ["Section 64(2)(c)"]
+  },
+  {
+    "query": "What is the penalty for a person on the management or staff of a jail, remand home, or women's institution who commits rape on an inmate?",
+    "expected_sections": ["Section 64(2)(d)"]
+  },
+  {
+    "query": "What is the punishment for a person on the management or staff of a hospital who commits rape on a woman in that hospital?",
+    "expected_sections": ["Section 64(2)(e)"]
+  },
+  {
+    "query": "What is the punishment for committing rape if the offender is a relative, guardian, teacher, or person in a position of trust towards the woman?",
+    "expected_sections": ["Section 64(2)(f)"]
+  },
+  {
+    "query": "What is the enhanced punishment for committing rape during communal or sectarian violence?",
+    "expected_sections": ["Section 64(2)(g)"]
+  },
+  {
+    "query": "What is the penalty for committing rape on a woman knowing her to be pregnant?",
+    "expected_sections": ["Section 64(2)(h)"]
+  },
+  {
+    "query": "What is the punishment for committing rape on a woman who is incapable of giving consent?",
+    "expected_sections": ["Section 64(2)(i)"]
+  },
+  {
+    "query": "What is the punishment for a person who, being in a position of control or dominance over a woman, commits rape on her?",
+    "expected_sections": ["Section 64(2)(j)"]
+  },
+  {
+    "query": "What is the punishment for committing rape on a woman suffering from mental or physical disability?",
+    "expected_sections": ["Section 64(2)(k)"]
+  },
+  {
+    "query": "What is the punishment if an offender, while committing rape, causes grievous bodily harm, maims, disfigures, or endangers the life of the woman?",
+    "expected_sections": ["Section 64(2)(l)"]
+  },
+  {
+    "query": "What is the penalty for committing rape repeatedly on the same woman?",
+    "expected_sections": ["Section 64(2)(m)"]
+  },
+  {
+    "query": "How is 'armed forces' defined for the purposes of enhanced punishment for rape under Section 64?",
+    "expected_sections": ["Section 64 Explanation (a)"]
+  },
+  {
+    "query": "How is 'hospital' defined in the context of offences committed by staff or management?",
+    "expected_sections": ["Section 64 Explanation (b)"]
+  },
+  {
+    "query": "What is the definition of a 'women's or children's institution' under Section 64?",
+    "expected_sections": ["Section 64 Explanation (d)"]
+  },
+  {
+    "query": "What is the punishment for committing rape on a woman under sixteen years of age?",
+    "expected_sections": ["Section 65(1)"]
+  },
+  {
+    "query": "Who receives the fine imposed on an offender for committing rape on a woman under sixteen years of age?",
+    "expected_sections": ["Section 65(1) Second Proviso"]
+  },
+  {
+    "query": "What is the punishment for committing rape on a woman under twelve years of age?",
+    "expected_sections": ["Section 65(2)"]
+  },
+  {
+    "query": "What is the punishment if rape under Section 64 or 65 results in the death of the woman or causes her to be in a persistent vegetative state?",
+    "expected_sections": ["Section 66"]
+  },
+  {
+    "query": "What is the punishment for a man who has sexual intercourse with his own wife, without her consent, while they are living separately?",
+    "expected_sections": ["Section 67"]
+  },
+  {
+    "query": "What acts of sexual intercourse are covered under Section 67 (intercourse by husband upon wife during separation)?",
+    "expected_sections": ["Section 67 Explanation"]
+  },
+  {
+    "query": "What is the punishment for a public servant or person in authority who abuses their position to induce a woman in their custody to have sexual intercourse not amounting to rape?",
+    "expected_sections": ["Section 68"]
+  },
+  {
+    "query": "What is the punishment for having sexual intercourse, not amounting to rape, by deceitful means or by making a false promise to marry?",
+    "expected_sections": ["Section 69"]
+  },
+  {
+    "query": "What specific acts are included in the definition of 'deceitful means' under Section 69?",
+    "expected_sections": ["Section 69 Explanation"]
+  },
+  {
+    "query": "What is the definition of gang rape, and what is the punishment for each person involved when committed on a woman?",
+    "expected_sections": ["Section 70(1)"]
+  },
+  {
+    "query": "What is the punishment for gang rape when the victim is a woman under eighteen years of age?",
+    "expected_sections": ["Section 70(2)"]
+  },
+  {
+    "query": "What is the punishment for a person previously convicted of rape or gang rape who is subsequently convicted of a similar offence?",
+    "expected_sections": ["Section 71"]
+  },
+  {
+    "query": "Is it an offence to print or publish the name or identity of a victim of rape or sexual assault?",
+    "expected_sections": ["Section 72(1)"]
+  },
+  {
+    "query": "Under what three circumstances is the printing or publication of a rape victim's identity legally permitted?",
+    "expected_sections": ["Section 72(2)(a), (b), (c)"]
+  },
+  {
+    "query": "If a rape victim is dead, a child, or of unsound mind, who can authorise the publication of their identity?",
+    "expected_sections": ["Section 72(2)(c)"]
+  },
+  {
+    "query": "To whom can the next of kin give authorisation to publish a deceased or minor victim's identity?",
+    "expected_sections": ["Section 72(2) Proviso"]
+  },
+  {
+    "query": "Is it an offence to print or publish matters relating to Court proceedings of certain sexual offences without the Court's permission?",
+    "expected_sections": ["Section 73"]
+  },
+  {
+    "query": "Does printing or publishing the judgment of a High Court or the Supreme Court regarding a sexual offence require permission?",
+    "expected_sections": ["Section 73 Explanation"]
+  },
+  {
+    "query": "What is the punishment for assaulting or using criminal force to any woman, intending to outrage her modesty?",
+    "expected_sections": ["Section 74"]
+  },
+  {
+    "query": "What four specific acts by a man constitute the offence of sexual harassment?",
+    "expected_sections": ["Section 75(1)(i) to (iv)"]
+  },
+  {
+    "query": "What is the punishment for sexual harassment involving physical contact, demand for sexual favours, or showing pornography against a woman's will?",
+    "expected_sections": ["Section 75(2)"]
+  },
+  {
+    "query": "What is the punishment for sexual harassment limited to making sexually coloured remarks?",
+    "expected_sections": ["Section 75(3)"]
+  },
+  {
+    "query": "What is the punishment for assaulting or using criminal force to a woman with the intention of disrobing her or compelling her to be naked?",
+    "expected_sections": ["Section 76"]
+  },
+  {
+    "query": "How is the offence of voyeurism defined, and what is the punishment upon first conviction?",
+    "expected_sections": ["Section 77"]
+  },
+  {
+    "query": "What is the punishment for a second or subsequent conviction of voyeurism?",
+    "expected_sections": ["Section 77"]
+  },
+  {
+    "query": "How is a 'private act' defined for the purposes of the offence of voyeurism?",
+    "expected_sections": ["Section 77 Explanation 1"]
+  },
+  {
+    "query": "If a woman consents to the capture of images but not their dissemination, does the dissemination constitute voyeurism?",
+    "expected_sections": ["Section 77 Explanation 2"]
+  },
+  {
+    "query": "What two types of conduct by a man constitute the offence of stalking?",
+    "expected_sections": ["Section 78(1)(i), (ii)"]
+  },
+  {
+    "query": "Under what three circumstances does pursuing a woman not amount to the offence of stalking?",
+    "expected_sections": ["Section 78(1) Provisos (i), (ii), (iii)"]
+  },
+  {
+    "query": "What is the punishment for stalking upon first conviction, and upon a subsequent conviction?",
+    "expected_sections": ["Section 78(2)"]
+  },
+  {
+    "query": "What is the punishment for intending to insult the modesty of a woman by uttering words, making sounds or gestures, or intruding upon her privacy?",
+    "expected_sections": ["Section 79"]
+  },
+  {
+    "query": "What elements must be proven to establish the offence of 'dowry death'?",
+    "expected_sections": ["Section 80(1)"]
+  },
+  {
+    "query": "What is the punishment for committing dowry death?",
+    "expected_sections": ["Section 80(2)"]
+  },
+  {
+    "query": "What is the punishment for a man who deceitfully induces a woman to believe she is lawfully married to him and cohabits with him in that belief?",
+    "expected_sections": ["Section 81"]
+  },
+  {
+    "query": "What is the punishment for marrying again during the lifetime of a husband or wife when the subsequent marriage is void?",
+    "expected_sections": ["Section 82(1)"]
+  },
+  {
+    "query": "Does the offence of marrying again apply if the former spouse has been continually absent and unheard of for seven years?",
+    "expected_sections": ["Section 82(1) Exception"]
+  },
+  {
+    "query": "What is the enhanced punishment for marrying again if the fact of the former marriage is concealed from the new spouse?",
+    "expected_sections": ["Section 82(2)"]
+  },
+  {
+    "query": "What is the punishment for dishonestly going through a marriage ceremony knowing that no lawful marriage is thereby created?",
+    "expected_sections": ["Section 83"]
+  },
+  {
+    "query": "What is the penalty for taking or enticing away a married woman with the intent that she may have illicit intercourse?",
+    "expected_sections": ["Section 84"]
+  },
+  {
+    "query": "What is the punishment for a husband or relative of a husband who subjects a woman to cruelty?",
+    "expected_sections": ["Section 85"]
+  },
+  {
+    "query": "How is 'cruelty' legally defined in the context of offences against a married woman?",
+    "expected_sections": ["Section 86(a), (b)"]
+  },
+  {
+    "query": "What is the punishment for kidnapping or abducting a woman to compel her marriage or to force her to illicit intercourse?",
+    "expected_sections": ["Section 87"]
+  },
+  {
+    "query": "What is the punishment for voluntarily causing a pregnant woman to miscarry, if not done in good faith to save her life?",
+    "expected_sections": ["Section 88"]
+  },
+  {
+    "query": "What is the enhanced punishment for causing a miscarriage if the woman is quick with child?",
+    "expected_sections": ["Section 88"]
+  },
+  {
+    "query": "Is a woman who causes herself to miscarry liable under Section 88?",
+    "expected_sections": ["Section 88 Explanation"]
+  },
+  {
+    "query": "What is the punishment for causing a miscarriage without the consent of the woman?",
+    "expected_sections": ["Section 89"]
+  },
+  {
+    "query": "What is the punishment if an act intended to cause a miscarriage results in the death of the pregnant woman?",
+    "expected_sections": ["Section 90(1)"]
+  },
+  {
+    "query": "What is the enhanced punishment if the act intended to cause miscarriage, which results in the woman's death, was done without her consent?",
+    "expected_sections": ["Section 90(2)"]
+  },
+  {
+    "query": "Is it necessary that the offender knew the act causing miscarriage was likely to cause the woman's death to be liable under Section 90?",
+    "expected_sections": ["Section 90 Explanation"]
+  },
+  {
+    "query": "What is the punishment for an act done before birth to intentionally prevent a child from being born alive or causing it to die after birth?",
+    "expected_sections": ["Section 91"]
+  },
+  {
+    "query": "What is the punishment for causing the death of a quick unborn child by an act that would amount to culpable homicide if it caused the mother's death?",
+    "expected_sections": ["Section 92"]
+  },
+  {
+    "query": "If A attacks a pregnant woman intending to kill her, but she survives and her quick unborn child dies, what offence has A committed?",
+    "expected_sections": ["Section 92 Illustration"]
+  },
+  {
+    "query": "What is the punishment for a parent or guardian who exposes or leaves a child under twelve years of age with the intention of wholly abandoning it?",
+    "expected_sections": ["Section 93"]
+  },
+  {
+    "query": "Does a conviction for abandoning a child prevent a subsequent trial for murder if the child dies as a result of the exposure?",
+    "expected_sections": ["Section 93 Explanation"]
+  },
+  {
+    "query": "What is the punishment for intentionally concealing the birth of a child by secretly disposing of its dead body?",
+    "expected_sections": ["Section 94"]
+  },
+  {
+    "query": "What is the punishment for hiring, employing, or engaging a child to commit an offence?",
+    "expected_sections": ["Section 95"]
+  },
+  {
+    "query": "Does using a child for sexual exploitation or pornography fall under the offence of hiring a child to commit an offence?",
+    "expected_sections": ["Section 95 Explanation"]
+  },
+  {
+    "query": "What is the punishment for inducing a child to go to any place with the intent that the child will be forced into illicit intercourse?",
+    "expected_sections": ["Section 96"]
+  },
+  {
+    "query": "What is the punishment for kidnapping or abducting a child under ten years of age with the intent to steal movable property from its person?",
+    "expected_sections": ["Section 97"]
+  },
+  {
+    "query": "What is the punishment for selling or disposing of a child with the intent that they be used for prostitution or illicit intercourse?",
+    "expected_sections": ["Section 98"]
+  },
+  {
+    "query": "If a female under eighteen is sold to a brothel manager, what is the legal presumption regarding the intent of the sale?",
+    "expected_sections": ["Section 98 Explanation 1"]
+  },
+  {
+    "query": "How is 'illicit intercourse' defined for the purposes of offences related to the selling or buying of children for prostitution?",
+    "expected_sections": ["Section 98 Explanation 2"]
+  },
+  {
+    "query": "What is the punishment for buying or obtaining possession of a child with the intent that they be used for prostitution or illicit intercourse?",
+    "expected_sections": ["Section 99"]
+  },
+  {
+    "query": "If a prostitute or brothel manager obtains possession of a female under eighteen, what is the legal presumption regarding their intent?",
+    "expected_sections": ["Section 99 Explanation 1"]
+  },
+  {
+    "query": "What are the three specific mental states under which causing death legally constitutes the offence of culpable homicide?",
+    "expected_sections": ["Section 100"]
+  },
+  {
+    "query": "If a person lays sticks over a pit intending to cause death, and someone falls in and dies, what offence is committed?",
+    "expected_sections": ["Section 100 Illustration (a)"]
+  },
+  {
+    "query": "If A induces B to fire at a bush knowing Z is behind it, and B kills Z without knowing he is there, what offence has A committed?",
+    "expected_sections": ["Section 100 Illustration (b)"]
+  },
+  {
+    "query": "If a person shooting at a fowl with intent to steal it accidentally kills a person behind a bush, is it culpable homicide?",
+    "expected_sections": ["Section 100 Illustration (c)"]
+  },
+  {
+    "query": "If a person causes bodily injury to someone with a disease and thereby accelerates their death, is it legally deemed that they caused the death?",
+    "expected_sections": ["Section 100 Explanation 1"]
+  },
+  {
+    "query": "Is a person who causes a fatal bodily injury deemed to have caused the death even if proper medical treatment might have prevented it?",
+    "expected_sections": ["Section 100 Explanation 2"]
+  },
+  {
+    "query": "Does causing the death of a child while it is still entirely in the mother's womb constitute culpable homicide?",
+    "expected_sections": ["Section 100 Explanation 3"]
+  },
+  {
+    "query": "Can causing the death of a living child constitute culpable homicide if part of the child has been brought forth but it hasn't breathed yet?",
+    "expected_sections": ["Section 100 Explanation 3"]
+  },
+  {
+    "query": "Under what four specific conditions does the offence of culpable homicide elevate to the offence of murder?",
+    "expected_sections": ["Section 101(a), (b), (c), (d)"]
+  },
+  {
+    "query": "If a person shoots someone with the explicit intention of killing them and they die, what offence is committed?",
+    "expected_sections": ["Section 101 Illustration (a)"]
+  },
+  {
+    "query": "If A strikes Z knowing Z has a disease where a blow is likely to cause death, and Z dies, is A guilty of murder even if a healthy person would not have died?",
+    "expected_sections": ["Section 101 Illustration (b)"]
+  },
+  {
+    "query": "If a person intentionally inflicts a sword-cut sufficient to cause the death of a normal man, and the victim dies, is it murder even if they didn't intend death?",
+    "expected_sections": ["Section 101 Illustration (c)"]
+  },
+  {
+    "query": "If a person fires a loaded cannon into a crowd without excuse and kills someone, is it murder despite lacking a premeditated design to kill a specific individual?",
+    "expected_sections": ["Section 101 Illustration (d)"]
+  },
+  {
+    "query": "Does culpable homicide amount to murder if the offender causes death while deprived of self-control by grave and sudden provocation?",
+    "expected_sections": ["Section 101 Exception 1"]
+  },
+  {
+    "query": "Can the defence of grave and sudden provocation apply if the provocation was sought or voluntarily provoked by the offender as an excuse?",
+    "expected_sections": ["Section 101 Exception 1 Proviso (a)"]
+  },
+  {
+    "query": "Can the defence of grave and sudden provocation apply if the provocation was given by a public servant in the lawful exercise of their powers?",
+    "expected_sections": ["Section 101 Exception 1 Proviso (b)"]
+  },
+  {
+    "query": "Who determines whether provocation was grave and sudden enough to prevent the offence from amounting to murder?",
+    "expected_sections": ["Section 101 Exception 1 Explanation"]
+  },
+  {
+    "query": "If A is provoked by Z and intentionally kills Z's child instead, does the defence of sudden provocation reduce the charge from murder?",
+    "expected_sections": ["Section 101 Exception 1 Illustration (a)"]
+  },
+  {
+    "query": "If A is provoked by Y and fires at Y but accidentally kills Z who was out of sight, is A guilty of murder or culpable homicide?",
+    "expected_sections": ["Section 101 Exception 1 Illustration (b)"]
+  },
+  {
+    "query": "If A is lawfully arrested by a bailiff and in a sudden passion kills the bailiff, does the sudden provocation exception apply?",
+    "expected_sections": ["Section 101 Exception 1 Illustration (c)"]
+  },
+  {
+    "query": "If a bystander puts a knife in the hand of a provoked man intending him to kill his provoker, what is the bystander guilty of when the killing occurs?",
+    "expected_sections": ["Section 101 Exception 1 Illustration (f)"]
+  },
+  {
+    "query": "Is culpable homicide considered murder if an offender exceeds the right of private defence in good faith without premeditation?",
+    "expected_sections": ["Section 101 Exception 2"]
+  },
+  {
+    "query": "If a person is being horsewhipped and, believing there is no other way to stop it, shoots the attacker dead in good faith, is it murder?",
+    "expected_sections": ["Section 101 Exception 2 Illustration"]
+  },
+  {
+    "query": "Is culpable homicide considered murder if a public servant acting for public justice exceeds their powers in good faith and without ill-will?",
+    "expected_sections": ["Section 101 Exception 3"]
+  },
+  {
+    "query": "Is culpable homicide considered murder if committed in a sudden fight upon a sudden quarrel without the offender taking undue advantage?",
+    "expected_sections": ["Section 101 Exception 4"]
+  },
+  {
+    "query": "Does it matter which party offers the first provocation in a sudden fight to claim the exception under Section 101 Exception 4?",
+    "expected_sections": ["Section 101 Exception 4 Explanation"]
+  },
+  {
+    "query": "Is culpable homicide considered murder if the victim is over eighteen and takes the risk of death with their own consent?",
+    "expected_sections": ["Section 101 Exception 5"]
+  },
+  {
+    "query": "If a person causes the death of someone other than the person whose death they intended to cause, how is the offence classified?",
+    "expected_sections": ["Section 102"]
+  },
+  {
+    "query": "What are the two general punishments prescribed for the offence of murder?",
+    "expected_sections": ["Section 103(1)"]
+  },
+  {
+    "query": "What is the punishment when a group of five or more persons acting in concert commits murder on the ground of race, caste, or sex?",
+    "expected_sections": ["Section 103(2)"]
+  },
+  {
+    "query": "What is the mandatory punishment for a person already under a sentence of life imprisonment who commits murder?",
+    "expected_sections": ["Section 104"]
+  },
+  {
+    "query": "What is the punishment for culpable homicide not amounting to murder if done with the intention of causing death?",
+    "expected_sections": ["Section 105"]
+  },
+  {
+    "query": "What is the punishment for causing death by a rash or negligent act not amounting to culpable homicide?",
+    "expected_sections": ["Section 106(1)"]
+  },
+  {
+    "query": "What is the maximum imprisonment for a registered medical practitioner who causes death by negligence while performing a medical procedure?",
+    "expected_sections": ["Section 106(1)"]
+  },
+  {
+    "query": "How is a 'registered medical practitioner' defined under Section 106?",
+    "expected_sections": ["Section 106(1) Explanation"]
+  },
+  {
+    "query": "What is the enhanced punishment for causing death by rash driving and escaping without reporting the incident to the police or Magistrate?",
+    "expected_sections": ["Section 106(2)"]
+  },
+  {
+    "query": "What is the penalty for abetting the suicide of a child, an insane person, or an intoxicated person?",
+    "expected_sections": ["Section 107"]
+  },
+  {
+    "query": "What is the punishment for abetting the commission of suicide of an adult person of sound mind?",
+    "expected_sections": ["Section 108"]
+  },
+  {
+    "query": "What is the punishment for attempting to murder if no hurt is caused?",
+    "expected_sections": ["Section 109(1)"]
+  },
+  {
+    "query": "If a person attempts to murder someone and causes hurt in the process, what does the maximum penalty escalate to?",
+    "expected_sections": ["Section 109(1)"]
+  },
+  {
+    "query": "What is the potential punishment for an attempt to murder if the offender is already serving a sentence of life imprisonment and causes hurt?",
+    "expected_sections": ["Section 109(2)"]
+  },
+  {
+    "query": "If a person exposes an infant in a desert place with the intent to murder it, but the child survives, what offence has been committed?",
+    "expected_sections": ["Section 109 Illustration (b)"]
+  },
+  {
+    "query": "What is the punishment for attempting to commit culpable homicide not amounting to murder?",
+    "expected_sections": ["Section 110"]
+  },
+  {
+    "query": "What acts, such as kidnapping, extortion, or cyber-crimes, constitute 'organised crime' when committed by a syndicate?",
+    "expected_sections": ["Section 111(1)"]
+  },
+  {
+    "query": "How is an 'organised crime syndicate' legally defined?",
+    "expected_sections": ["Section 111(1) Explanation (i)"]
+  },
+  {
+    "query": "How is a 'continuing unlawful activity' defined within the context of organised crime?",
+    "expected_sections": ["Section 111(1) Explanation (ii)"]
+  },
+  {
+    "query": "What specific actions are included in the definition of an 'economic offence'?",
+    "expected_sections": ["Section 111(1) Explanation (iii)"]
+  },
+  {
+    "query": "What is the punishment for committing an organised crime that results in the death of a person?",
+    "expected_sections": ["Section 111(2)(a)"]
+  },
+  {
+    "query": "What is the punishment for intentionally harbouring a person who has committed an organised crime?",
+    "expected_sections": ["Section 111(5)"]
+  },
+  {
+    "query": "Does the punishment for harbouring an organised crime offender apply if the harbouring is done by the spouse of the offender?",
+    "expected_sections": ["Section 111(5) Proviso"]
+  },
+  {
+    "query": "What is the punishment for possessing property derived from the commission of an organised crime?",
+    "expected_sections": ["Section 111(6)"]
+  },
+  {
+    "query": "What acts constitute 'petty organised crime' when committed by a member of a group or gang?",
+    "expected_sections": ["Section 112(1)"]
+  },
+  {
+    "query": "How is 'theft' defined specifically within the context of petty organised crime?",
+    "expected_sections": ["Section 112(1) Explanation"]
+  },
+  {
+    "query": "What is the punishment for committing petty organised crime?",
+    "expected_sections": ["Section 112(2)"]
+  },
+  {
+    "query": "How is a 'terrorist act' defined regarding the intent to threaten the unity or security of India?",
+    "expected_sections": ["Section 113(1)"]
+  },
+  {
+    "query": "How is a 'public functionary' defined in the context of terrorist acts?",
+    "expected_sections": ["Section 113(1) Explanation (a)"]
+  },
+  {
+    "query": "What is the punishment for a terrorist act that results in the death of a person?",
+    "expected_sections": ["Section 113(2)(a)"]
+  },
+  {
+    "query": "What is the punishment for a person who organises camps for imparting training in terrorist acts?",
+    "expected_sections": ["Section 113(4)"]
+  },
+  {
+    "query": "What rank of police officer is authorized to decide whether to register a case under Section 113 or the UAPA, 1967?",
+    "expected_sections": ["Section 113(7) Explanation"]
+  },
+  {
+    "query": "What is the legal definition of 'hurt'?",
+    "expected_sections": ["Section 114"]
+  },
+  {
+    "query": "When is a person legally said to 'voluntarily cause hurt'?",
+    "expected_sections": ["Section 115(1)"]
+  },
+  {
+    "query": "What is the general punishment for voluntarily causing hurt?",
+    "expected_sections": ["Section 115(2)"]
+  },
+  {
+    "query": "What eight specific types of injuries are legally designated as 'grievous hurt'?",
+    "expected_sections": ["Section 116(a) to (h)"]
+  },
+  {
+    "query": "When is a person said to 'voluntarily cause grievous hurt'?",
+    "expected_sections": ["Section 117(1)"]
+  },
+  {
+    "query": "If a person intends to permanently disfigure someone's face but fails, yet causes severe bodily pain for fifteen days, have they caused grievous hurt?",
+    "expected_sections": ["Section 117(1) Illustration"]
+  },
+  {
+    "query": "What is the general punishment for voluntarily causing grievous hurt?",
+    "expected_sections": ["Section 117(2)"]
+  },
+  {
+    "query": "What is the punishment for causing grievous hurt that results in the victim entering a persistent vegetative state?",
+    "expected_sections": ["Section 117(3)"]
+  },
+  {
+    "query": "What is the penalty when five or more persons acting in concert cause grievous hurt on the basis of race, caste, or sex?",
+    "expected_sections": ["Section 117(4)"]
+  },
+  {
+    "query": "What is the punishment for voluntarily causing hurt using dangerous weapons, poison, or fire?",
+    "expected_sections": ["Section 118(1)"]
+  },
+  {
+    "query": "What is the punishment for voluntarily causing hurt to extort property or force an illegal act?",
+    "expected_sections": ["Section 119(1)"]
+  },
+  {
+    "query": "What is the punishment for voluntarily causing hurt to a public servant to deter them from their duty?",
+    "expected_sections": ["Section 121(1)"]
+  },
+  {
+    "query": "What is the punishment for voluntarily causing hurt on grave and sudden provocation?",
+    "expected_sections": ["Section 122(1)"]
+  },
+  {
+    "query": "What is the punishment for administering poison or stupefying drugs with intent to cause hurt or commit an offence?",
+    "expected_sections": ["Section 123"]
+  },
+  {
+    "query": "What is the punishment for voluntarily causing grievous hurt by throwing or administering acid?",
+    "expected_sections": ["Section 124(1)"]
+  },
+  {
+    "query": "Who receives the fine imposed for an acid attack under Section 124?",
+    "expected_sections": ["Section 124(1) Second Proviso"]
+  },
+  {
+    "query": "What is the punishment for attempting to throw acid with the intention of causing burns or deformity?",
+    "expected_sections": ["Section 124(2)"]
+  },
+  {
+    "query": "How is 'acid' defined for the purposes of the offences under Section 124?",
+    "expected_sections": ["Section 124 Explanation 1"]
+  },
+  {
+    "query": "What is the punishment for an act done so rashly or negligently as to endanger human life or personal safety?",
+    "expected_sections": ["Section 125"]
+  },
+  {
+    "query": "How is 'wrongful restraint' legally defined under the Sanhita?",
+    "expected_sections": ["Section 126(1)"]
+  },
+  {
+    "query": "Is obstructing a private way over land or water considered wrongful restraint if the person believes in good faith they have a lawful right to obstruct it?",
+    "expected_sections": ["Section 126(1) Exception"]
+  },
+  {
+    "query": "If A obstructs a path Z has a right to pass, not believing in good faith he has a right to stop it, and Z is prevented from passing, what offence is committed?",
+    "expected_sections": ["Section 126(1) Illustration"]
+  },
+  {
+    "query": "What is the punishment for wrongfully restraining any person?",
+    "expected_sections": ["Section 126(2)"]
+  },
+  {
+    "query": "How is 'wrongful confinement' legally defined?",
+    "expected_sections": ["Section 127(1)"]
+  },
+  {
+    "query": "If A causes Z to go within a walled space and locks Z in, preventing Z from leaving, what offence has A committed?",
+    "expected_sections": ["Section 127(1) Illustration (a)"]
+  },
+  {
+    "query": "If A places men with firearms at the outlets of a building and threatens to fire if Z attempts to leave, what offence has A committed?",
+    "expected_sections": ["Section 127(1) Illustration (b)"]
+  },
+  {
+    "query": "What is the general punishment for wrongfully confining any person?",
+    "expected_sections": ["Section 127(2)"]
+  },
+  {
+    "query": "What is the punishment for wrongfully confining any person for three days or more?",
+    "expected_sections": ["Section 127(3)"]
+  },
+  {
+    "query": "What is the punishment for wrongfully confining any person for ten days or more?",
+    "expected_sections": ["Section 127(4)"]
+  },
+  {
+    "query": "What is the enhanced punishment for keeping a person in wrongful confinement knowing that a writ for their liberation has been duly issued?",
+    "expected_sections": ["Section 127(5)"]
+  },
+  {
+    "query": "What is the punishment for wrongfully confining a person in secret to prevent discovery by interested persons or public servants?",
+    "expected_sections": ["Section 127(6)"]
+  },
+  {
+    "query": "What is the punishment for wrongfully confining a person to extort property or to constrain them to do an illegal act?",
+    "expected_sections": ["Section 127(7)"]
+  },
+  {
+    "query": "What is the penalty for wrongfully confining a person to extort a confession or compel the restoration of property?",
+    "expected_sections": ["Section 127(8)"]
+  },
+  {
+    "query": "Under what three specific conditions is a person said to use 'force' to another person?",
+    "expected_sections": ["Section 128(a), (b), (c)"]
+  },
+  {
+    "query": "How is 'criminal force' legally defined?",
+    "expected_sections": ["Section 129"]
+  },
+  {
+    "query": "If A intentionally unfastens the moorings of a boat Z is sitting in, causing it to drift without Z's consent to annoy Z, has A used criminal force?",
+    "expected_sections": ["Section 129 Illustration (a)"]
+  },
+  {
+    "query": "If A lashes the horses of Z's chariot without Z's consent, causing them to quicken pace to frighten Z, has A used criminal force?",
+    "expected_sections": ["Section 129 Illustration (b)"]
+  },
+  {
+    "query": "If A seizes the pole of Z's palanquin and stops it by bodily power to rob Z, has A used criminal force?",
+    "expected_sections": ["Section 129 Illustration (c)"]
+  },
+  {
+    "query": "If A intentionally pushes against Z in the street without Z's consent to annoy Z, has A used criminal force?",
+    "expected_sections": ["Section 129 Illustration (d)"]
+  },
+  {
+    "query": "If A intentionally throws a stone that dashes water against Z's clothes without Z's consent to annoy Z, has A used criminal force?",
+    "expected_sections": ["Section 129 Illustration (e)"]
+  },
+  {
+    "query": "If A intentionally pulls up a woman's veil without her consent to annoy her, has A used criminal force?",
+    "expected_sections": ["Section 129 Illustration (f)"]
+  },
+  {
+    "query": "If A intentionally pours boiling water into Z's bath while Z is bathing without Z's consent to cause injury, has A used criminal force?",
+    "expected_sections": ["Section 129 Illustration (g)"]
+  },
+  {
+    "query": "If A incites a dog to spring upon Z without Z's consent, intending to cause fear or annoyance, has A used criminal force?",
+    "expected_sections": ["Section 129 Illustration (h)"]
+  },
+  {
+    "query": "How is an 'assault' legally defined?",
+    "expected_sections": ["Section 130"]
+  },
+  {
+    "query": "Do mere words amount to an assault under the Sanhita?",
+    "expected_sections": ["Section 130 Explanation"]
+  },
+  {
+    "query": "If A shakes his fist at Z, intending to cause Z to believe he is about to strike him, has A committed an assault?",
+    "expected_sections": ["Section 130 Illustration (a)"]
+  },
+  {
+    "query": "If A begins to unloose the muzzle of a ferocious dog, intending to cause Z to believe the dog will attack him, has A committed an assault?",
+    "expected_sections": ["Section 130 Illustration (b)"]
+  },
+  {
+    "query": "If A takes up a stick and says to Z, 'I will give you a beating,' making the gesture an immediate threat, has A committed an assault?",
+    "expected_sections": ["Section 130 Illustration (c)"]
+  },
+  {
+    "query": "What is the punishment for assault or criminal force used otherwise than on grave and sudden provocation?",
+    "expected_sections": ["Section 131"]
+  },
+  {
+    "query": "Will grave and sudden provocation mitigate punishment if the offender voluntarily provoked it as an excuse?",
+    "expected_sections": ["Section 131 Explanation 1(a)"]
+  },
+  {
+    "query": "Who determines whether the provocation was grave and sudden enough to mitigate the offence of assault?",
+    "expected_sections": ["Section 131 Explanation 2"]
+  },
+  {
+    "query": "What is the punishment for assaulting a public servant to deter them from discharging their official duty?",
+    "expected_sections": ["Section 132"]
+  },
+  {
+    "query": "What is the punishment for assault or criminal force with the intent to dishonour a person?",
+    "expected_sections": ["Section 133"]
+  },
+  {
+    "query": "What is the punishment for assault or criminal force in an attempt to commit theft of property carried by a person?",
+    "expected_sections": ["Section 134"]
+  },
+  {
+    "query": "What is the punishment for assault or criminal force in an attempt to wrongfully confine a person?",
+    "expected_sections": ["Section 135"]
+  },
+  {
+    "query": "What is the punishment for assault or criminal force committed on grave and sudden provocation?",
+    "expected_sections": ["Section 136"]
+  },
+  {
+    "query": "What are the two specific kinds of kidnapping defined under the Sanhita?",
+    "expected_sections": ["Section 137(1)"]
+  },
+  {
+    "query": "How is 'kidnapping from India' defined?",
+    "expected_sections": ["Section 137(1)(a)"]
+  },
+  {
+    "query": "How is 'kidnapping from lawful guardianship' defined?",
+    "expected_sections": ["Section 137(1)(b)"]
+  },
+  {
+    "query": "Does 'lawful guardian' include any person lawfully entrusted with the care or custody of a child?",
+    "expected_sections": ["Section 137(1) Explanation"]
+  },
+  {
+    "query": "Is a person guilty of kidnapping from lawful guardianship if they believe in good faith they are the father of an illegitimate child and take custody for a lawful purpose?",
+    "expected_sections": ["Section 137(1) Exception"]
+  },
+  {
+    "query": "What is the punishment for kidnapping any person from India or from lawful guardianship?",
+    "expected_sections": ["Section 137(2)"]
+  },
+  {
+    "query": "How is the offence of 'abduction' legally defined?",
+    "expected_sections": ["Section 138"]
+  },
+  {
+    "query": "What is the punishment for kidnapping or obtaining custody of a child to employ them for begging?",
+    "expected_sections": ["Section 139(1)"]
+  },
+  {
+    "query": "What is the punishment for maiming a child in order to employ them for the purpose of begging?",
+    "expected_sections": ["Section 139(2)"]
+  },
+  {
+    "query": "What is the legal presumption if a person who is not the lawful guardian employs a child for begging?",
+    "expected_sections": ["Section 139(3)"]
+  },
+  {
+    "query": "How is 'begging' defined under Section 139 for the purposes of offences against children?",
+    "expected_sections": ["Section 139(4)(i) to (iv)"]
+  },
+  {
+    "query": "What is the punishment for kidnapping or abducting a person in order that they may be murdered?",
+    "expected_sections": ["Section 140(1)"]
+  },
+  {
+    "query": "If A kidnaps Z intending that Z may be sacrificed to an idol, what offence has A committed?",
+    "expected_sections": ["Section 140(1) Illustration (a)"]
+  },
+  {
+    "query": "What is the punishment for kidnapping a person and threatening their life to compel the Government or any person to pay ransom or do an act?",
+    "expected_sections": ["Section 140(2)"]
+  },
+  {
+    "query": "What is the punishment for kidnapping a person with intent to secretly and wrongfully confine them?",
+    "expected_sections": ["Section 140(3)"]
+  },
+  {
+    "query": "What is the punishment for kidnapping a person to put them in danger of being subjected to grievous hurt, slavery, or unnatural lust?",
+    "expected_sections": ["Section 140(4)"]
+  },
+  {
+    "query": "What is the punishment for importing a girl under twenty-one or a boy under eighteen from a foreign country for illicit intercourse?",
+    "expected_sections": ["Section 141"]
+  },
+  {
+    "query": "What is the penalty for wrongfully concealing or keeping in confinement a kidnapped or abducted person?",
+    "expected_sections": ["Section 142"]
+  },
+  {
+    "query": "What actions constitute the offence of 'trafficking of person'?",
+    "expected_sections": ["Section 143(1)"]
+  },
+  {
+    "query": "How is 'exploitation' defined in the context of human trafficking?",
+    "expected_sections": ["Section 143(1) Explanation 1"]
+  },
+  {
+    "query": "Is the consent of the victim material in determining the offence of trafficking?",
+    "expected_sections": ["Section 143(1) Explanation 2"]
+  },
+  {
+    "query": "What is the base punishment for committing the offence of trafficking?",
+    "expected_sections": ["Section 143(2)"]
+  },
+  {
+    "query": "What is the punishment for an offence involving the trafficking of more than one person?",
+    "expected_sections": ["Section 143(3)"]
+  },
+  {
+    "query": "What is the punishment for an offence involving the trafficking of a child?",
+    "expected_sections": ["Section 143(4)"]
+  },
+  {
+    "query": "What is the punishment for an offence involving the trafficking of more than one child?",
+    "expected_sections": ["Section 143(5)"]
+  },
+  {
+    "query": "What is the punishment for a person convicted of the trafficking of a child on more than one occasion?",
+    "expected_sections": ["Section 143(6)"]
+  },
+  {
+    "query": "What is the punishment when a public servant or police officer is involved in human trafficking?",
+    "expected_sections": ["Section 143(7)"]
+  },
+  {
+    "query": "What is the punishment for engaging a trafficked child for sexual exploitation?",
+    "expected_sections": ["Section 144(1)"]
+  },
+  {
+    "query": "What is the punishment for engaging a trafficked adult person for sexual exploitation?",
+    "expected_sections": ["Section 144(2)"]
+  },
+  {
+    "query": "What is the penalty for habitually importing, exporting, or dealing in slaves?",
+    "expected_sections": ["Section 145"]
+  },
+  {
+    "query": "What is the punishment for unlawfully compelling any person to labour against their will?",
+    "expected_sections": ["Section 146"]
+  },
+  {
+    "query": "What is the punishment for waging war, attempting to wage war, or abetting the waging of war against the Government of India?",
+    "expected_sections": ["Section 147"]
+  },
+  {
+    "query": "If A joins an insurrection against the Government of India, what offence has A committed?",
+    "expected_sections": ["Section 147 Illustration"]
+  },
+  {
+    "query": "What is the punishment for conspiring to wage war or to overawe the Central or State Government by means of criminal force?",
+    "expected_sections": ["Section 148"]
+  },
+  {
+    "query": "To constitute a conspiracy to wage war against the Government under Section 148, is it necessary that an act or illegal omission takes place in pursuance thereof?",
+    "expected_sections": ["Section 148 Explanation"]
+  },
+  {
+    "query": "What is the penalty for collecting men, arms, or ammunition with the intention of either waging or being prepared to wage war against the Government of India?",
+    "expected_sections": ["Section 149"]
+  },
+  {
+    "query": "What is the punishment for concealing the existence of a design to wage war against the Government of India with the intent to facilitate such war?",
+    "expected_sections": ["Section 150"]
+  },
+  {
+    "query": "What is the punishment for assaulting or wrongfully restraining the President of India or the Governor of any State with intent to compel or restrain the exercise of their lawful powers?",
+    "expected_sections": ["Section 151"]
+  },
+  {
+    "query": "What is the punishment for purposely or knowingly exciting secession, armed rebellion, or subversive activities, or endangering the sovereignty, unity, and integrity of India?",
+    "expected_sections": ["Section 152"]
+  },
+  {
+    "query": "Do comments expressing disapprobation of Government administrative actions with a view to obtain alteration by lawful means constitute an offence under Section 152?",
+    "expected_sections": ["Section 152 Explanation"]
+  },
+  {
+    "query": "What is the penalty for waging war against the Government of any foreign State at peace with the Government of India?",
+    "expected_sections": ["Section 153"]
+  },
+  {
+    "query": "What is the punishment for committing or making preparations to commit depredation on the territories of a foreign State at peace with India?",
+    "expected_sections": ["Section 154"]
+  },
+  {
+    "query": "What is the penalty for receiving property knowing it was taken in the commission of war against a friendly State or by depredation?",
+    "expected_sections": ["Section 155"]
+  },
+  {
+    "query": "What is the punishment for a public servant having custody of a State prisoner or prisoner of war who voluntarily allows such prisoner to escape?",
+    "expected_sections": ["Section 156"]
+  },
+  {
+    "query": "What is the penalty if a public servant negligently suffers a State prisoner or prisoner of war to escape from confinement?",
+    "expected_sections": ["Section 157"]
+  },
+  {
+    "query": "What is the punishment for knowingly aiding a State prisoner or prisoner of war in escaping, or harbouring them after escape?",
+    "expected_sections": ["Section 158"]
+  },
+  {
+    "query": "Is a State prisoner on parole who goes beyond their permitted limits considered to have escaped from lawful custody?",
+    "expected_sections": ["Section 158 Explanation"]
+  },
+  {
+    "query": "What is the punishment for abetting the committing of mutiny or attempting to seduce a soldier, sailor, or airman from his duty?",
+    "expected_sections": ["Section 159"]
+  },
+  {
+    "query": "What is the penalty if mutiny is actually committed in consequence of the abetment of mutiny by an officer, soldier, sailor, or airman?",
+    "expected_sections": ["Section 160"]
+  },
+  {
+    "query": "What is the punishment for abetting an assault by a soldier, sailor, or airman on any superior officer in the execution of his office?",
+    "expected_sections": ["Section 161"]
+  },
+  {
+    "query": "What is the penalty if an assault on a superior officer is actually committed in consequence of its abetment?",
+    "expected_sections": ["Section 162"]
+  },
+  {
+    "query": "What is the punishment for abetting the desertion of any officer, soldier, sailor, or airman?",
+    "expected_sections": ["Section 163"]
+  },
+  {
+    "query": "What is the penalty for harbouring an officer, soldier, sailor, or airman knowing or having reason to believe they have deserted?",
+    "expected_sections": ["Section 164"]
+  },
+  {
+    "query": "Is a spouse liable to punishment for harbouring a deserter from the Armed Forces?",
+    "expected_sections": ["Section 164 Exception"]
+  },
+  {
+    "query": "What penalty applies to a master of a merchant vessel if a deserter is concealed on board through negligence or want of discipline?",
+    "expected_sections": ["Section 165"]
+  },
+  {
+    "query": "What is the punishment for abetting an act of insubordination by a soldier, sailor, or airman if the act is committed in consequence?",
+    "expected_sections": ["Section 166"]
+  },
+  {
+    "query": "Are persons subject to the Air Force Act, 1950, the Army Act, 1950, or the Navy Act, 1957 punishable under Chapter VIII of the Sanhita?",
+    "expected_sections": ["Section 167"]
+  },
+  {
+    "query": "What is the penalty for wearing the garb or carrying a token resembling that of a soldier, sailor, or airman with fraudulent intent?",
+    "expected_sections": ["Section 168"]
+  },
+  {
+    "query": "How is a 'candidate' defined for the purposes of offences relating to elections?",
+    "expected_sections": ["Section 169(a)"]
+  },
+  {
+    "query": "How is 'electoral right' defined under the Sanhita?",
+    "expected_sections": ["Section 169(b)"]
+  },
+  {
+    "query": "What acts of giving or accepting gratification constitute the offence of bribery at an election?",
+    "expected_sections": ["Section 170(1)(i), (ii)"]
+  },
+  {
+    "query": "Does a declaration of public policy or a promise of public action constitute bribery at an election?",
+    "expected_sections": ["Section 170(1) Proviso"]
+  },
+  {
+    "query": "Is a person who offers or attempts to procure a gratification deemed to give a gratification in election matters?",
+    "expected_sections": ["Section 170(2)"]
+  },
+  {
+    "query": "Is accepting a gratification as a motive for doing what one does not intend to do deemed accepting a gratification?",
+    "expected_sections": ["Section 170(3)"]
+  },
+  {
+    "query": "What constitutes the offence of 'undue influence' at an election?",
+    "expected_sections": ["Section 171(1)"]
+  },
+  {
+    "query": "Does threatening a candidate or voter with injury, or inducing them to believe they will face Divine displeasure, constitute undue influence?",
+    "expected_sections": ["Section 171(2)(a), (b)"]
+  },
+  {
+    "query": "Does the mere exercise of a legal right without intent to interfere with an electoral right constitute undue influence?",
+    "expected_sections": ["Section 171(3)"]
+  },
+  {
+    "query": "What actions constitute the offence of 'personation at an election'?",
+    "expected_sections": ["Section 172"]
+  },
+  {
+    "query": "Does the offence of personation apply to a person authorised by law to vote as a proxy for an elector?",
+    "expected_sections": ["Section 172 Proviso"]
+  },
+  {
+    "query": "What is the general punishment for committing the offence of bribery at an election?",
+    "expected_sections": ["Section 173"]
+  },
+  {
+    "query": "What is the specific punishment if bribery is committed by 'treating'?",
+    "expected_sections": ["Section 173 Proviso"]
+  },
+  {
+    "query": "How is 'treating' defined in the context of bribery at an election?",
+    "expected_sections": ["Section 173 Explanation"]
+  },
+  {
+    "query": "What is the punishment for committing the offence of undue influence or personation at an election?",
+    "expected_sections": ["Section 174"]
+  },
+  {
+    "query": "What is the penalty for publishing a false statement of fact in relation to the personal character or conduct of a candidate to affect an election?",
+    "expected_sections": ["Section 175"]
+  },
+  {
+    "query": "What is the penalty for incurring election expenses for public meetings or advertisements without the written authority of the candidate?",
+    "expected_sections": ["Section 176"]
+  },
+  {
+    "query": "Is a person penalized if they incur unauthorised election expenses under ten rupees but obtain written approval within ten days?",
+    "expected_sections": ["Section 176 Proviso"]
+  },
+  {
+    "query": "What is the penalty for failing to keep accounts of expenses incurred in connection with an election as required by law?",
+    "expected_sections": ["Section 177"]
+  },
+  {
+    "query": "What is the punishment for counterfeiting or performing any part of the process of counterfeiting any coin, Government revenue stamp, currency-note, or bank-note?",
+    "expected_sections": ["Section 178"]
+  },
+  {
+    "query": "How is the expression 'bank-note' defined under Chapter X of the Sanhita?",
+    "expected_sections": ["Section 178 Explanation (1)"]
+  },
+  {
+    "query": "Under which Act does the term 'coin' derive its meaning for the purposes of offences relating to coin under the Sanhita?",
+    "expected_sections": ["Section 178 Explanation (2)"]
+  },
+  {
+    "query": "What specific act constitutes the offence of 'counterfeiting Government stamp'?",
+    "expected_sections": ["Section 178 Explanation (3)"]
+  },
+  {
+    "query": "What specific act constitutes the offence of 'counterfeiting coin' regarding deception?",
+    "expected_sections": ["Section 178 Explanation (4)"]
+  },
+  {
+    "query": "Does diminishing the weight or altering the composition or appearance of a coin fall under the offence of 'counterfeiting coin'?",
+    "expected_sections": ["Section 178 Explanation (5)"]
+  },
+  {
+    "query": "What is the punishment for importing, exporting, selling, or using as genuine any forged or counterfeit coin, stamp, or currency-note?",
+    "expected_sections": ["Section 179"]
+  },
+  {
+    "query": "What is the punishment for possessing any forged or counterfeit coin, stamp, or currency-note intending to use it as genuine?",
+    "expected_sections": ["Section 180"]
+  },
+  {
+    "query": "Is it an offence to possess a counterfeit coin or currency-note if the person establishes that the possession is from a lawful source?",
+    "expected_sections": ["Section 180 Explanation"]
+  },
+  {
+    "query": "What is the punishment for making, mending, or possessing any machinery, die, or instrument intended for forging or counterfeiting coin or currency?",
+    "expected_sections": ["Section 181"]
+  },
+  {
+    "query": "What is the penalty for making or using any document purporting to be, or resembling, a currency-note or bank-note?",
+    "expected_sections": ["Section 182(1)"]
+  },
+  {
+    "query": "What is the penalty if a person whose name appears on a document resembling a bank-note refuses to disclose the name and address of the printer to a police officer?",
+    "expected_sections": ["Section 182(2)"]
+  },
+  {
+    "query": "What is the legal presumption if a person's name appears on a document resembling a currency-note distributed in connection with it?",
+    "expected_sections": ["Section 182(3)"]
+  },
+  {
+    "query": "What is the punishment for fraudulently effacing writing from a substance bearing a Government revenue stamp with intent to cause loss to the Government?",
+    "expected_sections": ["Section 183"]
+  },
+  {
+    "query": "What is the punishment for fraudulently using a Government revenue stamp which is known to have been previously used?",
+    "expected_sections": ["Section 184"]
+  },
+  {
+    "query": "What is the penalty for erasing a mark denoting that a Government stamp has been used, or selling a stamp from which such mark has been removed?",
+    "expected_sections": ["Section 185"]
+  },
+  {
+    "query": "What is the punishment for making, knowingly uttering, dealing in, or possessing any fictitious stamp without lawful excuse?",
+    "expected_sections": ["Section 186(1)"]
+  },
+  {
+    "query": "Can a fictitious stamp or the instrument used to make it be seized and forfeited?",
+    "expected_sections": ["Section 186(2)"]
+  },
+  {
+    "query": "How is a 'fictitious stamp' defined under Section 186?",
+    "expected_sections": ["Section 186(3)"]
+  },
+  {
+    "query": "How is the word 'Government' interpreted in connection with stamps issued for denoting a rate of postage?",
+    "expected_sections": ["Section 186(4)"]
+  },
+  {
+    "query": "What is the punishment for a person employed in a mint lawfully established in India who intentionally causes a coin to be of a different weight or composition than fixed by law?",
+    "expected_sections": ["Section 187"]
+  },
+  {
+    "query": "What is the penalty for unlawfully taking a coining tool or instrument out of any mint lawfully established in India?",
+    "expected_sections": ["Section 188"]
+  },
+  {
+    "query": "What is the minimum number of persons required to constitute an 'unlawful assembly'?",
+    "expected_sections": ["Section 189(1)"]
+  },
+  {
+    "query": "Under what five specific common objects does an assembly of five or more persons become designated as an 'unlawful assembly'?",
+    "expected_sections": ["Section 189(1)(a) to (e)"]
+  },
+  {
+    "query": "Can an assembly which was lawful when it assembled subsequently become an unlawful assembly?",
+    "expected_sections": ["Section 189(1) Explanation"]
+  },
+  {
+    "query": "What is the punishment for intentionally joining or continuing in an assembly knowing facts that render it an unlawful assembly?",
+    "expected_sections": ["Section 189(2)"]
+  },
+  {
+    "query": "What is the punishment for joining or continuing in an unlawful assembly knowing that it has been lawfully commanded to disperse?",
+    "expected_sections": ["Section 189(3)"]
+  },
+  {
+    "query": "What is the punishment for being a member of an unlawful assembly while armed with a deadly weapon?",
+    "expected_sections": ["Section 189(4)"]
+  },
+  {
+    "query": "What is the penalty for knowingly joining an assembly of five or more persons likely to cause a disturbance of the public peace after it has been commanded to disperse?",
+    "expected_sections": ["Section 189(5)"]
+  },
+  {
+    "query": "If an assembly under Section 189(5) is strictly an unlawful assembly, under which sub-section is the offender punishable?",
+    "expected_sections": ["Section 189(5) Explanation"]
+  },
+  {
+    "query": "What is the punishment for hiring, engaging, or promoting the hiring of any person to become a member of an unlawful assembly?",
+    "expected_sections": ["Section 189(6)"]
+  },
+  {
+    "query": "What is the penalty for harbouring or assembling persons in a house or premises knowing they have been hired to join an unlawful assembly?",
+    "expected_sections": ["Section 189(7)"]
+  },
+  {
+    "query": "What is the punishment for a person who is engaged or hired to assist in doing any acts specified for an unlawful assembly?",
+    "expected_sections": ["Section 189(8)"]
+  },
+  {
+    "query": "What is the punishment for a person hired to assist an unlawful assembly who goes armed with a deadly weapon?",
+    "expected_sections": ["Section 189(9)"]
+  },
+  {
+    "query": "Are all members of an unlawful assembly guilty of an offence committed by any member in prosecution of the common object of that assembly?",
+    "expected_sections": ["Section 190"]
+  },
+  {
+    "query": "What constitutes the offence of 'rioting'?",
+    "expected_sections": ["Section 191(1)"]
+  },
+  {
+    "query": "What is the general punishment for the offence of rioting?",
+    "expected_sections": ["Section 191(2)"]
+  },
+  {
+    "query": "What is the punishment for rioting while armed with a deadly weapon?",
+    "expected_sections": ["Section 191(3)"]
+  },
+  {
+    "query": "What is the penalty for malignantly or wantonly giving provocation with the intent to cause rioting, if a riot is actually committed in consequence?",
+    "expected_sections": ["Section 192"]
+  },
+  {
+    "query": "What is the penalty for wantonly giving provocation with intent to cause rioting if the riot is not actually committed?",
+    "expected_sections": ["Section 192"]
+  },
+  {
+    "query": "What is the liability of an owner or occupier of land on which an unlawful assembly or riot takes place, if they fail to give notice to the police or try to prevent it?",
+    "expected_sections": ["Section 193(1)"]
+  },
+  {
+    "query": "What is the liability of a person for whose benefit a riot is committed if they or their agent fail to use lawful means to prevent or suppress the riot?",
+    "expected_sections": ["Section 193(2)"]
+  },
+  {
+    "query": "What is the liability of the agent or manager of a person for whose benefit a riot is committed, if they fail to use lawful means to prevent it?",
+    "expected_sections": ["Section 193(3)"]
+  },
+  {
+    "query": "How is an 'affray' legally defined?",
+    "expected_sections": ["Section 194(1)"]
+  },
+  {
+    "query": "What is the punishment for committing an affray?",
+    "expected_sections": ["Section 194(2)"]
+  },
+  {
+    "query": "What is the punishment for assaulting or obstructing a public servant attempting to disperse an unlawful assembly or suppress a riot or affray?",
+    "expected_sections": ["Section 195(1)"]
+  },
+  {
+    "query": "What is the punishment for threatening to assault or attempting to obstruct a public servant suppressing a riot or affray?",
+    "expected_sections": ["Section 195(2)"]
+  },
+  {
+    "query": "What is the punishment for promoting disharmony or feelings of enmity between different religious, racial, or linguistic groups?",
+    "expected_sections": ["Section 196(1)(a)"]
+  },
+  {
+    "query": "What is the punishment for committing any act prejudicial to the maintenance of harmony between different groups that is likely to disturb public tranquillity?",
+    "expected_sections": ["Section 196(1)(b)"]
+  },
+  {
+    "query": "What is the penalty for organising a drill or activity intending that participants be trained to use criminal force against a specific religious or racial group?",
+    "expected_sections": ["Section 196(1)(c)"]
+  },
+  {
+    "query": "What is the enhanced punishment for committing an offence under Section 196(1) inside a place of worship?",
+    "expected_sections": ["Section 196(2)"]
+  },
+  {
+    "query": "What is the punishment for making imputations that a specific religious or racial group cannot bear true faith and allegiance to the Constitution of India?",
+    "expected_sections": ["Section 197(1)(a)"]
+  },
+  {
+    "query": "What is the penalty for asserting or publishing that any class of persons should be deprived of their rights as citizens of India based on race or religion?",
+    "expected_sections": ["Section 197(1)(b)"]
+  },
+  {
+    "query": "What is the penalty for publishing false or misleading information that jeopardises the sovereignty, unity, and integrity of India?",
+    "expected_sections": ["Section 197(1)(d)"]
+  },
+  {
+    "query": "What is the enhanced punishment for committing an offence under Section 197(1) in an assembly engaged in religious worship?",
+    "expected_sections": ["Section 197(2)"]
+  },
+  {
+    "query": "What is the punishment for a public servant who knowingly disobeys a direction of the law with the intent to cause injury to any person?",
+    "expected_sections": ["Section 198"]
+  },
+  {
+    "query": "If A, an officer directed to take property in execution of a decree, disobeys that law to intentionally injure the decree-holder, what offence is committed?",
+    "expected_sections": ["Section 198 Illustration"]
+  },
+  {
+    "query": "What is the punishment for a public servant who knowingly disobeys the law prohibiting him from requiring the attendance of a person for investigation?",
+    "expected_sections": ["Section 199(a)"]
+  },
+  {
+    "query": "What is the punishment for a public servant who fails to record information regarding a cognizable sexual offence given under Section 173(1) of the BNSS, 2023?",
+    "expected_sections": ["Section 199(c)"]
+  },
+  {
+    "query": "What is the penalty for a person in charge of a hospital who contravenes the provisions of section 397 of the BNSS, 2023 (non-treatment of victim)?",
+    "expected_sections": ["Section 200"]
+  },
+  {
+    "query": "What is the punishment for a public servant who frames or translates an incorrect document intending to cause injury to any person?",
+    "expected_sections": ["Section 201"]
+  },
+  {
+    "query": "What is the punishment for a public servant who is legally bound not to engage in trade, but does so anyway?",
+    "expected_sections": ["Section 202"]
+  },
+  {
+    "query": "What is the punishment for a public servant who unlawfully bids for or purchases property they are legally bound not to purchase?",
+    "expected_sections": ["Section 203"]
+  },
+  {
+    "query": "What is the penalty for personating a public servant and attempting to do any act under the colour of such office?",
+    "expected_sections": ["Section 204"]
+  },
+  {
+    "query": "What is the punishment for wearing the garb or carrying a token resembling that of a public servant with fraudulent intent?",
+    "expected_sections": ["Section 205"]
+  },
+  {
+    "query": "What is the general punishment for absconding in order to avoid being served with a summons, notice, or order from a public servant?",
+    "expected_sections": ["Section 206(a)"]
+  },
+  {
+    "query": "What is the enhanced punishment for absconding to avoid a summons if the summons requires attendance in person or production of a document in a Court?",
+    "expected_sections": ["Section 206(b)"]
+  },
+  {
+    "query": "What is the general punishment for intentionally preventing the serving of a summons, notice, or order proceeding from a legally competent public servant?",
+    "expected_sections": ["Section 207(a)"]
+  },
+  {
+    "query": "What is the punishment for preventing the service of a summons or notice if it requires attendance or production of an electronic record in a Court?",
+    "expected_sections": ["Section 207(b)"]
+  },
+  {
+    "query": "What is the general punishment for intentionally omitting to attend at a specified place and time in obedience to a summons from a public servant?",
+    "expected_sections": ["Section 208(a)"]
+  },
+  {
+    "query": "What is the punishment for non-attendance in obedience to a summons if the summons requires attendance in a Court?",
+    "expected_sections": ["Section 208(b)"]
+  },
+  {
+    "query": "If A is legally bound to appear before a High Court in obedience to a subpoena and intentionally omits to appear, what offence has A committed?",
+    "expected_sections": ["Section 208 Illustration (a)"]
+  },
+  {
+    "query": "What is the punishment for failing to appear in response to a proclamation published under Section 84(1) of the Bharatiya Nagarik Suraksha Sanhita, 2023?",
+    "expected_sections": ["Section 209"]
+  },
+  {
+    "query": "What is the enhanced punishment if a person failing to appear in response to a proclamation has been pronounced a 'proclaimed offender' under Section 84(4) of the BNSS?",
+    "expected_sections": ["Section 209"]
+  },
+  {
+    "query": "What is the general punishment for intentionally omitting to produce or deliver up a document or electronic record to a public servant when legally bound to do so?",
+    "expected_sections": ["Section 210(a)"]
+  },
+  {
+    "query": "What is the punishment for omitting to produce a document or electronic record if it is required to be delivered to a Court?",
+    "expected_sections": ["Section 210(b)"]
+  },
+  {
+    "query": "What is the general punishment for intentionally omitting to give notice or furnish information to a public servant when legally bound to do so?",
+    "expected_sections": ["Section 211(a)"]
+  },
+  {
+    "query": "What is the punishment for omitting to furnish information if the information relates to the commission of an offence or is required to prevent an offence?",
+    "expected_sections": ["Section 211(b)"]
+  },
+  {
+    "query": "What is the punishment for omitting to give notice or information if it is required by an order passed under Section 394 of the BNSS, 2023?",
+    "expected_sections": ["Section 211(c)"]
+  },
+  {
+    "query": "What is the general punishment for legally bound persons who furnish information to a public servant that they know or believe to be false?",
+    "expected_sections": ["Section 212(a)"]
+  },
+  {
+    "query": "What is the enhanced punishment for furnishing false information if the information relates to the commission or prevention of an offence?",
+    "expected_sections": ["Section 212(b)"]
+  },
+  {
+    "query": "If a landholder falsely informs a Magistrate that a murder on his estate was an accidental snake bite, what offence has he committed?",
+    "expected_sections": ["Section 212 Illustration (a)"]
+  },
+  {
+    "query": "What is the penalty for refusing to bind oneself by an oath or affirmation to state the truth when required by a competent public servant?",
+    "expected_sections": ["Section 213"]
+  },
+  {
+    "query": "What is the penalty for refusing to answer a question demanded by a public servant touching a subject on which the person is legally bound to state the truth?",
+    "expected_sections": ["Section 214"]
+  },
+  {
+    "query": "What is the punishment for refusing to sign a statement made by oneself when required to do so by a competent public servant?",
+    "expected_sections": ["Section 215"]
+  },
+  {
+    "query": "What is the penalty for making a false statement on oath or affirmation to a public servant or person authorised to administer such oath?",
+    "expected_sections": ["Section 216"]
+  },
+  {
+    "query": "What is the punishment for giving false information to a public servant with the intent to cause them to use their lawful power to the injury or annoyance of any person?",
+    "expected_sections": ["Section 217"]
+  },
+  {
+    "query": "If A falsely informs a policeman he was robbed to cause the police to search a village and annoy the villagers, what offence has A committed?",
+    "expected_sections": ["Section 217 Illustration (c)"]
+  },
+  {
+    "query": "What is the penalty for offering resistance to the taking of any property by the lawful authority of a public servant?",
+    "expected_sections": ["Section 218"]
+  },
+  {
+    "query": "What is the punishment for intentionally obstructing any sale of property offered for sale by the lawful authority of a public servant?",
+    "expected_sections": ["Section 219"]
+  },
+  {
+    "query": "What is the penalty for purchasing or bidding for property at a public servant's sale on behalf of someone legally incapable of purchasing it?",
+    "expected_sections": ["Section 220"]
+  },
+  {
+    "query": "What is the punishment for voluntarily obstructing any public servant in the discharge of their public functions?",
+    "expected_sections": ["Section 221"]
+  },
+  {
+    "query": "What is the general punishment for intentionally omitting to assist a public servant when bound by law to do so?",
+    "expected_sections": ["Section 222(a)"]
+  },
+  {
+    "query": "What is the punishment for omitting to assist a public servant if the assistance is demanded to execute a Court process, prevent an offence, or suppress a riot?",
+    "expected_sections": ["Section 222(b)"]
+  },
+  {
+    "query": "What is the punishment for disobeying a duly promulgated order by a public servant if the disobedience causes obstruction, annoyance, or injury?",
+    "expected_sections": ["Section 223(a)"]
+  },
+  {
+    "query": "What is the punishment for disobeying a public servant's order if the disobedience causes danger to human life, health, safety, or causes a riot?",
+    "expected_sections": ["Section 223(b)"]
+  },
+  {
+    "query": "Does the offender need to intend to produce harm when disobeying a public servant's order under Section 223?",
+    "expected_sections": ["Section 223 Explanation"]
+  },
+  {
+    "query": "What is the penalty for holding out a threat of injury to a public servant to induce them to do or forbear any act connected with their public functions?",
+    "expected_sections": ["Section 224"]
+  },
+  {
+    "query": "What is the punishment for holding out a threat of injury to induce a person to refrain from making a legal application for protection to a public servant?",
+    "expected_sections": ["Section 225"]
+  },
+  {
+    "query": "What is the penalty for attempting to commit suicide with the intent to compel or restrain any public servant from discharging their official duty?",
+    "expected_sections": ["Section 226"]
+  },
+  {
+    "query": "How is the offence of 'giving false evidence' legally defined?",
+    "expected_sections": ["Section 227"]
+  },
+  {
+    "query": "Can a person be guilty of giving false evidence by stating they believe a thing which they do not actually believe?",
+    "expected_sections": ["Section 227 Explanation 2"]
+  },
+  {
+    "query": "If a translator certifies as a true translation something they do not believe to be a true translation, have they given false evidence?",
+    "expected_sections": ["Section 227 Illustration (e)"]
+  },
+  {
+    "query": "What actions constitute 'fabricating false evidence'?",
+    "expected_sections": ["Section 228"]
+  },
+  {
+    "query": "If A puts jewels into Z's box intending them to be found to cause Z to be convicted of theft, what offence has A committed?",
+    "expected_sections": ["Section 228 Illustration (a)"]
+  },
+  {
+    "query": "What is the punishment for intentionally giving or fabricating false evidence in any stage of a judicial proceeding?",
+    "expected_sections": ["Section 229(1)"]
+  },
+  {
+    "query": "What is the punishment for giving or fabricating false evidence in any case other than a judicial proceeding?",
+    "expected_sections": ["Section 229(2)"]
+  },
+  {
+    "query": "Is an investigation directed by law preliminary to a proceeding before a Court considered a stage of a judicial proceeding?",
+    "expected_sections": ["Section 229 Explanation 2"]
+  },
+  {
+    "query": "What is the punishment for giving or fabricating false evidence intending to procure a conviction for a capital offence?",
+    "expected_sections": ["Section 230(1)"]
+  },
+  {
+    "query": "What is the penalty if an innocent person is convicted and executed as a consequence of fabricated false evidence for a capital offence?",
+    "expected_sections": ["Section 230(2)"]
+  },
+  {
+    "query": "What is the penalty for giving false evidence intending to procure a conviction for an offence punishable with life imprisonment or 7+ years?",
+    "expected_sections": ["Section 231"]
+  },
+  {
+    "query": "What is the punishment for threatening another person with injury to their person, reputation, or property to force them to give false evidence?",
+    "expected_sections": ["Section 232(1)"]
+  },
+  {
+    "query": "What is the penalty if an innocent person is convicted and sentenced to death or 7+ years imprisonment due to false evidence forced by threats?",
+    "expected_sections": ["Section 232(2)"]
+  },
+  {
+    "query": "What is the penalty for corruptly using or attempting to use evidence that is known to be false or fabricated?",
+    "expected_sections": ["Section 233"]
+  },
+  {
+    "query": "What is the punishment for issuing or signing any certificate required by law while knowing or believing it is false in a material point?",
+    "expected_sections": ["Section 234"]
+  },
+  {
+    "query": "What is the penalty for using as true a certificate known to be false in any material point?",
+    "expected_sections": ["Section 235"]
+  },
+  {
+    "query": "What is the punishment for making a false statement in a declaration which is by law receivable as evidence?",
+    "expected_sections": ["Section 236"]
+  },
+  {
+    "query": "What is the penalty for using as true a declaration which is receivable as evidence, knowing it contains a false statement?",
+    "expected_sections": ["Section 237"]
+  },
+  {
+    "query": "What is the punishment for causing evidence to disappear to screen an offender, if the underlying offence is punishable with death?",
+    "expected_sections": ["Section 238(a)"]
+  },
+  {
+    "query": "What is the punishment for causing evidence to disappear to screen an offender, if the underlying offence is punishable with life imprisonment or up to 10 years?",
+    "expected_sections": ["Section 238(b)"]
+  },
+  {
+    "query": "What is the penalty for intentionally omitting to give information of an offence when legally bound to do so?",
+    "expected_sections": ["Section 239"]
+  },
+  {
+    "query": "What is the punishment for giving false information respecting an offence committed, knowing or believing the information to be false?",
+    "expected_sections": ["Section 240"]
+  },
+  {
+    "query": "What is the penalty for secreting, destroying, or defacing a document or electronic record to prevent its production as evidence in a Court?",
+    "expected_sections": ["Section 241"]
+  },
+  {
+    "query": "What is the penalty for false personation for the purpose of making an admission, becoming bail, or doing any act in a suit or prosecution?",
+    "expected_sections": ["Section 242"]
+  },
+  {
+    "query": "What is the penalty for fraudulently removing or concealing property to prevent it from being taken as a forfeiture or in execution of a decree?",
+    "expected_sections": ["Section 243"]
+  },
+  {
+    "query": "What is the punishment for fraudulently claiming property with no right, intending to prevent it from being seized as forfeited or in execution?",
+    "expected_sections": ["Section 244"]
+  },
+  {
+    "query": "What is the penalty for fraudulently suffering a decree to be passed against oneself for a sum not due or executing a satisfied decree?",
+    "expected_sections": ["Section 245"]
+  },
+  {
+    "query": "What is the penalty for dishonestly or fraudulently making a claim in a Court which the person knows to be false?",
+    "expected_sections": ["Section 246"]
+  },
+  {
+    "query": "What is the punishment for fraudulently obtaining a decree against any person for a sum not due or executing it after it is satisfied?",
+    "expected_sections": ["Section 247"]
+  },
+  {
+    "query": "What is the punishment for instituting a criminal proceeding or making a false charge of an offence with intent to injure, knowing there is no just ground?",
+    "expected_sections": ["Section 248(a)"]
+  },
+  {
+    "query": "What is the enhanced penalty if a false charge is made for an offence punishable with death, life imprisonment, or 10+ years?",
+    "expected_sections": ["Section 248(b)"]
+  },
+  {
+    "query": "What is the punishment for harbouring an offender to screen them from legal punishment if the offence committed is punishable with death?",
+    "expected_sections": ["Section 249(a)"]
+  },
+  {
+    "query": "Does the offence of harbouring an offender to screen them from punishment apply if the harbouring is done by the spouse of the offender?",
+    "expected_sections": ["Section 249 Exception"]
+  },
+  {
+    "query": "What is the penalty for taking a gift or gratification in consideration of screening an offender from punishment for an offence punishable with death?",
+    "expected_sections": ["Section 250(a)"]
+  },
+  {
+    "query": "What is the penalty for offering a gift or restoration of property to screen an offender from legal punishment for an offence punishable with death?",
+    "expected_sections": ["Section 251(a)"]
+  },
+  {
+    "query": "What is the punishment for taking a gratification under the pretence of helping someone recover stolen property without using all means to apprehend the offender?",
+    "expected_sections": ["Section 252"]
+  },
+  {
+    "query": "What is the penalty for harbouring a person who has escaped from lawful custody for an offence punishable with death?",
+    "expected_sections": ["Section 253(a)"]
+  },
+  {
+    "query": "What is the punishment for harbouring robbers or dacoits with the intention of facilitating their crimes or screening them from punishment?",
+    "expected_sections": ["Section 254"]
+  },
+  {
+    "query": "What is the punishment for a public servant disobeying the law with intent to save a person from punishment or property from forfeiture?",
+    "expected_sections": ["Section 255"]
+  },
+  {
+    "query": "What is the penalty for a public servant who frames an incorrect record with the intent to save a person from punishment or property from forfeiture?",
+    "expected_sections": ["Section 256"]
+  },
+  {
+    "query": "What is the punishment for a public servant who corruptly or maliciously makes a judicial report or order which they know to be contrary to law?",
+    "expected_sections": ["Section 257"]
+  },
+  {
+    "query": "What is the penalty for a person with legal authority who corruptly commits someone for trial or to confinement knowing it is contrary to law?",
+    "expected_sections": ["Section 258"]
+  },
+  {
+    "query": "What is the penalty for a public servant who intentionally omits to apprehend a person charged with an offence punishable with death?",
+    "expected_sections": ["Section 259(a)"]
+  },
+  {
+    "query": "What is the punishment for a public servant who intentionally omits to apprehend a person under a Court sentence of death?",
+    "expected_sections": ["Section 260(a)"]
+  },
+  {
+    "query": "What is the penalty for a public servant who negligently suffers a person in lawful custody to escape from confinement?",
+    "expected_sections": ["Section 261"]
+  },
+  {
+    "query": "What is the punishment for intentionally offering resistance or illegal obstruction to one's own lawful apprehension?",
+    "expected_sections": ["Section 262"]
+  },
+  {
+    "query": "What is the penalty for resisting the lawful apprehension of another person or rescuing them from custody?",
+    "expected_sections": ["Section 263(a)"]
+  },
+  {
+    "query": "What is the enhanced penalty for rescuing a person from custody if the person is under a sentence of death?",
+    "expected_sections": ["Section 263(e)"]
+  },
+  {
+    "query": "What is the punishment for a public servant who intentionally omits to apprehend a person in cases not specifically provided for in Sections 259-261?",
+    "expected_sections": ["Section 264(a)"]
+  },
+  {
+    "query": "What is the penalty for resisting apprehension or escaping from custody in cases not otherwise provided for by Sections 262 or 263?",
+    "expected_sections": ["Section 265"]
+  },
+  {
+    "query": "What is the punishment for knowingly violating any condition on which a conditional remission of punishment was granted?",
+    "expected_sections": ["Section 266"]
+  },
+  {
+    "query": "What is the penalty for intentionally offering insult or interruption to a public servant while they are sitting in a judicial proceeding?",
+    "expected_sections": ["Section 267"]
+  },
+  {
+    "query": "What is the punishment for intentionally causing oneself to be empanelled as an assessor contrary to law?",
+    "expected_sections": ["Section 268"]
+  },
+  {
+    "query": "What is the punishment for a person released on bail who fails to appear in Court without sufficient cause?",
+    "expected_sections": ["Section 269"]
+  },
+  {
+    "query": "How is the offence of a 'public nuisance' legally defined under the Sanhita?",
+    "expected_sections": ["Section 270"]
+  },
+  {
+    "query": "Can a common nuisance be legally excused on the ground that it causes some convenience or advantage?",
+    "expected_sections": ["Section 270"]
+  },
+  {
+    "query": "What is the punishment for unlawfully or negligently doing an act known to be likely to spread the infection of a disease dangerous to life?",
+    "expected_sections": ["Section 271"]
+  },
+  {
+    "query": "What is the punishment for malignantly doing an act known to be likely to spread the infection of a disease dangerous to life?",
+    "expected_sections": ["Section 272"]
+  },
+  {
+    "query": "What is the penalty for knowingly disobeying any quarantine rule made by the Government?",
+    "expected_sections": ["Section 273"]
+  },
+  {
+    "query": "What is the punishment for adulterating any article of food or drink intended for sale so as to make it noxious?",
+    "expected_sections": ["Section 274"]
+  },
+  {
+    "query": "What is the punishment for selling or offering for sale any article of food or drink known to be noxious or unfit for consumption?",
+    "expected_sections": ["Section 275"]
+  },
+  {
+    "query": "What is the punishment for adulterating a drug or medical preparation to lessen its efficacy or make it noxious?",
+    "expected_sections": ["Section 276"]
+  },
+  {
+    "query": "What is the penalty for selling or issuing from a dispensary an adulterated drug as if it were unadulterated?",
+    "expected_sections": ["Section 277"]
+  },
+  {
+    "query": "What is the punishment for knowingly selling or issuing a drug or medical preparation as a different drug?",
+    "expected_sections": ["Section 278"]
+  },
+  {
+    "query": "What is the penalty for voluntarily corrupting or fouling the water of a public spring or reservoir?",
+    "expected_sections": ["Section 279"]
+  },
+  {
+    "query": "What is the punishment for voluntarily vitiating the atmosphere to make it noxious to the health of the neighbourhood?",
+    "expected_sections": ["Section 280"]
+  },
+  {
+    "query": "What is the punishment for driving a vehicle or riding on a public way in a rash or negligent manner endangering human life?",
+    "expected_sections": ["Section 281"]
+  },
+  {
+    "query": "What is the punishment for navigating any vessel in a rash or negligent manner endangering human life?",
+    "expected_sections": ["Section 282"]
+  },
+  {
+    "query": "What is the penalty for exhibiting any false light, mark, or buoy with the intent to mislead any navigator?",
+    "expected_sections": ["Section 283"]
+  },
+  {
+    "query": "What is the punishment for conveying a person by water for hire in a vessel that is unsafe or overloaded?",
+    "expected_sections": ["Section 284"]
+  },
+  {
+    "query": "What is the penalty for causing danger, obstruction, or injury to any person in a public way or line of navigation by an act or omission regarding property?",
+    "expected_sections": ["Section 285"]
+  },
+  {
+    "query": "What is the punishment for negligent conduct with respect to a poisonous substance that endangers human life?",
+    "expected_sections": ["Section 286"]
+  },
+  {
+    "query": "What is the punishment for negligent conduct with respect to fire or combustible matter that endangers human life?",
+    "expected_sections": ["Section 287"]
+  },
+  {
+    "query": "What is the penalty for negligent conduct with respect to an explosive substance that endangers human life?",
+    "expected_sections": ["Section 288"]
+  },
+  {
+    "query": "What is the punishment for negligent conduct with respect to machinery under one's care that endangers human life?",
+    "expected_sections": ["Section 289"]
+  },
+  {
+    "query": "What is the penalty for knowingly or negligently omitting to take measures to guard against danger from pulling down or repairing a building?",
+    "expected_sections": ["Section 290"]
+  },
+  {
+    "query": "What is the punishment for negligently omitting to guard against probable danger to human life from an animal in one's possession?",
+    "expected_sections": ["Section 291"]
+  },
+  {
+    "query": "What is the punishment for committing a public nuisance in cases not otherwise punishable under the Sanhita?",
+    "expected_sections": ["Section 292"]
+  },
+  {
+    "query": "What is the penalty for repeating or continuing a public nuisance after being enjoined by a public servant to discontinue?",
+    "expected_sections": ["Section 293"]
+  },
+  {
+    "query": "Under what conditions is a book, drawing, or electronic content legally deemed to be 'obscene'?",
+    "expected_sections": ["Section 294(1)"]
+  },
+  {
+    "query": "What is the punishment for a first conviction of selling, distributing, or exhibiting an obscene object?",
+    "expected_sections": ["Section 294(2)"]
+  },
+  {
+    "query": "What is the enhanced punishment for a second or subsequent conviction of selling or distributing obscene objects?",
+    "expected_sections": ["Section 294(2)"]
+  },
+  {
+    "query": "Does the law against obscenity apply to a publication proved to be justified for the public good in the interest of science, literature, or art?",
+    "expected_sections": ["Section 294 Exception (a)(i)"]
+  },
+  {
+    "query": "Is a sculptured representation on an ancient monument or a temple considered an offence under the obscenity provisions?",
+    "expected_sections": ["Section 294 Exception (b)(i), (ii)"]
+  },
+  {
+    "query": "What is the penalty on first conviction for selling or distributing an obscene object to a child?",
+    "expected_sections": ["Section 295"]
+  },
+  {
+    "query": "What is the punishment for doing an obscene act in a public place to the annoyance of others?",
+    "expected_sections": ["Section 296(a)"]
+  },
+  {
+    "query": "What is the punishment for singing or reciting an obscene song in or near any public place to the annoyance of others?",
+    "expected_sections": ["Section 296(b)"]
+  },
+  {
+    "query": "What is the punishment for keeping any office or place for drawing a lottery not authorised by the State Government?",
+    "expected_sections": ["Section 297(1)"]
+  },
+  {
+    "query": "What is the penalty for publishing any proposal to pay any sum or deliver goods on any event relative to the drawing of a lottery ticket?",
+    "expected_sections": ["Section 297(2)"]
+  },
+  {
+    "query": "What is the punishment for destroying, damaging, or defiling a place of worship with the intent to insult the religion of any class?",
+    "expected_sections": ["Section 298"]
+  },
+  {
+    "query": "What is the punishment for deliberate and malicious acts intended to outrage the religious feelings of any class by insulting its religion or beliefs?",
+    "expected_sections": ["Section 299"]
+  },
+  {
+    "query": "What is the penalty for voluntarily causing disturbance to an assembly lawfully engaged in religious worship or ceremonies?",
+    "expected_sections": ["Section 300"]
+  },
+  {
+    "query": "What is the punishment for trespassing on a burial place or offering indignity to a human corpse with the intent to wound religious feelings?",
+    "expected_sections": ["Section 301"]
+  },
+  {
+    "query": "What is the penalty for uttering words or making gestures in the sight of a person with the deliberate intent to wound their religious feelings?",
+    "expected_sections": ["Section 302"]
+  },
+  {
+    "query": "How is the offence of 'theft' defined under the Sanhita?",
+    "expected_sections": ["Section 303(1)"]
+  },
+  {
+    "query": "Is a thing attached to the earth capable of being the subject of theft before it is severed?",
+    "expected_sections": ["Section 303(1) Explanation 1"]
+  },
+  {
+    "query": "Can the act of severing a thing from the earth simultaneously constitute the moving required for theft?",
+    "expected_sections": ["Section 303(1) Explanation 2"]
+  },
+  {
+    "query": "When a person causes an animal to move, are they also considered to have moved everything moved by the animal's motion?",
+    "expected_sections": ["Section 303(1) Explanation 4"]
+  },
+  {
+    "query": "If A cuts down a tree on Z's ground with the intent to dishonestly take it without Z's consent, at what point does A commit theft?",
+    "expected_sections": ["Section 303(1) Illustration (a)"]
+  },
+  {
+    "query": "If A finds a ring on a table in Z's house and dishonestly removes it, does A commit theft?",
+    "expected_sections": ["Section 303(1) Illustration (f)"]
+  },
+  {
+    "query": "If A finds a ring lying on the highroad not in the possession of any person and takes it, does A commit theft?",
+    "expected_sections": ["Section 303(1) Illustration (g)"]
+  },
+  {
+    "query": "If A owes money to a jeweler who legally retains A's watch as security, and A takes the watch without consent to deprive the jeweler of the security, does A commit theft?",
+    "expected_sections": ["Section 303(1) Illustration (j)"]
+  },
+  {
+    "query": "What is the general punishment for committing theft?",
+    "expected_sections": ["Section 303(2)"]
+  },
+  {
+    "query": "What is the penalty for a first-time conviction of theft if the stolen property value is less than five thousand rupees and the property is restored?",
+    "expected_sections": ["Section 303(2) Proviso"]
+  },
+  {
+    "query": "When is theft legally classified as 'snatching'?",
+    "expected_sections": ["Section 304(1)"]
+  },
+  {
+    "query": "What is the punishment for committing snatching?",
+    "expected_sections": ["Section 304(2)"]
+  },
+  {
+    "query": "What is the punishment for theft committed in a building, tent, or vessel used as a human dwelling?",
+    "expected_sections": ["Section 305(a)"]
+  },
+  {
+    "query": "What is the punishment for theft of an idol or icon from a place of worship?",
+    "expected_sections": ["Section 305(d)"]
+  },
+  {
+    "query": "What is the penalty for theft committed by a clerk or servant regarding property in the possession of their master?",
+    "expected_sections": ["Section 306"]
+  },
+  {
+    "query": "What is the punishment for theft committed after making preparations to cause death, hurt, or restraint?",
+    "expected_sections": ["Section 307"]
+  },
+  {
+    "query": "How is 'extortion' defined under the Sanhita?",
+    "expected_sections": ["Section 308(1)"]
+  },
+  {
+    "query": "If A threatens to publish a defamatory libel concerning Z unless Z gives him money, what offence is committed?",
+    "expected_sections": ["Section 308(1) Illustration (a)"]
+  },
+  {
+    "query": "What is the general punishment for committing extortion?",
+    "expected_sections": ["Section 308(2)"]
+  },
+  {
+    "query": "What is the penalty for putting a person in fear of injury in order to commit extortion?",
+    "expected_sections": ["Section 308(3)"]
+  },
+  {
+    "query": "What is the punishment for committing extortion by putting a person in fear of death or grievous hurt?",
+    "expected_sections": ["Section 308(5)"]
+  },
+  {
+    "query": "What is the penalty for extortion by threatening to accuse a person of an offence punishable with death or life imprisonment?",
+    "expected_sections": ["Section 308(7)"]
+  },
+  {
+    "query": "Does all robbery involve either theft or extortion?",
+    "expected_sections": ["Section 309(1)"]
+  },
+  {
+    "query": "When does theft amount to 'robbery'?",
+    "expected_sections": ["Section 309(2)"]
+  },
+  {
+    "query": "When does extortion amount to 'robbery'?",
+    "expected_sections": ["Section 309(3)"]
+  },
+  {
+    "query": "For extortion to amount to robbery, must the offender be in the presence of the person put in fear?",
+    "expected_sections": ["Section 309(3)"]
+  },
+  {
+    "query": "When is an offender considered 'present' for the purpose of classifying extortion as robbery?",
+    "expected_sections": ["Section 309 Explanation"]
+  },
+  {
+    "query": "What is the punishment for robbery committed on a highway between sunset and sunrise?",
+    "expected_sections": ["Section 309(4)"]
+  },
+  {
+    "query": "What is the punishment if a person voluntarily causes hurt while committing or attempting to commit robbery?",
+    "expected_sections": ["Section 309(6)"]
+  },
+  {
+    "query": "How many persons must be conjointly committing or attempting to commit a robbery for the offence to be designated as 'dacoity'?",
+    "expected_sections": ["Section 310(1)"]
+  },
+  {
+    "query": "What is the punishment if murder is committed by any one of five or more persons conjointly committing dacoity?",
+    "expected_sections": ["Section 310(3)"]
+  },
+  {
+    "query": "What is the punishment for belonging to a gang of persons associated for habitually committing dacoity?",
+    "expected_sections": ["Section 310(6)"]
+  },
+  {
+    "query": "What is the minimum imprisonment term for using a deadly weapon or causing grievous hurt at the time of committing robbery or dacoity?",
+    "expected_sections": ["Section 311"]
+  },
+  {
+    "query": "What is the penalty for belonging to a gang of persons associated in habitually committing theft or robbery, not being a gang of dacoits?",
+    "expected_sections": ["Section 313"]
+  },
+  {
+    "query": "How is the offence of 'dishonest misappropriation of property' defined?",
+    "expected_sections": ["Section 314"]
+  },
+  {
+    "query": "If A finds a ring on the road and sells it immediately without attempting to discover the owner, what offence is committed?",
+    "expected_sections": ["Section 314 Explanation 2 Illustration (f)"]
+  },
+  {
+    "query": "What is the punishment for dishonest misappropriation of property possessed by a deceased person at the time of their death?",
+    "expected_sections": ["Section 315"]
+  },
+  {
+    "query": "How is 'criminal breach of trust' defined?",
+    "expected_sections": ["Section 316(1)"]
+  },
+  {
+    "query": "If an employer deducts an employee's contribution for a Provident Fund and defaults in paying it to the Fund, what offence is committed?",
+    "expected_sections": ["Section 316(1) Explanation 1"]
+  },
+  {
+    "query": "What is the punishment for a public servant or a banker who commits criminal breach of trust regarding property entrusted to them?",
+    "expected_sections": ["Section 316(5)"]
+  },
+  {
+    "query": "How is 'stolen property' defined?",
+    "expected_sections": ["Section 317(1)"]
+  },
+  {
+    "query": "What is the punishment for dishonestly receiving stolen property knowing it to be transferred by dacoity?",
+    "expected_sections": ["Section 317(3)"]
+  },
+  {
+    "query": "What is the penalty for habitually receiving or dealing in property known to be stolen?",
+    "expected_sections": ["Section 317(4)"]
+  },
+  {
+    "query": "How is the offence of 'cheating' defined?",
+    "expected_sections": ["Section 318(1)"]
+  },
+  {
+    "query": "Is a dishonest concealment of facts considered deception in the context of cheating?",
+    "expected_sections": ["Section 318(1) Explanation"]
+  },
+  {
+    "query": "What is the punishment for cheating and thereby dishonestly inducing the person deceived to deliver property or alter a valuable security?",
+    "expected_sections": ["Section 318(4)"]
+  },
+  {
+    "query": "When is a person said to 'cheat by personation'?",
+    "expected_sections": ["Section 319(1)"]
+  },
+  {
+    "query": "What is the punishment for cheating by personation?",
+    "expected_sections": ["Section 319(2)"]
+  },
+  {
+    "query": "What is the punishment for a fraudulent transfer of property without adequate consideration to prevent distribution among creditors?",
+    "expected_sections": ["Section 320"]
+  },
+  {
+    "query": "What is the penalty for dishonestly or fraudulently preventing a debt due to oneself from being made available for creditors?",
+    "expected_sections": ["Section 321"]
+  },
+  {
+    "query": "What is the penalty for dishonest or fraudulent execution of a deed of transfer containing a false statement of consideration?",
+    "expected_sections": ["Section 322"]
+  },
+  {
+    "query": "How is the offence of 'mischief' defined?",
+    "expected_sections": ["Section 324(1)"]
+  },
+  {
+    "query": "If A voluntarily throws Z's ring into a river to cause wrongful loss to Z, what offence has A committed?",
+    "expected_sections": ["Section 324(1) Illustration (c)"]
+  },
+  {
+    "query": "What is the penalty for committing mischief and causing loss to the amount of one lakh rupees or upwards?",
+    "expected_sections": ["Section 324(5)"]
+  },
+  {
+    "query": "What is the punishment for committing mischief by killing, poisoning, or maiming any animal?",
+    "expected_sections": ["Section 325"]
+  },
+  {
+    "query": "What is the punishment for mischief by fire or explosive substance intending to destroy a building used as a human dwelling?",
+    "expected_sections": ["Section 326(g)"]
+  },
+  {
+    "query": "What is the penalty for intentionally running a vessel aground intending to commit theft of the property contained therein?",
+    "expected_sections": ["Section 328"]
+  },
+  {
+    "query": "How is 'criminal trespass' defined?",
+    "expected_sections": ["Section 329(1)"]
+  },
+  {
+    "query": "How is 'house-trespass' defined?",
+    "expected_sections": ["Section 329(2)"]
+  },
+  {
+    "query": "What constitutes 'lurking house-trespass'?",
+    "expected_sections": ["Section 330(1)"]
+  },
+  {
+    "query": "What acts legally define the offence of 'house-breaking'?",
+    "expected_sections": ["Section 330(2)"]
+  },
+  {
+    "query": "What is the punishment for house-trespass in order to commit an offence punishable with death?",
+    "expected_sections": ["Section 332(a)"]
+  },
+  {
+    "query": "What is the penalty for house-trespass after making preparation for causing hurt, assault, or wrongful restraint?",
+    "expected_sections": ["Section 333"]
+  },
+  {
+    "query": "What is the penalty for dishonestly breaking open any closed receptacle containing property?",
+    "expected_sections": ["Section 334(1)"]
+  },
+  {
+    "query": "What actions constitute 'making a false document' or false electronic record?",
+    "expected_sections": ["Section 335"]
+  },
+  {
+    "query": "When does making a false document amount to 'forgery'?",
+    "expected_sections": ["Section 336(1)"]
+  },
+  {
+    "query": "What is the penalty for forging a record of Court, a public register, or a government-issued identity document (like an Aadhaar Card)?",
+    "expected_sections": ["Section 337"]
+  },
+  {
+    "query": "What is the punishment for forging a valuable security or a will?",
+    "expected_sections": ["Section 338"]
+  },
+  {
+    "query": "What is the penalty for fraudulently or dishonestly using as genuine a document known to be a forged document?",
+    "expected_sections": ["Section 340(2)"]
+  },
+  {
+    "query": "What is the penalty for making or possessing a counterfeit seal intending it to be used for committing forgery punishable under Section 338?",
+    "expected_sections": ["Section 341(1)"]
+  },
+  {
+    "query": "What is the punishment for the falsification of accounts by a clerk or servant?",
+    "expected_sections": ["Section 344"]
+  },
+  {
+    "query": "How is a 'property mark' defined?",
+    "expected_sections": ["Section 345(1)"]
+  },
+  {
+    "query": "What is the penalty for using a false property mark?",
+    "expected_sections": ["Section 345(3)"]
+  },
+  {
+    "query": "What is the punishment for counterfeiting a property mark used by a public servant?",
+    "expected_sections": ["Section 347(2)"]
+  },
+  {
+    "query": "What is the penalty for selling goods with a counterfeit property mark without a lawful excuse?",
+    "expected_sections": ["Section 349"]
+  },
+  {
+    "query": "What is the penalty for making a false mark upon any receptacle containing goods to deceive a public servant or person?",
+    "expected_sections": ["Section 350(1)"]
+  },
+  {
+    "query": "How is 'criminal intimidation' defined?",
+    "expected_sections": ["Section 351(1)"]
+  },
+  {
+    "query": "What is the enhanced penalty for criminal intimidation by threatening to cause death or grievous hurt?",
+    "expected_sections": ["Section 351(3)"]
+  },
+  {
+    "query": "What is the punishment for intentional insult with intent to provoke a breach of the peace?",
+    "expected_sections": ["Section 352"]
+  },
+  {
+    "query": "What is the punishment for publishing false information or rumour intending to cause mutiny in the armed forces or fear in the public?",
+    "expected_sections": ["Section 353(1)"]
+  },
+  {
+    "query": "What is the penalty for inducing a person to do an act by making them believe they will become an object of Divine displeasure?",
+    "expected_sections": ["Section 354"]
+  },
+  {
+    "query": "What is the penalty for misconduct in a public place by a drunken person causing annoyance?",
+    "expected_sections": ["Section 355"]
+  },
+  {
+    "query": "When is a person said to commit 'defamation'?",
+    "expected_sections": ["Section 356(1)"]
+  },
+  {
+    "query": "Is it defamation to impute a true statement concerning a person if it is for the public good?",
+    "expected_sections": ["Section 356 Exception 1"]
+  },
+  {
+    "query": "Is it defamation to express a good faith opinion respecting the conduct of a public servant in the discharge of their functions?",
+    "expected_sections": ["Section 356 Exception 2"]
+  },
+  {
+    "query": "Is it defamation to publish a substantially true report of the proceedings of a Court?",
+    "expected_sections": ["Section 356 Exception 4"]
+  },
+  {
+    "query": "Is it defamation to express a good faith opinion on the merits of a performance which its author has submitted to the judgment of the public?",
+    "expected_sections": ["Section 356 Exception 6"]
+  },
+  {
+    "query": "Is it defamation if a person with lawful authority over another passes censure on their conduct in good faith regarding matters to which that authority relates?",
+    "expected_sections": ["Section 356 Exception 7"]
+  },
+  {
+    "query": "If a master censures a servant in good faith for remissness in service, or a school-master censures a pupil in good faith, do these acts constitute defamation?",
+    "expected_sections": ["Section 356 Exception 7 Illustration"]
+  },
+  {
+    "query": "Is it defamation to prefer an accusation against a person in good faith to those who have lawful authority over that person?",
+    "expected_sections": ["Section 356 Exception 8"]
+  },
+  {
+    "query": "If A in good faith accuses Z before a Magistrate, or complains of a child's conduct to the father, is A guilty of defamation?",
+    "expected_sections": ["Section 356 Exception 8 Illustration"]
+  },
+  {
+    "query": "Is it defamation to make an imputation on another's character in good faith for the protection of one's own interests, another person's interests, or the public good?",
+    "expected_sections": ["Section 356 Exception 9"]
+  },
+  {
+    "query": "If a shopkeeper warns his manager in good faith not to sell to Z on credit because he has no opinion of Z's honesty, is it defamation?",
+    "expected_sections": ["Section 356 Exception 9 Illustration (a)"]
+  },
+  {
+    "query": "If a Magistrate casts an imputation on Z in a report to a superior officer in good faith for the public good, is the Magistrate guilty of defamation?",
+    "expected_sections": ["Section 356 Exception 9 Illustration (b)"]
+  },
+  {
+    "query": "Is it defamation to convey a caution in good faith to one person against another, intended for the good of the person receiving it or for the public good?",
+    "expected_sections": ["Section 356 Exception 10"]
+  },
+  {
+    "query": "What is the general punishment for defaming another person under the Sanhita?",
+    "expected_sections": ["Section 356(2)"]
+  },
+  {
+    "query": "What is the punishment for printing or engraving any matter while knowing or having good reason to believe that it is defamatory?",
+    "expected_sections": ["Section 356(3)"]
+  },
+  {
+    "query": "What is the punishment for selling or offering for sale any printed or engraved substance knowing that it contains defamatory matter?",
+    "expected_sections": ["Section 356(4)"]
+  },
+  {
+    "query": "What is the penalty for voluntarily omitting to attend on or supply the wants of a helpless person when bound by a lawful contract to do so?",
+    "expected_sections": ["Section 357"]
+  },
+  {
+    "query": "Which previously existing penal code is explicitly repealed by the Bharatiya Nyaya Sanhita, 2023?",
+    "expected_sections": ["Section 358(1)"]
+  },
+  {
+    "query": "Does the repeal of the Indian Penal Code affect the previous operation of the Code or anything duly done or suffered thereunder?",
+    "expected_sections": ["Section 358(2)(a)"]
+  },
+  {
+    "query": "Does the repeal of the Indian Penal Code extinguish any right, privilege, obligation, or liability acquired or incurred under the repealed Code?",
+    "expected_sections": ["Section 358(2)(b)"]
+  },
+  {
+    "query": "Does the repeal of the Indian Penal Code affect penalties or punishments incurred for offences committed against it before its repeal?",
+    "expected_sections": ["Section 358(2)(c)"]
+  },
+  {
+    "query": "Can an investigation or remedy in respect of a penalty incurred under the repealed Indian Penal Code still be instituted or continued?",
+    "expected_sections": ["Section 358(2)(e)"]
+  },
+  {
+    "query": "Are actions taken under the repealed Indian Penal Code deemed to have been taken under the corresponding provisions of the Bharatiya Nyaya Sanhita?",
+    "expected_sections": ["Section 358(3)"]
+  },
+  {
+    "query": "Does the specific mention of savings in Section 358(2) prejudice the general application of Section 6 of the General Clauses Act, 1897?",
+    "expected_sections": ["Section 358(4)"]
+  },
+  {
+    "query": "According to the First Schedule, is the offence of murder under Section 103(1) classified as cognizable or non-cognizable, and is it bailable?",
+    "expected_sections": ["First Schedule, Section 103(1)"]
+  },
+  {
+    "query": "According to the First Schedule, which Court is authorized to try the offence of murder by a group of five or more persons under Section 103(2)?",
+    "expected_sections": ["First Schedule, Section 103(2)"]
+  },
+  {
+    "query": "Is the offence of murder by a life convict under Section 104 bailable or non-bailable according to the First Schedule?",
+    "expected_sections": ["First Schedule, Section 104"]
+  },
+  {
+    "query": "According to the First Schedule, which Court is authorized to try the offence of culpable homicide not amounting to murder under Section 105?",
+    "expected_sections": ["First Schedule, Section 105"]
+  }
+]

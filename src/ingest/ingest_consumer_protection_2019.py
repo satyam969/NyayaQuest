@@ -223,13 +223,6 @@ def ingest_cpa():
     # -------------------------------
     client = chromadb.PersistentClient(path=CHROMA_DIR)
 
-    # WIPES the old database so you get a clean ingest every time
-    # try:
-    #     client.delete_collection(name=COLLECTION_NAME)
-    #     print(f"🗑️ Cleaned up old database collection.")
-    # except Exception:
-    #     pass
-
     emb_fn = SentenceTransformerEmbeddingFunction(
         model_name="BAAI/bge-small-en-v1.5"
     )
