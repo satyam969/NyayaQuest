@@ -12,7 +12,7 @@ __pycache__/
 chroma_db_groq_legal/
 chroma_db_*/
 data/legal_pdfs/
-data/
+# data/
 *.log
 firebase-service-account.json
 credentials.json
