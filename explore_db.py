@@ -11,7 +11,10 @@ st.markdown("Visually inspect the exact structural chunks ingested into the Chro
 
 # ── Shared footer-detection regex ─────────────────────────────────────────────
 FOOTER_PATTERN = re.compile(
-    r'(?:^|\n)\s*\d+\.\s+.{0,15}(?:Subs\.|Ins\.|Omitted|w\.e\.f\.|ibid\.|A\.O\.|Rep\.)',
+    r'(?:^|\n)\s*\d{1,2}\.\s+(?=[^\[\n]*?'
+    r'(?:Subs\.|Ins\.|Omitted|w\.e\.f\.|ibid\.|A\.O\.|Rep\.|'
+    r'amended in its application|extended to .{1,40} by Act|'
+    r'extended to the .{1,40} by|vide notification|Gazette of India))',
     re.IGNORECASE
 )
 
@@ -45,6 +48,8 @@ def load_db_data():
                 "chapter":       meta.get("chapter", "Unknown"),
                 "chunk_index":   meta.get("chunk_index", 0),
                 "total_chunks":  meta.get("total_chunks", 0),
+                "doc_title":     meta.get("doc_title", "Unknown"),
+                "doc_type":      meta.get("doc_type", "Unknown"),
                 "law_code":      meta.get("law_code", "Unknown"),
                 "year":          meta.get("year", "Unknown"),
                 "source":        meta.get("source", "Unknown"),
@@ -102,12 +107,28 @@ st.sidebar.metric("Total Chunks",   len(all_chunks))
 st.sidebar.metric("Chunks w/ Footer Text ⚠️", len(footer_chunks),
                   delta=f"{'CLEAN ✅' if not footer_chunks else 'Needs review'}")
 
-unique_laws     = sorted(set(f"{c['law_code']} {c['year']}" for c in all_chunks if c['law_code'] != "Unknown"))
-selected_law    = st.sidebar.selectbox("📘 Filter by Law", ["All"] + unique_laws)
+import os
+
+def build_law_label(c):
+    display_law = c.get("doc_title", "").strip() if c.get("doc_title", "Unknown") != "Unknown" else f"{c.get('law_code', '')} {c.get('year', '')}".strip()
+    
+    source = c.get("source", "Unknown")
+    if source != "Unknown":
+        if display_law:
+            return f"{display_law} [{os.path.basename(source)}]"
+        return os.path.basename(source)
+    
+    return display_law if display_law else "Unknown Document"
+
+for c in all_chunks:
+    c['law_dropdown_label'] = build_law_label(c)
+
+unique_laws     = sorted(set(c['law_dropdown_label'] for c in all_chunks))
+selected_law    = st.sidebar.selectbox("📘 Filter by Law / PDF", ["All"] + unique_laws)
 
 law_filtered    = all_chunks if selected_law == "All" else [
     c for c in all_chunks
-    if f"{c['law_code']} {c['year']}" == selected_law
+    if c['law_dropdown_label'] == selected_law
 ]
 
 unique_chapters = sorted(set(c['chapter'] for c in law_filtered if c['chapter'] != "Unknown"))
