@@ -1,0 +1,4 @@
+python delete_from_db.py --title "CPC 1908"  
+python ingest_all.py --pdf "data\legal_pdfs\BNS_2023.pdf"
+Remove-Item -Recurse -Force .\chroma_db_groq_legal\
+.venv/Scripts/Activate
