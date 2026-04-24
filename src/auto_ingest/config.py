@@ -13,6 +13,12 @@ CHROMA_DIR      = "chroma_db_groq_legal"
 COLLECTION_NAME = "legal_knowledge"
 BATCH_SIZE      = 100  # ChromaDB insertion batch size
 
+# ── Quality Thresholds ────────────────────────────────────────────────────────
+# Centralised so Stage 4/5/6 routing decisions use consistent values.
+NEAR_PASS_THRESHOLD    = 0.66  # accept parse without Stage 5 retry
+SEVERE_FAIL_THRESHOLD  = 0.55  # below this → always trigger Stage 6 fallback
+MAX_SCHEMA_ATTEMPTS    = 3     # max LLM attempts in generate_validated_schema()
+
 # ── Structure Detection ───────────────────────────────────────────────────────
 SAMPLE_PAGES              = 12     # evenly-spaced pages used for doc profiling
 MIN_SECTION_RATIO         = 0.10  # fraction of sampled pages that must match a pattern

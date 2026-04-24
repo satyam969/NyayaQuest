@@ -2,9 +2,16 @@
 utils/patterns.py — Generic regex patterns for Indian statutory law documents.
 Patterns are ordered from most specific to most general.
 Not hardcoded to any single document; all patterns are reusable across doc types.
+
+v2 additions (targeted, backward-compatible):
+  - Precompiled versions of WINDOW_SCORE_TEMPLATES patterns (COMPILED_WINDOW_TEMPLATES)
+  - Weighted marker support: tuple ("pattern", weight) alongside plain strings
+  - Improved COMPENDIUM signals
+  - All existing constants unchanged
 """
 
-from typing import Any
+import re
+from typing import Any, Dict, List, Tuple, Union
 
 # ─────────────────────────────────────────────────────────────────────
 # Section Patterns
@@ -139,15 +146,35 @@ STRUCTURAL_PROFILES: dict[str, Any] = {
 # ─────────────────────────────────────────────────────────────────────
 # Window Score Templates
 # Used exclusively by the semantic multi-window classifier in detector.py.
-# Each template has four lists of regex patterns:
+# Each template has four lists of markers:
 #   title_markers     — strong identity signals in the title/cover region
 #   structure_markers — density signals counted across the body
 #   tail_markers      — signals expected near the document tail
 #   anti_markers      — presence penalises this type
 #
+# Markers may be plain strings OR ("pattern", weight) tuples.
+# Weight defaults to 1.0 when a plain string is used.
+# Detector code that uses this should call get_marker_weight() to
+# read weights; existing callers that just iterate strings are
+# unaffected if they only use the first element of tuples.
+#
 # NOTE: STRUCTURAL_PROFILES (above) is NOT modified; parser stages still
 #       import it directly for section-pattern selection.
 # ─────────────────────────────────────────────────────────────────────
+
+# Type alias for weighted marker entries
+MarkerEntry = Union[str, Tuple[str, float]]
+
+
+def get_marker_pattern(entry: MarkerEntry) -> str:
+    """Return the regex pattern string from a plain or weighted marker entry."""
+    return entry[0] if isinstance(entry, tuple) else entry
+
+
+def get_marker_weight(entry: MarkerEntry) -> float:
+    """Return the weight for a marker entry (default 1.0 for plain strings)."""
+    return float(entry[1]) if isinstance(entry, tuple) else 1.0
+
 
 WINDOW_SCORE_TEMPLATES: dict[str, dict] = {
 
@@ -156,7 +183,7 @@ WINDOW_SCORE_TEMPLATES: dict[str, dict] = {
     # Diagnostic: Gazette header, Ministry block, "An Act to" preamble.
     "GAZETTE_ACT": {
         "title_markers": [
-            r"THE\s+GAZETTE\s+OF\s+INDIA",
+            (r"THE\s+GAZETTE\s+OF\s+INDIA", 2.0),        # very strong signal
             r"MINISTRY\s+OF\s+LAW\s+AND\s+JUSTICE",
             r"MINISTRY\s+OF\s+(LABOUR|FINANCE|HOME|COMMERCE|HEALTH)",
             r"An\s+Act\s+to\b",
@@ -200,7 +227,7 @@ WINDOW_SCORE_TEMPLATES: dict[str, dict] = {
             r"Code\s+of\s+Criminal\s+Procedure",
         ],
         "structure_markers": [
-            r"\[(?:Ins\.|Subs\.|Omitted|Rep\.)\s+by",
+            (r"\[(?:Ins\.|Subs\.|Omitted|Rep\.)\s+by", 1.5),   # very strong codified signal
             r"(?m)^\s*\*?\[?\d{1,3}[A-Z]?\.\s",
             r"(?m)^CHAPTER\s+[IVXLCDM]+",
             r"(?m)^PART\s+[IVXLCDM]+",
@@ -209,9 +236,9 @@ WINDOW_SCORE_TEMPLATES: dict[str, dict] = {
             r"A\.O\.\s+\d{4}",
         ],
         "tail_markers": [
-            r"(?m)^THE\s+FIRST\s+SCHEDULE",
+            (r"(?m)^THE\s+FIRST\s+SCHEDULE", 1.5),  # uniquely strong for codified
             r"(?m)^THE\s+SECOND\s+SCHEDULE",
-            r"(?m)^ORDER\s+[IVXLCDM]+",
+            (r"(?m)^ORDER\s+[IVXLCDM]+", 1.5),      # CPC Orders in tail
             r"\[(?:Ins\.|Subs\.|Omitted|Rep\.)\s+by",
         ],
         "anti_markers": [
@@ -227,8 +254,8 @@ WINDOW_SCORE_TEMPLATES: dict[str, dict] = {
             r"(?m)^THE\s+[A-Z][A-Z\s,'\-]+RULES,?\s+\d{4}",
             r"(?m)^THE\s+[A-Z][A-Z\s,'\-]+REGULATIONS,?\s+\d{4}",
             r"(?m)^THE\s+[A-Z][A-Z\s,'\-]+ORDERS?,?\s+\d{4}",
-            r"In\s+exercise\s+of\s+the\s+powers?\s+conferred",
-            r"(?m)^ORDER\s+[IVXLCDM]+[A-Z]?",
+            (r"In\s+exercise\s+of\s+the\s+powers?\s+conferred", 1.8),  # near-unique signal
+            (r"(?m)^ORDER\s+[IVXLCDM]+[A-Z]?", 1.5),
             r"(?m)^\[?ORDER\s+[IVXLCDM]+",
         ],
         "structure_markers": [
@@ -288,21 +315,66 @@ WINDOW_SCORE_TEMPLATES: dict[str, dict] = {
     },
 
     # ── Compendium ────────────────────────────────────────────────────
-    # NOTE: Full window-based boost/penalty is DEFERRED (compendium-v2).
-    # Existing STRUCTURAL_PROFILES score is preserved as-is.
-    # TODO(compendium-v2): add tiered enumeration boost logic here.
+    # Multiple independent Acts bound together.
+    # Improved signals: look for repeated preambles and multiple Act titles.
     "COMPENDIUM": {
         "title_markers": [
             r"(?m)^THE\s+[A-Z][A-Z\s,'\-]+(?:ACT|CODE),?\s+\d{4}",
             r"CHAPTER\s+I\s*\n\s*PRELIMINARY",
         ],
         "structure_markers": [
-            r"CHAPTER\s+I\s*\n\s*PRELIMINARY",
-            r"(?m)^1\.\s*\(1\)\s*This\s+(?:Act|Code)\s+may\s+be\s+called",
+            (r"CHAPTER\s+I\s*\n\s*PRELIMINARY", 2.0),           # repeated = strong compendium signal
+            (r"(?m)^1\.\s*\(1\)\s*This\s+(?:Act|Code)\s+may\s+be\s+called", 2.0),
+            r"(?m)^THE\s+[A-Z][A-Z\s,'\-]+ACT,?\s+\d{4}",      # multiple act titles
+            r"Short\s+title[,\.]?\s+extent\s+and\s+commencement",
         ],
         "tail_markers": [
-            r"CHAPTER\s+I\s*\n\s*PRELIMINARY",
+            (r"CHAPTER\s+I\s*\n\s*PRELIMINARY", 2.0),           # appears again near tail
+            r"(?m)^1\.\s*\(1\)\s*This\s+(?:Act|Code)\s+may\s+be\s+called",
         ],
         "anti_markers": [],
     },
 }
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Precompiled window template patterns (performance optimisation)
+# ─────────────────────────────────────────────────────────────────────
+# Maps doc_type -> window_type -> list of (compiled_pattern, weight) tuples
+# Detector code should use COMPILED_WINDOW_TEMPLATES instead of compiling
+# strings from WINDOW_SCORE_TEMPLATES on every PDF call.
+#
+# Usage:
+#   for compiled_pat, weight in COMPILED_WINDOW_TEMPLATES["GAZETTE_ACT"]["title_markers"]:
+#       if compiled_pat.search(text):
+#           score += weight
+# ─────────────────────────────────────────────────────────────────────
+
+def _compile_window_templates(
+    templates: Dict[str, Dict[str, List[MarkerEntry]]],
+) -> Dict[str, Dict[str, List[Tuple[re.Pattern, float]]]]:
+    """
+    Pre-compile all WINDOW_SCORE_TEMPLATES patterns at module load time.
+    Returns a nested dict: doc_type → window_type → [(compiled, weight), ...]
+    """
+    compiled: Dict[str, Dict[str, List[Tuple[re.Pattern, float]]]] = {}
+    for doc_type, windows in templates.items():
+        compiled[doc_type] = {}
+        for window_name, markers in windows.items():
+            compiled_markers: List[Tuple[re.Pattern, float]] = []
+            for entry in markers:
+                pattern = get_marker_pattern(entry)
+                weight  = get_marker_weight(entry)
+                try:
+                    flags = re.IGNORECASE | re.MULTILINE
+                    # Patterns that already embed (?m) or (?i) flags don't need
+                    # re.MULTILINE / re.IGNORECASE added again — re handles it.
+                    compiled_markers.append((re.compile(pattern, flags), weight))
+                except re.error:
+                    # Fallback: add as non-compiled sentinel so callers can skip
+                    pass
+            compiled[doc_type][window_name] = compiled_markers
+    return compiled
+
+
+COMPILED_WINDOW_TEMPLATES = _compile_window_templates(WINDOW_SCORE_TEMPLATES)

@@ -71,13 +71,22 @@ def extract_part(text: str, current: str = "Unknown Part") -> Tuple[str, str]:
     return _extract_heading(text, PART_PATTERNS, current)
 
 
+def extract_order(text: str, current: str = "Unknown Order") -> Tuple[str, str]:
+    # Match headers like `[ORDER I` or `ORDER XXI` at start of line
+    return _extract_heading(text, [r"(?m)^\[?(ORDER\s+[IVXLCDM]+[A-Z]?)\b"], current)
+
+
 # ─────────────────────────────────────────────────────────────────────
 # Section metadata extraction
 # ─────────────────────────────────────────────────────────────────────
 
 _SEC_HEAD_PATTERNS = [
-    # "1. Title.—(1) content" (em-dash variants)
-    r"^(\d+[A-Z]?)\.\s*(.*?)(?:\.[\u2014\u2013]|\.[-]|\.\s*\n)(.*)",
+    # "1[9. Title.—(1) content" — footnote-digit + bracket prefix (CPC/codified acts)
+    r"^\d+\[(\d+[A-Z]?)\.\s*([^\n]{0,200}?)(?:\.[\u2014\u2013]|\.[\-]+|[\-]{2,}|\.\s*\n)(.*)",
+    r"^\d+\[(\d+[A-Z]?)\.\s*([^\n(]{0,200})\n(.*)",
+    r"^\d+\[(\d+[A-Z]?)\.\s*(\(.*)",
+    # "1. Title.—(1) content" (em-dash variants, .-- or -- separators)
+    r"^(\d+[A-Z]?)\.\s*([^\n]{0,200}?)(?:\.[\u2014\u2013]|\.[\-]+|[\-]{2,}|\.\s*\n)(.*)",
     # "1. Title\ncontent"
     r"^(\d+[A-Z]?)\.\s*([^\n(]{0,200})\n(.*)",
     # "1. (1) content" (no separate title line)
@@ -154,6 +163,8 @@ def parse_with_regex(
     chunks: List[Dict[str, Any]] = []
     current_chapter = "Unknown Chapter"
     current_part = "Unknown Part"
+    current_order = "Unknown Order"
+    in_schedule = False        # only flip to order mode after THE FIRST SCHEDULE
     chunk_index = 0
 
     for block in raw_blocks:
@@ -161,9 +172,27 @@ def parse_with_regex(
         if not block:
             continue
 
+        # Reset schedule mode if we see body text headers like PRELIMINARY or PART I.
+        # This prevents the Table of Contents' mention of the Schedule from trapping
+        # the entire document in "Order mode".
+        if re.search(r"^\s*(?:PRELIMINARY|PART\s+[IVX]+)\s*$", block, re.IGNORECASE | re.MULTILINE):
+            in_schedule = False
+            current_order = "Unknown Order"
+
+        # Detect schedule boundary (CPC First Schedule) — enables order mode
+        # Must have parsed at least one section (chunk_index > 0) to avoid tripping in the TOC.
+        if not in_schedule and chunk_index > 0 and re.search(r"^\s*THE\s+FIRST\s+SCHEDULE\s*$", block, re.IGNORECASE | re.MULTILINE):
+            in_schedule = True
+
         # Update context from structural headings embedded in the block
         current_chapter, block = extract_chapter(block, current_chapter)
         current_part, block = extract_part(block, current_part)
+        # pending_order: extract ORDER heading if in schedule, but only USE it
+        # for classification AFTER the current block (prevents section 158 from
+        # being mislabeled as a rule just because ORDER I is in the same block).
+        pending_order = current_order
+        if in_schedule:
+            pending_order, block = extract_order(block, current_order)
 
         if not block.strip():
             continue
@@ -172,26 +201,51 @@ def parse_with_regex(
 
         if meta and len(meta["content"]) >= 30:
             chunk_index += 1
-            chunks.append(
-                {
-                    "text": (
-                        f"[{doc_title}] [{current_chapter}] "
-                        f"Section {meta['section_number']} \u2014 {meta['section_title']}\n"
-                        f"{meta['content']}"
-                    ),
-                    "metadata": {
-                        "doc_title":       doc_title,
-                        "doc_type":        doc_type,
-                        "section_number":  meta["section_number"],
-                        "section_title":   meta["section_title"][:200],
-                        "chapter":         current_chapter,
-                        "part":            current_part,
-                        "hierarchy_path":  f"{current_chapter} > Section {meta['section_number']}",
-                        "chunk_index":     chunk_index,
-                        "parse_strategy":  "regex",
-                    },
-                }
-            )
+            if current_order != "Unknown Order":  # order carried from a PREVIOUS block
+                chunks.append(
+                    {
+                        "text": (
+                            f"[{doc_title}] [{current_order}] "
+                            f"Rule {meta['section_number']} \u2014 {meta['section_title']}\n"
+                            f"{meta['content']}"
+                        ),
+                        "metadata": {
+                            "doc_title":       doc_title,
+                            "doc_type":        doc_type,
+                            "type":            "rule",
+                            "order":           current_order,
+                            "rule":            meta["section_number"],
+                            "rule_title":      meta["section_title"][:200],
+                            "chapter":         current_chapter,
+                            "part":            current_part,
+                            "hierarchy_path":  f"{current_chapter} > {current_order} > Rule {meta['section_number']}",
+                            "chunk_index":     chunk_index,
+                            "parse_strategy":  "regex",
+                        },
+                    }
+                )
+            else:
+                chunks.append(
+                    {
+                        "text": (
+                            f"[{doc_title}] [{current_chapter}] "
+                            f"Section {meta['section_number']} \u2014 {meta['section_title']}\n"
+                            f"{meta['content']}"
+                        ),
+                        "metadata": {
+                            "doc_title":       doc_title,
+                            "doc_type":        doc_type,
+                            "type":            "section",
+                            "section_number":  meta["section_number"],
+                            "section_title":   meta["section_title"][:200],
+                            "chapter":         current_chapter,
+                            "part":            current_part,
+                            "hierarchy_path":  f"{current_chapter} > Section {meta['section_number']}",
+                            "chunk_index":     chunk_index,
+                            "parse_strategy":  "regex",
+                        },
+                    }
+                )
         elif len(block) >= 50:
             # Unrecognised block — preserve as raw fallback chunk
             chunk_index += 1
@@ -212,8 +266,11 @@ def parse_with_regex(
                 }
             )
 
+        # Advance order state for next iteration (after if/elif so syntax is valid)
+        current_order = pending_order
+
     logger.info(
         f"[regex_parser] produced {len(chunks)} chunks "
-        f"({sum(1 for c in chunks if c['metadata']['section_number'] != 'N/A')} with section IDs)"
+        f"({sum(1 for c in chunks if c['metadata'].get('section_number', c['metadata'].get('rule', 'N/A')) != 'N/A')} with section/rule IDs)"
     )
     return chunks

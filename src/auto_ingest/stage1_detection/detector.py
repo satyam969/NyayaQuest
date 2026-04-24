@@ -317,17 +317,31 @@ def score_template(window: str, template: Dict[str, List[str]]) -> float:
         return 0.0
 
     # Anti-marker check (immediate veto)
+    # Entries may be plain strings OR (pattern, weight) tuples
     for ap in template.get("anti_markers", []):
-        if re.search(ap, window, re.IGNORECASE):
+        pat = ap[0] if isinstance(ap, tuple) else ap
+        if re.search(pat, window, re.IGNORECASE):
             return 0.0
 
-    def _subscore(patterns: List[str]) -> float:
-        if not patterns:
+    def _subscore(markers) -> float:
+        """
+        Score a list of markers against `window`.
+        Each marker is either a plain string or a (pattern, weight) tuple.
+        Returns a weighted hit-fraction in [0, 1].
+        """
+        if not markers:
             return 0.0
-        hits = sum(
-            1 for p in patterns if re.search(p, window, re.IGNORECASE | re.MULTILINE)
-        )
-        return hits / len(patterns)
+        total_weight = 0.0
+        hit_weight   = 0.0
+        for entry in markers:
+            if isinstance(entry, tuple):
+                pat, w = entry[0], float(entry[1])
+            else:
+                pat, w = entry, 1.0
+            total_weight += w
+            if re.search(pat, window, re.IGNORECASE | re.MULTILINE):
+                hit_weight += w
+        return hit_weight / total_weight if total_weight > 0 else 0.0
 
     title_s     = _subscore(template.get("title_markers", []))
     structure_s = _subscore(template.get("structure_markers", []))

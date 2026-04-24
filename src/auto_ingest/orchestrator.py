@@ -52,6 +52,8 @@ from .stage3_parsing.hybrid_parser  import parse_hybrid
 from .stage4_evaluation.quality_evaluator import QUALITY_THRESHOLD, evaluate_chunks
 from .stage4_evaluation.critic            import analyze_failures
 
+from .config import NEAR_PASS_THRESHOLD, SEVERE_FAIL_THRESHOLD
+
 from .stage5_refinement.retry_controller import schema_refinement_loop
 
 from .stage6_fallback.fallback_engine import run_fallback
@@ -167,7 +169,23 @@ def ingest_segment(
     )
 
     # ── Stage 5: schema refinement loop ──────────────────────────────────────
-    if not passed and llm:
+    overall = metrics.get("overall", 0.0)
+
+    # Skip Stage 5 when parse is near-threshold and no catastrophic failure
+    _near_pass_skip = (
+        not passed
+        and overall >= NEAR_PASS_THRESHOLD
+        and overall > SEVERE_FAIL_THRESHOLD
+    )
+    if _near_pass_skip:
+        logger.info(
+            f"[{segment_title}] Near-pass score ({overall:.3f}) — "
+            f"skipping Stage 5 refinement to avoid unnecessary LLM call"
+        )
+        for c in chunks:
+            c.setdefault("metadata", {})["parse_strategy"] = "accepted_near_threshold"
+
+    elif not passed and llm:
         logger.info(f"[{segment_title}] Quality below threshold → schema refinement")
         if schema is None:
             schema = generate_schema(llm, text, doc_type, features)
@@ -188,14 +206,17 @@ def ingest_segment(
                 )
 
     # ── Stage 6: fallback ─────────────────────────────────────────────────────
-    # Near-threshold accepted chunks (parse_strategy="accepted_near_threshold")
-    # must NOT route to Stage 6 — they are intentionally accepted as-is.
+    # Trigger only on true structural failures:
+    #   - no chunks at all, OR
+    #   - score below SEVERE_FAIL_THRESHOLD, OR
+    #   - near-threshold accepted chunks (intentionally kept as-is)
     _near_threshold = chunks and any(
         c.get("metadata", {}).get("parse_strategy") == "accepted_near_threshold"
         for c in chunks[:5]
     )
-    if (not passed or not chunks) and not _near_threshold:
-        logger.warning(f"[{segment_title}] Activating fallback engine")
+    _severe_fail = metrics.get("overall", 0.0) < SEVERE_FAIL_THRESHOLD
+    if (not chunks or _severe_fail) and not _near_threshold:
+        logger.warning(f"[{segment_title}] Activating fallback engine (score={metrics.get('overall',0):.3f})")
         result["used_fallback"] = True
         fb_chunks = run_fallback(text, segment_title, pdf_path, metrics, llm)
         if fb_chunks:
@@ -209,9 +230,11 @@ def ingest_segment(
     result["chunks_stored"] = stored
     result["final_metrics"] = metrics
 
+    band = metrics.get("quality_band", "?")
     logger.info(
-        f"[{segment_title}] ✓ {stored} chunks stored  "
-        f"final_score={metrics.get('overall', 0):.3f}"
+        f"[{segment_title}] ✓ stored={stored}  "
+        f"score={metrics.get('overall', 0):.3f}  band={band}  "
+        f"fallback={result['used_fallback']}  converged={result['converged']}"
     )
     return result
 

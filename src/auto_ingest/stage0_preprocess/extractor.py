@@ -41,7 +41,7 @@ def extract_raw_pages(pdf_path: str) -> List[Dict[str, Any]]:
 _FOOTNOTE_KW_RE = re.compile(
     r"(Subs\.|Ins\.|Omitted|w\.e\.f\.|ibid\.|A\.O\.|Rep\.|"
     r"amended in its application|extended to .{1,40} by Act|"
-    r"extended to the .{1,40} by)",
+    r"extended to the .{1,40} by|vide notification|Gazette of India)",
     re.IGNORECASE,
 )
 
@@ -61,15 +61,19 @@ def extract_text_without_footers(
         page_h = page.rect.height
 
         # ── Layer 1: locate the separator line ───────────────────────
-        sep_y: float | None = None
+        valid_lines = []
         for d in page.get_drawings():
             r = d["rect"]
             is_horizontal = abs(r.y0 - r.y1) < 2
-            is_wide_enough = r.width > 50
-            in_lower_half = r.y0 > page_h * 0.40
+            is_wide_enough = r.width > 50 and r.width < page.rect.width * 0.45
+            in_lower_half = r.y0 > page_h * 0.30
             if is_horizontal and is_wide_enough and in_lower_half:
-                if sep_y is None or r.y0 < sep_y:
-                    sep_y = r.y0
+                valid_lines.append(r.y0)
+                
+        sep_y: float | None = None
+        # Exclude tables which have numerous horizontal grid lines
+        if 0 < len(valid_lines) <= 2:
+            sep_y = min(valid_lines)
 
         # ── Extract text at LINE level, applying separator cut ────────
         kept_lines: List[str] = []
@@ -156,8 +160,8 @@ def clean_text(text: str) -> str:
         r"\n\s*\d{1,2}\.\s+(?=[^\[\n]*?"
         r"(Subs\.|Ins\.|Omitted|w\.e\.f\.|ibid\.|A\.O\.|Rep\.|"
         r"amended in its application|extended to .{1,40} by Act|"
-        r"extended to the .{1,40} by)"
-        r")[^\n]+",
+        r"extended to the .{1,40} by|vide notification|Gazette of India)"
+        r")[^\n]+(?:\n(?!\s*(?:\(\w+\)\s|\d+\.\s))[^\n]+)*",
         "",
         text,
         flags=re.IGNORECASE,
