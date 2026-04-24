@@ -1,10 +1,15 @@
 """
-stage5_refinement/retry_controller.py — Schema refinement retry loop.
+stage5_refinement/retry_controller.py — Schema refinement safety net.
 
-Runs up to MAX_RETRIES rounds of:
-  parse → evaluate → (if fail) criticise → refine schema → repeat
+This is now a single-retry safety net that runs AFTER the full PDF parse
+fails Stage 4 quality evaluation.
 
-Returns the best chunk set found across all attempts.
+The primary 3-attempt intelligent retry loop (on sample text) lives in
+stage2_strategy/schema_strategy.generate_validated_schema().
+
+If that loop produced a good schema, Stage 4 will pass and this module
+is never called.  If Stage 4 still fails, this module makes one final
+refinement attempt before routing to Stage 6 fallback.
 """
 
 import logging
@@ -17,7 +22,7 @@ from .schema_refiner                  import refine_schema
 
 logger = logging.getLogger(__name__)
 
-MAX_RETRIES = 3
+MAX_RETRIES = 1   # safety net — primary 3-attempt loop is in generate_validated_schema()
 
 
 def schema_refinement_loop(

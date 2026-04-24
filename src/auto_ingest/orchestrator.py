@@ -43,7 +43,7 @@ from .stage1_detection.segmenter  import segment_document
 
 from .stage2_strategy.hybrid_selector import Strategy, select_strategy
 from .stage2_strategy.regex_strategy  import select_section_pattern
-from .stage2_strategy.schema_strategy import generate_schema
+from .stage2_strategy.schema_strategy import generate_schema, generate_validated_schema
 
 from .stage3_parsing.regex_parser  import parse_with_regex
 from .stage3_parsing.schema_chunker import SchemaChunker
@@ -116,6 +116,8 @@ def ingest_segment(
         "used_fallback": False,
     }
 
+    doc_title = os.path.splitext(os.path.basename(pdf_path))[0].replace("_", " ")
+
     # ── Stage 2: strategy selection ──────────────────────────────────────────
     strategy = select_strategy(confidence, features)
     result["strategy_used"] = strategy.value
@@ -131,24 +133,27 @@ def ingest_segment(
     # ── Stage 3 + 4: parse → evaluate ────────────────────────────────────────
     try:
         if strategy == Strategy.REGEX:
-            chunks = parse_with_regex(text, section_pattern, segment_title, doc_type, features)
+            chunks = parse_with_regex(text, section_pattern, doc_title, doc_type, features)
             passed, metrics = evaluate_chunks(chunks, threshold)
 
         elif strategy == Strategy.HYBRID:
             if llm:
                 schema = generate_schema(llm, text, doc_type, features)
-            chunks = parse_hybrid(text, section_pattern, schema, segment_title, doc_type, features)
+            chunks = parse_hybrid(text, section_pattern, schema, doc_title, doc_type, features)
             passed, metrics = evaluate_chunks(chunks, threshold)
 
         else:  # SCHEMA
             if llm:
-                schema = generate_schema(llm, text, doc_type, features)
+                # 3-attempt pre-validation on sample before committing to full parse
+                schema = generate_validated_schema(
+                    llm, text, doc_type, confidence, features, doc_title
+                )
             if schema:
-                chunker = SchemaChunker(schema, segment_title)
+                chunker = SchemaChunker(schema, doc_title)
                 chunks  = chunker.parse(text)
             else:
                 logger.warning(f"[{segment_title}] Schema gen failed — falling back to regex")
-                chunks = parse_with_regex(text, section_pattern, segment_title, doc_type, features)
+                chunks = parse_with_regex(text, section_pattern, doc_title, doc_type, features)
             passed, metrics = evaluate_chunks(chunks, threshold)
 
     except Exception as exc:
@@ -168,7 +173,7 @@ def ingest_segment(
             schema = generate_schema(llm, text, doc_type, features)
 
         if schema:
-            text_sample = text[:3000]
+            text_sample = text[:5_000]  # wider sample for refinement evidence
             ref_chunks, ref_metrics, converged = schema_refinement_loop(
                 llm, schema, text, segment_title, text_sample, threshold
             )
