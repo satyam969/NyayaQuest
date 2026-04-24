@@ -188,7 +188,13 @@ def ingest_segment(
                 )
 
     # ── Stage 6: fallback ─────────────────────────────────────────────────────
-    if not passed or not chunks:
+    # Near-threshold accepted chunks (parse_strategy="accepted_near_threshold")
+    # must NOT route to Stage 6 — they are intentionally accepted as-is.
+    _near_threshold = chunks and any(
+        c.get("metadata", {}).get("parse_strategy") == "accepted_near_threshold"
+        for c in chunks[:5]
+    )
+    if (not passed or not chunks) and not _near_threshold:
         logger.warning(f"[{segment_title}] Activating fallback engine")
         result["used_fallback"] = True
         fb_chunks = run_fallback(text, segment_title, pdf_path, metrics, llm)

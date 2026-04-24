@@ -147,14 +147,16 @@ def schema_refinement_loop(
     overall = metrics.get("overall", 0.0)
     severe  = _is_severe_failure(metrics)
 
-    # ── C. Minor failure short-circuit ───────────────────────────────
+    # ── C. Near-threshold acceptance ──────────────────────────────────
     if overall >= MINOR_FAIL_FLOOR and not severe:
         logger.info(
-            f"[stage5] Near-threshold failure (overall={overall:.3f} >= "
-            f"{MINOR_FAIL_FLOOR}) with no severe structural issues — "
-            f"skipping refinement, routing to Stage 6"
+            f"[stage5] Near-threshold acceptance (overall={overall:.3f} >= "
+            f"{MINOR_FAIL_FLOOR}, no severe structural issues) — "
+            f"accepting parse, skipping Stage 6"
         )
-        return best_chunks, best_metrics, False
+        for c in best_chunks:
+            c.setdefault("metadata", {})["parse_strategy"] = "accepted_near_threshold"
+        return best_chunks, best_metrics, False  # converged=False (below threshold)
 
     # ── D. Severe failure → one final patch attempt ──────────────────
     logger.info(
