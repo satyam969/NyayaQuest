@@ -28,6 +28,12 @@ dependencies = [
     "sentence-transformers>=3.0.0",
     "flashrank>=0.2.8",
     "rank-bm25>=0.2.2",
+    "firebase-admin>=6.5.0",
+    "extra-streamlit-components>=0.1.71",
+    "fastapi>=0.110.0",
+    "uvicorn>=0.29.0",
+    "pydantic>=2.7.0",
+    "gdown>=5.1.0",
 ]
 
 [dependency-groups]
