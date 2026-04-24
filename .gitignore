@@ -9,7 +9,12 @@ __pycache__/
 
 # LawGlance / NyayaQuest Specific
 .env
+chroma_db_groq_legal/
 chroma_db_*/
 data/legal_pdfs/
 data/
 *.log
+firebase-service-account.json
+credentials.json
+*.json.clean
+tmp/

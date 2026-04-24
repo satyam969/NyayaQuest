@@ -1,0 +1,119 @@
+# 📊 Presentation: NyayaQuest Data Ingestion Pipeline
+
+Here is the exact prompt you can feed into an AI presentation generator (like Gamma.app, ChatGPT, or Claude), followed by the explicit slide-by-slide content you can use to build your slides manually if needed.
+
+---
+
+## 🤖 Prompt for Presentation Generators (Gamma / ChatGPT)
+
+**Copy and paste this into your tool of choice:**
+
+> "Generate a 10-12 slide professional presentation for a project called 'NyayaQuest'. NyayaQuest is an open-source AI legal assistant powered by localized Semantic Retrieval-Augmented Generation (RAG) designed specifically for complex Indian legal statutes. 
+> 
+> The presentation is specifically about our new 'Automated legal PDF Ingestion Pipeline'.
+> 
+> **Key Instructions for the slides:**
+> 1. Use professional, dark-themed, and modern presentation aesthetics.
+> 2. The first few slides must introduce the core problem, project definitions, and why parsing legal PDFs is difficult.
+> 3. The middle slides should outline the solution: a hybrid approach using a "Smart Template Matcher" with 5 built-in structural formats, combined with an AI-driven "Self-Healing Pipeline" as a fallback.
+> 4. CLEARLY emphasize that the AI Self-Healing Pipeline is currently **'Under Construction / Working in Progress'**.
+> 5. Keep bullet points concise and use visual flow representations for the pipeline.
+> 6. The tone should be technical, innovative, and academic.
+> 
+> Please generate the full content slide by slide."
+
+---
+
+## 📝 Slide-by-Slide Content (For your actual PPT)
+
+If you are building the presentation yourself on PowerPoint or Google Slides, here is exactly what to put on each slide:
+
+### **Slide 1: Title Slide**
+- **Title:** NyayaQuest: Intelligent Legal Data Ingestion Pipeline
+- **Subtitle:** Structuring Complex Legal PDFs for High-Accuracy RAG
+- **Footer:** [Your Name / Team Name] | [Date]
+
+### **Slide 2: What is NyayaQuest? (Definitions)**
+- **Title:** Project Overview: NyayaQuest 🏛️
+- **Bullet points:**
+  - **The Concept:** A fast, highly specialized AI legal assistant.
+  - **The Technology:** Powered by localized Semantic Retrieval-Augmented Generation (RAG).
+  - **The Goal:** Match natural language descriptions of real-life scenarios to complex statutory texts and laws (like BNS, CPC, RTI, and Labour Codes).
+  - **The Engine:** Uses `BAAI/bge-small-en` for embeddings and `Llama-3.3-70b` for legal reasoning.
+
+### **Slide 3: The Problem Statement**
+- **Title:** The Challenge of Legal PDFs
+- **Bullet points:**
+  - Naïve text splitting ruins legal context (cutting a sentence mid-way loses legal meaning).
+  - Indian legal PDFs are messy: contain gazette headers, noise, tables, footnotes, and artifacts.
+  - **Structural Variance:** A single PDF might contain Chapters, Sections, Sub-sections, Clauses, Provisos, Explanations, and Schedules.
+  - **The Nightmare:** Manually writing custom Regex chunking scripts for *every single new law* is neither scalable nor practical. 
+
+### **Slide 4: Our Solution Approach**
+- **Title:** The Hybrid Ingestion Strategy
+- **Text:** To process laws accurately without manual intervention, we are implementing a two-pronged ingestion methodology:
+- **Box 1 (Active): The Smart Template Matcher**
+  - Heuristically detects the style of the PDF and assigns it to 1 of 5 pre-built structural logic formats.
+- **Box 2 (WIP): The Self-Healing Pipeline**
+  - Uses an LLM to automatically deduce unknown structures and write its own extraction schema.
+
+### **Slide 5: The Smart Template Matcher (Current Engine)**
+- **Title:** The 5-Format Smart Matcher
+- **Bullet points:**
+  - Scans the first few pages of a PDF instantaneously (no LLM required).
+  - Categorizes the law into our 5 standard structural templates:
+    1. **Standard Acts:** numbered sections + chapters (e.g., RTI, BNS)
+    2. **Nested Schedules:** sections + orders + rules (e.g., CPC)
+    3. **Compendiums:** multiple Acts merged in one PDF (e.g., Labour Codes)
+    4. **Procedural Rules:** hierarchical numbering without chapters.
+    5. **Paragraph-Fallback:** for unstructured legal prose.
+  - If a PDF fits, it chunks automatically with >95% structural accuracy.
+
+### **Slide 6: What if the template fails?**
+- **Title:** Handling Unprecedented Structures
+- **Text:** Indian law is vast. Eventually, a legal document will NOT fit our 5 templates. 
+- **The Solution:** Instead of crashing or producing garbage context, the system hands it over to the **Automated Pipeline (Currently Under Construction 🚧)**.
+
+### **Slide 7: Automated Pipeline Stage 1 & 2 🚧**
+- **Title:** Stage 1 & 2: Filter and Analyze *(Building Phase)*
+- **Bullet points:**
+  - **Page Intelligence Filter:** Auto-deletes Table of Contents, Cover Pages, and repeating Gazette headers.
+  - **Structure Analyzer (LLM):** LLM samples 10 pages from the PDF and outputs a custom JSON schema (indentifying exactly how section numbers, chapters, and caveats are formatted).
+
+### **Slide 8: Automated Pipeline Stage 3 & 4 🚧**
+- **Title:** Stage 3 & 4: Pilot Test & Evaluate *(Building Phase)*
+- **Bullet points:**
+  - **Pilot Chunker:** The system tests its newly generated schema on a 15-page slice of the document.
+  - **Quality Evaluator:** Checks the resulting chunks—did it actually capture section context? Does it have noise?
+  - Scores the pilot from 0.0 to 1.0.
+
+### **Slide 9: The Self-Healing Loop 🚧**
+- **Title:** The AI Refinement Loop *(Building Phase)*
+- **Text:** If the Quality Score is below threshold (e.g., 0.70):
+- **Flowchart Visual:**
+  - `Identify Bad Chunk` ➡️ `Pass Error back to LLM` ➡️ `LLM patches the Schema Regex` ➡️ `Re-run Pilot`
+- **Details:** The system will attempt to "fix" its own code up to 3 times automatically. If it passes, it proceeds to **Full Ingest**.
+
+### **Slide 10: Metadata Enrichment**
+- **Title:** Why go through this trouble? (Enriched Metadata)
+- **Text:** Whether through the Smart Matcher or the Automated Pipeline, the end result is **Flawless RAG Metadata**.
+- **Visual Example of what is saved to the Vector DB:**
+  - `law_code: COW`
+  - `chapter: Chapter II — Wages`
+  - `section: 3`
+  - `clause: (1)(a)`
+  - `section_title: Wages payable on day of work`
+- **Result:** Pinpoint accuracy during retrieval. The AI knows *exactly* which legal boundary it is reading.
+
+### **Slide 11: Future Roadmap**
+- **Title:** Next Steps for NyayaQuest
+- **Bullet points:**
+  - Launch the full Self-Healing Refinement loop to production.
+  - Integration of OCR fallback for scanned historical laws.
+  - Enhancing Schedule/Table parsing for complex tax/penalty structures.
+  - Scaling database ingestion to 100+ Indian Bare Acts seamlessly.
+
+### **Slide 12: Conclusion / Q&A**
+- **Title:** Thank You!
+- **Subtitle:** Any Questions?
+- **Footer:** [Links to GitHub repo / demo if applicable]

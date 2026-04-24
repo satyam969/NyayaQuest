@@ -353,12 +353,13 @@ def preprocess_document(pdf_path):
                     results.append({
                         "text": text,
                         "metadata": {
-                            "type":    "definition",
-                            "section": section_number,   # parent section (e.g. "2")
-                            "clause":  d["clause"],
-                            "term":    d["term"],
-                            "part":    current_part,
-                            "source":  basename
+                            "law_code": "CPC",
+                            "year":     "1908",
+                            "section":  section_number,   # parent section (e.g. "2")
+                            "clause":   d["clause"],
+                            "term":     d["term"],
+                            "chapter":  current_part,
+                            "source":   basename
                         }
                     })
                 continue  # definitions handled — skip normal chunking
@@ -374,13 +375,15 @@ def preprocess_document(pdf_path):
             results.append({
                 "text": text,
                 "metadata": {
-                    "type":         "section",
-                    "section":      section_number,
-                    "section_title": section_title,
-                    "part":         current_part,
-                    "chunk_index":  i + 1,
-                    "total_chunks": len(chunks),
-                    "source":       basename
+                    "type":          "section",
+                    "law_code":      "CPC",
+                    "year":          "1908",
+                    "section_number": section_number,
+                    "section_title":  section_title,
+                    "chapter":       current_part,
+                    "chunk_index":   i + 1,
+                    "total_chunks":  len(chunks),
+                    "source":        basename
                 }
             })
 
@@ -438,8 +441,12 @@ def preprocess_document(pdf_path):
                         "text": text,
                         "metadata": {
                             "type":        "rule",
+                            "law_code":    "CPC",
+                            "year":        "1908",
+                            "chapter":     f"Order {order_number} — {order_title}",
                             "order":       order_number,
                             "order_title": order_title,
+                            "section_number": f"O{order_number} R{rule_number}",
                             "rule":        rule_number,
                             "rule_title":  rule_title,
                             "chunk_index": i + 1,
@@ -462,13 +469,13 @@ def ingest_cpc():
         model_name="BAAI/bge-small-en-v1.5"
     )
 
-    try:
-        client.delete_collection(COLLECTION_NAME)
-        print(f"Deleted existing collection: {COLLECTION_NAME}")
-    except Exception:
-        pass
+    # try:
+    #     client.delete_collection(COLLECTION_NAME)
+    #     print(f"Deleted existing collection: {COLLECTION_NAME}")
+    # except Exception:
+    #     pass
 
-    collection = client.create_collection(
+    collection = client.get_or_create_collection(
         name=COLLECTION_NAME,
         embedding_function=emb_fn
     )
