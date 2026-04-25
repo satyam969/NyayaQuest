@@ -1,7 +1,11 @@
 import os
 import shutil
 import zipfile
-from fastapi import FastAPI, HTTPException, Depends
+import uuid
+import threading
+import logging
+from datetime import datetime, timezone
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
@@ -189,3 +193,191 @@ def chat(request: ChatRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 # Run locally with: uvicorn api:app --reload
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PDF Ingestion Endpoints
+# ─────────────────────────────────────────────────────────────────────────────
+
+LEGAL_PDFS_DIR = os.path.join(os.path.dirname(__file__), "data", "legal_pdfs")
+os.makedirs(LEGAL_PDFS_DIR, exist_ok=True)
+
+# In-memory job store  {job_id: job_dict}
+_jobs: Dict[str, Any] = {}
+_jobs_lock = threading.Lock()
+
+ingest_logger = logging.getLogger("ingest")
+
+
+def _append_log(job_id: str, level: str, stage: int, msg: str) -> None:
+    """Thread-safe log append into the job store."""
+    ts = datetime.now(timezone.utc).strftime("%H:%M:%S")
+    entry = {"ts": ts, "level": level, "stage": stage, "msg": msg}
+    with _jobs_lock:
+        if job_id in _jobs:
+            _jobs[job_id]["log_lines"].append(entry)
+
+
+def _run_pipeline_job(job_id: str, pdf_path: str, no_llm: bool) -> None:
+    """Run the ingestion pipeline in a background thread and update job state."""
+    import sys
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
+
+    with _jobs_lock:
+        _jobs[job_id]["status"] = "running"
+
+    try:
+        # Import here so the main module loads fast
+        from auto_ingest.orchestrator import run_pipeline
+        from auto_ingest.config import CHROMA_DIR, COLLECTION_NAME, LLM_MODEL
+
+        _append_log(job_id, "info", 0, f"Pipeline started — {os.path.basename(pdf_path)}")
+
+        # Capture pipeline result
+        # run_pipeline returns List[Dict] — one dict per segment
+        segments = run_pipeline(
+            pdf_path=pdf_path,
+            chroma_dir=CHROMA_DIR,
+            collection_name=COLLECTION_NAME,
+            llm_model=None if no_llm else LLM_MODEL,
+            no_llm=no_llm,
+        )
+
+        total_chunks = sum(s.get("chunks_stored", 0) for s in segments)
+        scores = [s.get("final_metrics", {}).get("overall", 0)
+                  for s in segments if s.get("final_metrics")]
+        avg_score = round(sum(scores) / len(scores), 3) if scores else 0
+        used_fallback = any(s.get("used_fallback") for s in segments)
+
+        # Log each segment result
+        for s in segments:
+            flag = " [FALLBACK]" if s.get("used_fallback") else ""
+            _append_log(job_id, "pass" if not s.get("used_fallback") else "warn", 7,
+                f"{s.get('segment_title','?')}: {s.get('chunks_stored',0)} chunks | "
+                f"score={s.get('final_metrics',{}).get('overall',0):.3f} | "
+                f"strategy={s.get('strategy_used','?')}{flag}")
+
+        _append_log(job_id, "pass", 7,
+            f"Complete — {total_chunks} total chunks | avg_score={avg_score} | fallback={used_fallback}")
+
+        with _jobs_lock:
+            _jobs[job_id]["status"] = "done"
+            _jobs[job_id]["result"] = {
+                "total_chunks":  total_chunks,
+                "avg_score":     avg_score,
+                "used_fallback": used_fallback,
+                "segments":      len(segments),
+            }
+
+    except Exception as exc:
+        ingest_logger.exception(f"Pipeline failed for job {job_id}: {exc}")
+        _append_log(job_id, "fail", -1, f"Pipeline ERROR: {exc}")
+        with _jobs_lock:
+            _jobs[job_id]["status"] = "failed"
+            _jobs[job_id]["error"]  = str(exc)
+
+
+def _new_job(filename: str) -> str:
+    job_id = str(uuid.uuid4())
+    with _jobs_lock:
+        _jobs[job_id] = {
+            "job_id":    job_id,
+            "filename":  filename,
+            "status":    "queued",
+            "log_lines": [],
+            "result":    None,
+            "error":     None,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        }
+    # Keep last 50 jobs only
+    with _jobs_lock:
+        if len(_jobs) > 50:
+            oldest = sorted(_jobs.keys(),
+                            key=lambda k: _jobs[k]["created_at"])[:len(_jobs) - 50]
+            for k in oldest:
+                del _jobs[k]
+    return job_id
+
+
+# ── Upload PDF file ───────────────────────────────────────────────────────────
+
+@app.post("/api/ingest/upload")
+async def ingest_upload(
+    file: UploadFile = File(...),
+    no_llm: bool = Form(False),
+):
+    if not file.filename.lower().endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Only PDF files are accepted")
+
+    save_path = os.path.join(LEGAL_PDFS_DIR, file.filename)
+    contents = await file.read()
+    with open(save_path, "wb") as f:
+        f.write(contents)
+
+    job_id = _new_job(file.filename)
+    _append_log(job_id, "info", 0, f"Saved to data/legal_pdfs/{file.filename}")
+    threading.Thread(
+        target=_run_pipeline_job,
+        args=(job_id, save_path, no_llm),
+        daemon=True,
+    ).start()
+
+    return {"job_id": job_id, "filename": file.filename, "status": "queued"}
+
+
+# ── Ingest from URL ───────────────────────────────────────────────────────────
+
+class IngestUrlRequest(BaseModel):
+    url: str
+    no_llm: bool = False
+
+@app.post("/api/ingest/url")
+async def ingest_url(req: IngestUrlRequest):
+    import httpx
+    url = req.url.strip()
+    if not url.lower().endswith(".pdf") and "pdf" not in url.lower():
+        raise HTTPException(status_code=400, detail="URL does not appear to be a PDF")
+
+    filename = url.split("/")[-1].split("?")[0]
+    if not filename.lower().endswith(".pdf"):
+        filename += ".pdf"
+    save_path = os.path.join(LEGAL_PDFS_DIR, filename)
+
+    try:
+        async with httpx.AsyncClient(timeout=60, follow_redirects=True) as client:
+            response = await client.get(url)
+            response.raise_for_status()
+        with open(save_path, "wb") as f:
+            f.write(response.content)
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=f"Download failed: {exc}")
+
+    job_id = _new_job(filename)
+    _append_log(job_id, "info", 0, f"Downloaded {filename} → data/legal_pdfs/")
+    threading.Thread(
+        target=_run_pipeline_job,
+        args=(job_id, save_path, req.no_llm),
+        daemon=True,
+    ).start()
+
+    return {"job_id": job_id, "filename": filename, "status": "queued"}
+
+
+# ── Poll job status ───────────────────────────────────────────────────────────
+
+@app.get("/api/ingest/status/{job_id}")
+def ingest_status(job_id: str):
+    with _jobs_lock:
+        job = _jobs.get(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    return job
+
+
+# ── List recent jobs ─────────────────────────────────────────────────────────
+
+@app.get("/api/ingest/jobs")
+def list_ingest_jobs():
+    with _jobs_lock:
+        jobs = sorted(_jobs.values(), key=lambda j: j["created_at"], reverse=True)
+    return {"jobs": jobs}
+

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import ChatInterface from './components/ChatInterface';
+import IngestPage from './components/IngestPage';
 import Auth from './components/Auth';
 import './index.css';
 
@@ -12,6 +13,7 @@ export interface User {
 function App() {
   const [user, setUser] = useState<User | null>(null);
   const [activeThreadId, setActiveThreadId] = useState<string | null>(null);
+  const [showIngest, setShowIngest] = useState(false);
 
   // Check local storage for session on load
   useEffect(() => {
@@ -29,6 +31,7 @@ function App() {
   const handleLogout = () => {
     setUser(null);
     setActiveThreadId(null);
+    setShowIngest(false);
     localStorage.removeItem('nyayaquest_user');
   };
 
@@ -41,13 +44,14 @@ function App() {
       <Sidebar
         user={user}
         activeThreadId={activeThreadId}
-        onSelectThread={setActiveThreadId}
+        onSelectThread={(id) => { setActiveThreadId(id); setShowIngest(false); }}
         onLogout={handleLogout}
+        onOpenIngest={() => setShowIngest(true)}
       />
-      <ChatInterface
-        user={user}
-        threadId={activeThreadId}
-      />
+      {showIngest
+        ? <IngestPage />
+        : <ChatInterface user={user} threadId={activeThreadId} />
+      }
     </div>
   );
 }
