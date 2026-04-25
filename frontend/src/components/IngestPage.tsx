@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, DragEvent } from 'react';
+import { useState, useRef, useEffect, useCallback, type DragEvent } from 'react';
 import axios from 'axios';
 import { Upload, Link2, FileText, CheckCircle2, XCircle, Loader2, RotateCcw, ChevronDown, ChevronUp, Clock, Zap } from 'lucide-react';
 
