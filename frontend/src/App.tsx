@@ -14,6 +14,11 @@ function App() {
   const [user, setUser] = useState<User | null>(null);
   const [activeThreadId, setActiveThreadId] = useState<string | null>(null);
   const [showIngest, setShowIngest] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const triggerRefresh = () => {
+    setRefreshTrigger(prev => prev + 1);
+  };
 
   // Check local storage for session on load
   useEffect(() => {
@@ -47,10 +52,11 @@ function App() {
         onSelectThread={(id) => { setActiveThreadId(id); setShowIngest(false); }}
         onLogout={handleLogout}
         onOpenIngest={() => setShowIngest(true)}
+        refreshTrigger={refreshTrigger}
       />
       {showIngest
         ? <IngestPage />
-        : <ChatInterface user={user} threadId={activeThreadId} />
+        : <ChatInterface user={user} threadId={activeThreadId} onRefreshSidebar={triggerRefresh} />
       }
     </div>
   );

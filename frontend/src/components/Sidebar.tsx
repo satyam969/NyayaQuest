@@ -13,6 +13,7 @@ interface SidebarProps {
   onSelectThread: (threadId: string) => void;
   onLogout: () => void;
   onOpenIngest: () => void;
+  refreshTrigger: number;
 }
 
 interface Conversation {
@@ -21,7 +22,7 @@ interface Conversation {
   updated_at: string;
 }
 
-export default function Sidebar({ user, activeThreadId, onSelectThread, onLogout, onOpenIngest }: SidebarProps) {
+export default function Sidebar({ user, activeThreadId, onSelectThread, onLogout, onOpenIngest, refreshTrigger }: SidebarProps) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +41,7 @@ export default function Sidebar({ user, activeThreadId, onSelectThread, onLogout
 
   useEffect(() => {
     loadConversations();
-  }, [user.user_id]);
+  }, [user.user_id, refreshTrigger]);
 
   const handleNewChat = async () => {
     try {

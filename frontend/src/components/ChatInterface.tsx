@@ -11,6 +11,7 @@ interface User {
 interface ChatInterfaceProps {
   user: User;
   threadId: string | null;
+  onRefreshSidebar?: () => void;
 }
 
 interface Message {
@@ -19,7 +20,7 @@ interface Message {
   context?: any[];
 }
 
-export default function ChatInterface({ user, threadId }: ChatInterfaceProps) {
+export default function ChatInterface({ user, threadId, onRefreshSidebar }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -73,6 +74,7 @@ export default function ChatInterface({ user, threadId }: ChatInterfaceProps) {
     if (!input.trim() || !threadId || loading) return;
 
     const userMessage = input.trim();
+    const isFirstMessage = messages.length === 0;
     setInput('');
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setLoading(true);
@@ -92,6 +94,10 @@ export default function ChatInterface({ user, threadId }: ChatInterfaceProps) {
           context: data.context 
         }
       ]);
+
+      if (isFirstMessage && onRefreshSidebar) {
+        onRefreshSidebar();
+      }
     } catch (error) {
       if (error instanceof AuthExpiredError) {
         setErrorToast("Session expired. Please sign in again.");
