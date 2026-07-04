@@ -60,7 +60,6 @@ export async function apiChat(payload: ChatPayload): Promise<ChatResponse> {
   try {
     const response = await fetch(`${API_URL}/api/chat`, {
       method: 'POST',
-      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
