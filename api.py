@@ -94,9 +94,16 @@ ALLOWED_ORIGINS = [
     if origin.strip()
 ]
 
+# Browsers reject allow_origins=["*"] when allow_credentials=True.
+# If no origins are configured, we fall back to standard local dev origins.
+if not ALLOWED_ORIGINS:
+    allow_origins = ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000"]
+else:
+    allow_origins = ALLOWED_ORIGINS
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS if ALLOWED_ORIGINS else ["*"],
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["Authorization", "Content-Type", "X-Request-ID"],
