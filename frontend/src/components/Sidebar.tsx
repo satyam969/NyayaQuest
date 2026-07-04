@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Scale, MessageSquare, PlusCircle, LogOut, Menu, X } from 'lucide-react';
+import { Scale, MessageSquare, PlusCircle, LogOut, Menu, X, Upload } from 'lucide-react';
 
 interface User {
   user_id: string;
@@ -12,6 +12,7 @@ interface SidebarProps {
   activeThreadId: string | null;
   onSelectThread: (threadId: string) => void;
   onLogout: () => void;
+  onOpenIngest: () => void;
 }
 
 interface Conversation {
@@ -20,7 +21,7 @@ interface Conversation {
   updated_at: string;
 }
 
-export default function Sidebar({ user, activeThreadId, onSelectThread, onLogout }: SidebarProps) {
+export default function Sidebar({ user, activeThreadId, onSelectThread, onLogout, onOpenIngest }: SidebarProps) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -98,6 +99,18 @@ export default function Sidebar({ user, activeThreadId, onSelectThread, onLogout
           >
             <PlusCircle size={18} />
             New Consultation
+          </button>
+        </div>
+
+        {/* Ingest Button */}
+        <div style={{ padding: '0 20px', marginBottom: '12px' }}>
+          <button
+            className="btn-secondary"
+            onClick={() => { onOpenIngest(); setIsOpen(false); }}
+            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '14px' }}
+          >
+            <Upload size={16} />
+            Ingest Document
           </button>
         </div>
 

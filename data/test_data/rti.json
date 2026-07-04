@@ -1,0 +1,574 @@
+[
+  {
+    "query": "What is the short title of the Act? [cite: 6076]",
+    "expected_sections": ["Section 1(1)"]
+  },
+  {
+    "query": "What is the territorial extent of the Right to Information Act, 2005? [cite: 6077]",
+    "expected_sections": ["Section 1(2)"]
+  },
+  {
+    "query": "Which specific provisions of the RTI Act come into force at once upon its enactment? [cite: 6078]",
+    "expected_sections": ["Section 1(3)"]
+  },
+  {
+    "query": "When do the remaining provisions of the RTI Act, which do not come into force at once, take effect? [cite: 6078]",
+    "expected_sections": ["Section 1(3)"]
+  },
+  {
+    "query": "How is 'appropriate Government' defined in relation to a public authority established, owned, or controlled by the Central Government? [cite: 6080, 6081]",
+    "expected_sections": ["Section 2(a)(i)"]
+  },
+  {
+    "query": "How is 'appropriate Government' defined in relation to a public authority substantially financed by the State Government? [cite: 6080, 6082]",
+    "expected_sections": ["Section 2(a)(ii)"]
+  },
+  {
+    "query": "How is the 'Central Information Commission' defined under the RTI Act? [cite: 6083]",
+    "expected_sections": ["Section 2(b)"]
+  },
+  {
+    "query": "Does the definition of 'Central Public Information Officer' explicitly include a Central Assistant Public Information Officer? [cite: 6084]",
+    "expected_sections": ["Section 2(c)"]
+  },
+  {
+    "query": "How are the terms 'Chief Information Commissioner' and 'Information Commissioner' defined? [cite: 6085]",
+    "expected_sections": ["Section 2(d)"]
+  },
+  {
+    "query": "Who is defined as the 'competent authority' in the case of the House of the People or the Legislative Assembly of a State? [cite: 6089, 6090]",
+    "expected_sections": ["Section 2(e)(i)"]
+  },
+  {
+    "query": "Who is the 'competent authority' in the case of the Supreme Court of India? [cite: 6089, 6091]",
+    "expected_sections": ["Section 2(e)(ii)"]
+  },
+  {
+    "query": "Who is the 'competent authority' in the case of a High Court? [cite: 6089, 6092]",
+    "expected_sections": ["Section 2(e)(iii)"]
+  },
+  {
+    "query": "Who is the 'competent authority' for authorities established or constituted by or under the Constitution? [cite: 6089, 6093]",
+    "expected_sections": ["Section 2(e)(iv)"]
+  },
+  {
+    "query": "Who is the 'competent authority' in the case of an administrator appointed under article 239 of the Constitution? [cite: 6089, 6094]",
+    "expected_sections": ["Section 2(e)(v)"]
+  },
+  {
+    "query": "How is the term 'information' comprehensively defined under the Act? [cite: 6095]",
+    "expected_sections": ["Section 2(f)"]
+  },
+  {
+    "query": "Does the definition of 'information' include data material held in any electronic form? [cite: 6095]",
+    "expected_sections": ["Section 2(f)"]
+  },
+  {
+    "query": "Can information relating to any private body be accessed by a public authority under the RTI Act? [cite: 6095]",
+    "expected_sections": ["Section 2(f)"]
+  },
+  {
+    "query": "What does the term 'prescribed' mean within the context of the RTI Act? [cite: 6096]",
+    "expected_sections": ["Section 2(g)"]
+  },
+  {
+    "query": "What types of authorities, bodies, or institutions of self-government constitute a 'public authority'? [cite: 6097, 6098, 6099, 6100, 6101]",
+    "expected_sections": ["Section 2(h)(a) to (d)"]
+  },
+  {
+    "query": "Is a non-Government organisation that is substantially financed, directly or indirectly, by the appropriate Government considered a 'public authority'? [cite: 6102, 6104, 6105]",
+    "expected_sections": ["Section 2(h)(ii)"]
+  },
+  {
+    "query": "What specific materials are explicitly included in the definition of a 'record'? [cite: 6106, 6107, 6108, 6109, 6111]",
+    "expected_sections": ["Section 2(i)(a) to (d)"]
+  },
+  {
+    "query": "What four specific rights are included in the definition of the 'right to information'? [cite: 6112, 6113, 6114, 6115, 6116, 6117]",
+    "expected_sections": ["Section 2(j)(i) to (iv)"]
+  },
+  {
+    "query": "Does the right to information include taking certified samples of material? [cite: 6112, 6113, 6116]",
+    "expected_sections": ["Section 2(j)(iii)"]
+  },
+  {
+    "query": "Does the right to information include obtaining information in the form of diskettes, floppies, or tapes? [cite: 6112, 6113, 6117]",
+    "expected_sections": ["Section 2(j)(iv)"]
+  },
+  {
+    "query": "How is the 'State Information Commission' defined? [cite: 6118]",
+    "expected_sections": ["Section 2(k)"]
+  },
+  {
+    "query": "How are the 'State Chief Information Commissioner' and 'State Information Commissioner' defined? [cite: 6120]",
+    "expected_sections": ["Section 2(l)"]
+  },
+  {
+    "query": "Does the definition of 'State Public Information Officer' include a State Assistant Public Information Officer? [cite: 6121]",
+    "expected_sections": ["Section 2(m)"]
+  },
+  {
+    "query": "How is a 'third party' defined under the RTI Act, and does it include a public authority? [cite: 6122]",
+    "expected_sections": ["Section 2(n)"]
+  },
+  {
+    "query": "Subject to the provisions of this Act, do all citizens have the right to information?",
+    "expected_sections": ["Section 3 [cite: 123]"]
+  },
+  {
+    "query": "What is the obligation of public authorities regarding the maintenance, cataloguing, and indexing of their records?",
+    "expected_sections": ["Section 4(1)(a) [cite: 125]"]
+  },
+  {
+    "query": "Within how many days from the enactment of the RTI Act must a public authority publish the particulars of its organisation, functions, and duties?",
+    "expected_sections": ["Section 4(1)(b) [cite: 126, 127]"]
+  },
+  {
+    "query": "Is a public authority required to publish a directory of its officers and employees under the RTI Act?",
+    "expected_sections": ["Section 4(1)(b)(ix) [cite: 135]"]
+  },
+  {
+    "query": "Are public authorities obligated to publish the monthly remuneration received by each of its officers and employees?",
+    "expected_sections": ["Section 4(1)(b)(x) [cite: 136]"]
+  },
+  {
+    "query": "Must public authorities publish all relevant facts while formulating important policies or announcing decisions which affect the public?",
+    "expected_sections": ["Section 4(1)(c) [cite: 147]"]
+  },
+  {
+    "query": "Are public authorities required to provide reasons for their administrative or quasi-judicial decisions to affected persons?",
+    "expected_sections": ["Section 4(1)(d) [cite: 148]"]
+  },
+  {
+    "query": "What is the constant endeavour of every public authority regarding the provision of suo motu information to the public?",
+    "expected_sections": ["Section 4(2) [cite: 149]"]
+  },
+  {
+    "query": "What factors must be taken into consideration when disseminating materials to the public under the RTI Act?",
+    "expected_sections": ["Section 4(4) [cite: 151]"]
+  },
+  {
+    "query": "Within how many days of the enactment of the Act must a public authority designate Central or State Public Information Officers in all administrative units?",
+    "expected_sections": ["Section 5(1) [cite: 153]"]
+  },
+  {
+    "query": "What is the time limit for designating a Central or State Assistant Public Information Officer at each sub-divisional or sub-district level?",
+    "expected_sections": ["Section 5(2) [cite: 154]"]
+  },
+  {
+    "query": "How many days are added in computing the period for response if an application or appeal is given to an Assistant Public Information Officer?",
+    "expected_sections": ["Section 5(2) Proviso [cite: 156]"]
+  },
+  {
+    "query": "What is the duty of a Public Information Officer towards persons seeking information?",
+    "expected_sections": ["Section 5(3) [cite: 157]"]
+  },
+  {
+    "query": "Can a Public Information Officer seek the assistance of any other officer to discharge their duties, and is that assisting officer treated as a PIO for contraventions?",
+    "expected_sections": ["Section 5(4), Section 5(5) [cite: 158, 159]"]
+  },
+  {
+    "query": "In what languages can a person make a request for obtaining information under the RTI Act?",
+    "expected_sections": ["Section 6(1) [cite: 161]"]
+  },
+  {
+    "query": "What must a Public Information Officer do if a person cannot make a request for information in writing?",
+    "expected_sections": ["Section 6(1) Proviso [cite: 164]"]
+  },
+  {
+    "query": "Is an applicant required to give any reason for requesting information under the RTI Act?",
+    "expected_sections": ["Section 6(2) [cite: 165]"]
+  },
+  {
+    "query": "What must a public authority do if an application is made for information that is held by another public authority?",
+    "expected_sections": ["Section 6(3) [cite: 166, 169]"]
+  },
+  {
+    "query": "What is the time limit for transferring an application to another public authority that holds the requested information?",
+    "expected_sections": ["Section 6(3) Proviso [cite: 170]"]
+  },
+  {
+    "query": "Within what general time frame must a Public Information Officer provide the information or reject the request?",
+    "expected_sections": ["Section 7(1) [cite: 171]"]
+  },
+  {
+    "query": "Within what time frame must information be provided if it concerns the life or liberty of a person?",
+    "expected_sections": ["Section 7(1) Proviso [cite: 172]"]
+  },
+  {
+    "query": "What is the legal consequence if a Public Information Officer fails to give a decision on a request within the specified period?",
+    "expected_sections": ["Section 7(2) [cite: 173]"]
+  },
+  {
+    "query": "What specific details must a PIO send to the applicant if a further fee representing the cost of providing the information is required?",
+    "expected_sections": ["Section 7(3) [cite: 174, 175, 176]"]
+  },
+  {
+    "query": "What assistance must be provided if the person to whom access is to be provided is sensorily disabled?",
+    "expected_sections": ["Section 7(4) [cite: 178]"]
+  },
+  {
+    "query": "Can a fee be charged for providing information to persons who are below the poverty line?",
+    "expected_sections": ["Section 7(5) Proviso [cite: 180]"]
+  },
+  {
+    "query": "Is the applicant required to pay any fee if the public authority fails to comply with the time limits for providing information?",
+    "expected_sections": ["Section 7(6) [cite: 181]"]
+  },
+  {
+    "query": "What three details must be communicated to the applicant when a request for information is rejected?",
+    "expected_sections": ["Section 7(8) [cite: 183, 184, 185, 186]"]
+  },
+  {
+    "query": "Under Section 8(1)(a), what type of information is exempt from disclosure regarding India's sovereignty, security, and relations with foreign states?",
+    "expected_sections": ["Section 8(1)(a) [cite: 189]"]
+  },
+  {
+    "query": "Is there an obligation to disclose information expressly forbidden to be published by any court of law or tribunal?",
+    "expected_sections": ["Section 8(1)(b) [cite: 190]"]
+  },
+  {
+    "query": "Is information including commercial confidence, trade secrets or intellectual property completely exempt from disclosure in all cases?",
+    "expected_sections": ["Section 8(1)(d) [cite: 192]"]
+  },
+  {
+    "query": "Under what condition can information available to a person in their fiduciary relationship be disclosed?",
+    "expected_sections": ["Section 8(1)(e) [cite: 193]"]
+  },
+  {
+    "query": "Are cabinet papers, including records of deliberations of the Council of Ministers, exempt from disclosure?",
+    "expected_sections": ["Section 8(1)(i) [cite: 197]"]
+  },
+  {
+    "query": "When must the decisions of the Council of Ministers, the reasons thereof, and the material on which the decisions were based be made public?",
+    "expected_sections": ["Section 8(1)(i) Proviso 1 [cite: 199]"]
+  },
+  {
+    "query": "Does Section 8(1)(j) exempt the disclosure of personal information?",
+    "expected_sections": ["Section 8(1)(j) [cite: 201]"]
+  },
+  {
+    "query": "Can a public authority allow access to information despite exemptions and the Official Secrets Act, 1923 if the public interest outweighs the harm?",
+    "expected_sections": ["Section 8(2) [cite: 202]"]
+  },
+  {
+    "query": "Generally, any information relating to an occurrence or event that happened how many years before the request must be provided?",
+    "expected_sections": ["Section 8(3) [cite: 203]"]
+  },
+  {
+    "query": "On what ground under Section 9 can a Public Information Officer reject a request involving copyright?",
+    "expected_sections": ["Section 9 [cite: 205]"]
+  },
+  {
+    "query": "If a request for access to a record is rejected because it contains exempt information, can access be provided to a non-exempt, severed part of the record?",
+    "expected_sections": ["Section 10(1) [cite: 206]"]
+  },
+  {
+    "query": "What specific information must be included in the notice given to an applicant when access is granted to a severed part of a record?",
+    "expected_sections": ["Section 10(2) [cite: 207, 208, 209, 210, 211, 213]"]
+  },
+  {
+    "query": "Within how many days must a PIO give written notice to a third party regarding the intended disclosure of their confidential information?",
+    "expected_sections": ["Section 11(1) [cite: 214, 217]"]
+  },
+  {
+    "query": "How many days from the receipt of notice does a third party have to make a representation against the proposed disclosure of their information?",
+    "expected_sections": ["Section 11(2) [cite: 219]"]
+  },
+  {
+    "query": "Within how many days after receipt of the initial request must a PIO make a decision regarding the disclosure of third party information?",
+    "expected_sections": ["Section 11(3) [cite: 220]"]
+  },
+  {
+    "query": "Which authority constitutes the Central Information Commission?",
+    "expected_sections": ["Section 12(1)"]
+  },
+  {
+    "query": "What is the maximum number of Central Information Commissioners that can be appointed under the RTI Act?",
+    "expected_sections": ["Section 12(2)"]
+  },
+  {
+    "query": "Who appoints the Chief Information Commissioner and the Information Commissioners?",
+    "expected_sections": ["Section 12(3)"]
+  },
+  {
+    "query": "Who are the three members of the committee that recommends the appointment of the Chief Information Commissioner?",
+    "expected_sections": ["Section 12(3)"]
+  },
+  {
+    "query": "If the Leader of Opposition has not been recognised in the House of the People, who is deemed to be the Leader of Opposition for the recommendation committee?",
+    "expected_sections": ["Section 12(3) Explanation"]
+  },
+  {
+    "query": "In whom is the general superintendence, direction, and management of the Central Information Commission vested?",
+    "expected_sections": ["Section 12(4)"]
+  },
+  {
+    "query": "What are the required qualifications and areas of experience for the Chief Information Commissioner and Information Commissioners?",
+    "expected_sections": ["Section 12(5)"]
+  },
+  {
+    "query": "Can a Member of Parliament or a person holding an office of profit be appointed as the Chief Information Commissioner?",
+    "expected_sections": ["Section 12(6)"]
+  },
+  {
+    "query": "Where is the headquarters of the Central Information Commission mandated to be located?",
+    "expected_sections": ["Section 12(7)"]
+  },
+  {
+    "query": "Who prescribes the term of office for the Chief Information Commissioner, and are they eligible for reappointment?",
+    "expected_sections": ["Section 13(1)"]
+  },
+  {
+    "query": "What is the maximum age limit for holding the office of the Chief Information Commissioner?",
+    "expected_sections": ["Section 13(1) Proviso"]
+  },
+  {
+    "query": "Is an Information Commissioner eligible for appointment as the Chief Information Commissioner after vacating their office?",
+    "expected_sections": ["Section 13(2) Proviso 1"]
+  },
+  {
+    "query": "What is the maximum aggregate term allowed if an Information Commissioner is subsequently appointed as the Chief Information Commissioner?",
+    "expected_sections": ["Section 13(2) Proviso 2"]
+  },
+  {
+    "query": "Before whom does the Chief Information Commissioner subscribe to their oath or affirmation?",
+    "expected_sections": ["Section 13(3)"]
+  },
+  {
+    "query": "To whom must the Chief Information Commissioner address their resignation?",
+    "expected_sections": ["Section 13(4)"]
+  },
+  {
+    "query": "Who determines the salaries, allowances, and other terms of service of the Chief Information Commissioner and Information Commissioners?",
+    "expected_sections": ["Section 13(5)"]
+  },
+  {
+    "query": "Can the salaries and allowances of the Chief Information Commissioner be varied to their disadvantage after appointment?",
+    "expected_sections": ["Section 13(5) Proviso 1"]
+  },
+  {
+    "query": "On what specific grounds can the President remove the Chief Information Commissioner from office after a Supreme Court inquiry?",
+    "expected_sections": ["Section 14(1)"]
+  },
+  {
+    "query": "Can the President suspend the Chief Information Commissioner while an inquiry by the Supreme Court is pending?",
+    "expected_sections": ["Section 14(2)"]
+  },
+  {
+    "query": "Under what five conditions can the President remove the Chief Information Commissioner without a Supreme Court inquiry?",
+    "expected_sections": ["Section 14(3)(a) to (e)"]
+  },
+  {
+    "query": "Is the Chief Information Commissioner deemed guilty of misbehaviour if they become interested in a contract made by the Government of India?",
+    "expected_sections": ["Section 14(4)"]
+  },
+  {
+    "query": "Which authority is responsible for constituting the State Information Commission?",
+    "expected_sections": ["Section 15(1)"]
+  },
+  {
+    "query": "What is the composition of the State Information Commission?",
+    "expected_sections": ["Section 15(2)"]
+  },
+  {
+    "query": "Who appoints the State Chief Information Commissioner and State Information Commissioners?",
+    "expected_sections": ["Section 15(3)"]
+  },
+  {
+    "query": "Who serves as the Chairperson of the committee that recommends appointments to the State Information Commission?",
+    "expected_sections": ["Section 15(3)(i)"]
+  },
+  {
+    "query": "What happens if there is no formally recognised Leader of Opposition in the Legislative Assembly for the recommendation committee?",
+    "expected_sections": ["Section 15(3) Explanation"]
+  },
+  {
+    "query": "In whom is the general superintendence and management of the State Information Commission vested?",
+    "expected_sections": ["Section 15(4)"]
+  },
+  {
+    "query": "What are the required qualifications for a State Information Commissioner?",
+    "expected_sections": ["Section 15(5)"]
+  },
+  {
+    "query": "Can a person carrying on a business or connected with a political party be a State Information Commissioner?",
+    "expected_sections": ["Section 15(6)"]
+  },
+  {
+    "query": "Who prescribes the term of office for the State Chief Information Commissioner?",
+    "expected_sections": ["Section 16(1)"]
+  },
+  {
+    "query": "What is the mandatory retirement age for a State Information Commissioner?",
+    "expected_sections": ["Section 16(2)"]
+  },
+  {
+    "query": "Before whom does a State Information Commissioner take their oath of office?",
+    "expected_sections": ["Section 16(3)"]
+  },
+  {
+    "query": "To whom must a State Information Commissioner address their written resignation?",
+    "expected_sections": ["Section 16(4)"]
+  },
+  {
+    "query": "Who prescribes the salaries and allowances of the State Chief Information Commissioner?",
+    "expected_sections": ["Section 16(5)"]
+  },
+  {
+    "query": "Who must provide the State Information Commission with the necessary officers and employees?",
+    "expected_sections": ["Section 16(6)"]
+  },
+  {
+    "query": "Who has the authority to remove the State Chief Information Commissioner on the ground of proved misbehaviour after a Supreme Court report?",
+    "expected_sections": ["Section 17(1)"]
+  },
+  {
+    "query": "Under what conditions can the Governor remove a State Information Commissioner without a Supreme Court reference?",
+    "expected_sections": ["Section 17(3)(a) to (e)"]
+  },
+  {
+    "query": "Under Section 18, is it the duty of the Information Commission to inquire into a complaint if a person was refused access to information?",
+    "expected_sections": ["Section 18(1)(b)"]
+  },
+  {
+    "query": "Can a person complain to the Information Commission if they believe they have been given incomplete, misleading, or false information?",
+    "expected_sections": ["Section 18(1)(e)"]
+  },
+  {
+    "query": "Does the Information Commission have the power to initiate an inquiry if it is satisfied there are reasonable grounds?",
+    "expected_sections": ["Section 18(2)"]
+  },
+  {
+    "query": "What specific civil court powers are vested in the Information Commission while inquiring into a matter?",
+    "expected_sections": ["Section 18(3)(a) to (f)"]
+  },
+  {
+    "query": "Can a public authority withhold a record from the Information Commission during an inquiry on the grounds of inconsistency with other Acts?",
+    "expected_sections": ["Section 18(4)"]
+  },
+  {
+    "query": "What is the time limit for preferring a first appeal to an officer senior in rank to the Public Information Officer?",
+    "expected_sections": ["Section 19(1)"]
+  },
+  {
+    "query": "Can the first appellate authority admit an appeal after the expiry of the thirty-day limit?",
+    "expected_sections": ["Section 19(1) Proviso"]
+  },
+  {
+    "query": "What is the time limit for a third party to prefer an appeal against an order to disclose third-party information?",
+    "expected_sections": ["Section 19(2)"]
+  },
+  {
+    "query": "What is the time limit for filing a second appeal with the Information Commission?",
+    "expected_sections": ["Section 19(3)"]
+  },
+  {
+    "query": "In any appeal proceedings, upon whom does the onus of proving that a denial of a request was justified rest?",
+    "expected_sections": ["Section 19(5)"]
+  },
+  {
+    "query": "What is the maximum extended time period permitted for disposing of a first appeal?",
+    "expected_sections": ["Section 19(6)"]
+  },
+  {
+    "query": "Is the decision of the Central or State Information Commission in an appeal legally binding?",
+    "expected_sections": ["Section 19(7)"]
+  },
+  {
+    "query": "Can the Information Commission require a public authority to compensate the complainant for any loss suffered?",
+    "expected_sections": ["Section 19(8)(b)"]
+  },
+  {
+    "query": "What is the maximum penalty amount that can be imposed on a PIO for refusing to receive an application or malafidely denying a request?",
+    "expected_sections": ["Section 20(1)"]
+  },
+  {
+    "query": "What is the daily penalty rate imposed on a PIO until the application is received or the information is furnished?",
+    "expected_sections": ["Section 20(1)"]
+  },
+  {
+    "query": "Upon whom does the burden lie to prove that the PIO acted reasonably and diligently during a penalty proceeding?",
+    "expected_sections": ["Section 20(1) Proviso 2"]
+  },
+  {
+    "query": "What action can the Information Commission recommend against a PIO for persistent failure to furnish information?",
+    "expected_sections": ["Section 20(2)"]
+  },
+  {
+    "query": "Does the RTI Act provide protection from legal proceedings for actions taken in good faith?",
+    "expected_sections": ["Section 21"]
+  },
+  {
+    "query": "Does the RTI Act have overriding effect over the Official Secrets Act, 1923?",
+    "expected_sections": ["Section 22"]
+  },
+  {
+    "query": "Are courts permitted to entertain suits or applications in respect of any order made under the RTI Act?",
+    "expected_sections": ["Section 23"]
+  },
+  {
+    "query": "Does the RTI Act apply to intelligence and security organisations established by the Central Government and specified in the Second Schedule?",
+    "expected_sections": ["Section 24(1)"]
+  },
+  {
+    "query": "Is information pertaining to allegations of corruption and human rights violations excluded from the exemption given to intelligence organisations?",
+    "expected_sections": ["Section 24(1) Proviso 1"]
+  },
+  {
+    "query": "Whose approval is required before providing information regarding human rights violations from an exempted intelligence organisation?",
+    "expected_sections": ["Section 24(1) Proviso 2"]
+  },
+  {
+    "query": "Within how many days must information regarding human rights violations be provided by an exempted organisation after approval?",
+    "expected_sections": ["Section 24(1) Proviso 2"]
+  },
+  {
+    "query": "Who has the power to amend the Second Schedule to include or omit any intelligence or security organisation?",
+    "expected_sections": ["Section 24(2)"]
+  },
+  {
+    "query": "To whom must the Information Commissions forward their annual report on the implementation of the Act?",
+    "expected_sections": ["Section 25(1)"]
+  },
+  {
+    "query": "Can the Information Commission give a recommendation to a public authority if its practices do not conform to the spirit of the Act?",
+    "expected_sections": ["Section 25(5)"]
+  },
+  {
+    "query": "Within how many months from the commencement of the Act must the appropriate Government compile a guide on how to exercise RTI rights?",
+    "expected_sections": ["Section 26(2)"]
+  },
+  {
+    "query": "Who holds the power to make rules to carry out the provisions of the RTI Act by notification in the Official Gazette?",
+    "expected_sections": ["Section 27(1), Section 28(1)"]
+  },
+  {
+    "query": "For how many days must every rule made by the Central Government be laid before each House of Parliament?",
+    "expected_sections": ["Section 29(1)"]
+  },
+  {
+    "query": "Within what time limit from the commencement of the Act could the Central Government make an order to remove difficulties?",
+    "expected_sections": ["Section 30(1) Proviso"]
+  },
+  {
+    "query": "Which previous Act was explicitly repealed by Section 31 of the RTI Act, 2005?",
+    "expected_sections": ["Section 31"]
+  },
+  {
+    "query": "According to the First Schedule, what is the exact wording used for the form of oath or affirmation made by the Information Commissioners?",
+    "expected_sections": ["The First Schedule"]
+  },
+  {
+    "query": "Which specific organisations are listed under the Second Schedule as intelligence and security organisations established by the Central Government?",
+    "expected_sections": ["The Second Schedule, Items 1-26"]
+  },
+  {
+    "query": "Is the Directorate of Enforcement included in the Second Schedule of the RTI Act?",
+    "expected_sections": ["The Second Schedule, Item 5"]
+  },
+  {
+    "query": "Is the Central Bureau of Investigation included in the Second Schedule of the RTI Act?",
+    "expected_sections": ["The Second Schedule, Item 23"]
+  }
+]
