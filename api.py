@@ -35,7 +35,7 @@ from langchain_core.embeddings import Embeddings
 from sentence_transformers import SentenceTransformer
 from hybrid_retriever import HybridRetriever
 
-from src.db_utils import get_user_conversations, create_conversation, get_conversation_history, db
+from src.db_utils import get_user_conversations, create_conversation, get_conversation_history, db, add_message_to_db, update_conversation_title
 from dotenv import load_dotenv
 
 # ── Structured Logging ───────────────────────────────────────────────
@@ -411,6 +411,33 @@ def chat(request: Request, chat_request: ChatRequest):
             user_id=chat_request.user_id,
             intent=classification.intent.value,
         )
+
+        # Save user and assistant messages to DB for conversation history persistence
+        thread_id = chat_request.thread_id
+        if thread_id and not thread_id.startswith("guest_") and not thread_id.startswith("test_"):
+            try:
+                # Check if this is the first message in the conversation thread
+                history = get_conversation_history(thread_id)
+                is_first = (len(history) == 0)
+
+                # Save user message & assistant canned message to Firestore
+                add_message_to_db(thread_id, "user", query)
+                add_message_to_db(thread_id, "assistant", canned["answer"])
+
+                # Sync history cache for engine in-memory store so it keeps track of it
+                chat_history_obj = law_engine.get_session_history(thread_id)
+                chat_history_obj.add_user_message(query)
+                chat_history_obj.add_ai_message(canned["answer"])
+
+                # Generate a short, descriptive title if this is the first query in the thread
+                if is_first:
+                    from src.title_gen import generate_conversation_title
+                    new_title = generate_conversation_title(llm, query)
+                    update_conversation_title(thread_id, new_title)
+                    log.info("title_generated_non_legal", thread_id=thread_id, title=new_title)
+            except Exception as e:
+                log.exception("non_legal_persistence_failed", thread_id=thread_id, error=str(e))
+
         return ChatResponse(
             response=canned["answer"],
             context=[],
