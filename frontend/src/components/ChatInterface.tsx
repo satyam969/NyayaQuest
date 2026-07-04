@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import { Send, Bot, User as UserIcon, BookOpen, ChevronDown, ChevronUp, Loader2, Scale } from 'lucide-react';
+import { apiChat, apiGetHistory, AuthExpiredError, RateLimitError, TimeoutError } from '../lib/api';
 
 interface User {
   user_id: string;
@@ -24,6 +24,7 @@ export default function ChatInterface({ user, threadId }: ChatInterfaceProps) {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [expandedContexts, setExpandedContexts] = useState<Record<number, boolean>>({});
+  const [errorToast, setErrorToast] = useState<string | null>(null);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -39,11 +40,18 @@ export default function ChatInterface({ user, threadId }: ChatInterfaceProps) {
     scrollToBottom();
   }, [messages, loading]);
 
+  // Auto-dismiss error toast
+  useEffect(() => {
+    if (errorToast) {
+      const timer = setTimeout(() => setErrorToast(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorToast]);
+
   const loadHistory = async () => {
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
-      const response = await axios.get(`${apiUrl}/api/conversations/${user.user_id}/${threadId}`);
-      setMessages(response.data.history || []);
+      const history = await apiGetHistory(user.user_id, threadId!);
+      setMessages(history);
     } catch (error) {
       console.error("Failed to load chat history", error);
     }
@@ -70,22 +78,31 @@ export default function ChatInterface({ user, threadId }: ChatInterfaceProps) {
     setLoading(true);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
-      const response = await axios.post(`${apiUrl}/api/chat`, {
+      const data = await apiChat({
         user_id: user.user_id,
         thread_id: threadId,
-        message: userMessage
+        message: userMessage,
       });
 
       setMessages(prev => [
         ...prev, 
         { 
           role: 'assistant', 
-          content: response.data.response,
-          context: response.data.context 
+          content: data.response,
+          context: data.context 
         }
       ]);
     } catch (error) {
+      if (error instanceof AuthExpiredError) {
+        setErrorToast("Session expired. Please sign in again.");
+        // Could trigger re-auth flow here
+      } else if (error instanceof RateLimitError) {
+        setErrorToast("Too many requests. Please wait a minute.");
+      } else if (error instanceof TimeoutError) {
+        setErrorToast("Request timed out. Please try again.");
+      } else {
+        setErrorToast("Something went wrong. Please try again.");
+      }
       console.error("Chat error", error);
       setMessages(prev => [...prev, { role: 'assistant', content: "An error occurred while processing your legal query. Please try again." }]);
     } finally {
@@ -107,6 +124,27 @@ export default function ChatInterface({ user, threadId }: ChatInterfaceProps) {
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
+
+      {/* Error Toast */}
+      {errorToast && (
+        <div style={{
+          position: 'absolute',
+          top: '80px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: 'rgba(239, 68, 68, 0.95)',
+          color: 'white',
+          padding: '12px 24px',
+          borderRadius: '8px',
+          fontSize: '14px',
+          zIndex: 100,
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          animation: 'fadeIn 0.3s ease-out',
+          cursor: 'pointer',
+        }} onClick={() => setErrorToast(null)}>
+          {errorToast}
+        </div>
+      )}
       
       {/* Header */}
       <div className="glass-panel" style={{ padding: '20px 30px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center' }}>

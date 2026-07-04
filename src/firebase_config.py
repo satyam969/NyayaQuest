@@ -7,13 +7,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Firebase Web Config (for Client-side Auth via REST)
+# Values are loaded from environment variables for production safety.
+# These are client-side "public" keys, but externalizing keeps configs portable.
 FIREBASE_CONFIG = {
-    "apiKey": "AIzaSyBdLEEG8XptYZ-69SbhG84w0Xgh_f3Jwu4",
-    "authDomain": "nyayaquest.firebaseapp.com",
-    "projectId": "nyayaquest",
-    "storageBucket": "nyayaquest.firebasestorage.app",
-    "messagingSenderId": "686850588650",
-    "appId": "1:686850588650:web:a38c4983b5fa3a0887bc93",
+    "apiKey": os.getenv("FIREBASE_API_KEY", "AIzaSyBdLEEG8XptYZ-69SbhG84w0Xgh_f3Jwu4"),
+    "authDomain": os.getenv("FIREBASE_AUTH_DOMAIN", "nyayaquest.firebaseapp.com"),
+    "projectId": os.getenv("FIREBASE_PROJECT_ID", "nyayaquest"),
+    "storageBucket": os.getenv("FIREBASE_STORAGE_BUCKET", "nyayaquest.firebasestorage.app"),
+    "messagingSenderId": os.getenv("FIREBASE_MESSAGING_SENDER_ID", "686850588650"),
+    "appId": os.getenv("FIREBASE_APP_ID", "1:686850588650:web:a38c4983b5fa3a0887bc93"),
 }
 
 def initialize_firebase():
