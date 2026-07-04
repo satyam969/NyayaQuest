@@ -101,6 +101,8 @@ if not ALLOWED_ORIGINS:
 else:
     allow_origins = ALLOWED_ORIGINS
 
+log.info("cors_configured", allow_origins=allow_origins)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allow_origins,
