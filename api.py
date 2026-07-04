@@ -510,13 +510,15 @@ def _run_pipeline_job(job_id: str, pdf_path: str, no_llm: bool) -> None:
 
         # Capture pipeline result
         # run_pipeline returns List[Dict] — one dict per segment
-        segments = run_pipeline(
-            pdf_path=pdf_path,
-            chroma_dir=CHROMA_DIR,
-            collection_name=COLLECTION_NAME,
-            llm_model=None if no_llm else LLM_MODEL,
-            no_llm=no_llm,
-        )
+        pipeline_kwargs: Dict[str, Any] = {
+            "pdf_path": pdf_path,
+            "chroma_dir": CHROMA_DIR,
+            "collection_name": COLLECTION_NAME,
+            "no_llm": no_llm,
+        }
+        if not no_llm and LLM_MODEL:
+            pipeline_kwargs["llm_model"] = str(LLM_MODEL)
+        segments = run_pipeline(**pipeline_kwargs)
 
         total_chunks = sum(s.get("chunks_stored", 0) for s in segments)
         scores = [s.get("final_metrics", {}).get("overall", 0)
@@ -581,23 +583,24 @@ async def ingest_upload(
     file: UploadFile = File(...),
     no_llm: bool = Form(False),
 ):
-    if not file.filename.lower().endswith(".pdf"):
+    filename = file.filename or "upload.pdf"
+    if not filename.lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Only PDF files are accepted")
 
-    save_path = os.path.join(LEGAL_PDFS_DIR, file.filename)
+    save_path = os.path.join(LEGAL_PDFS_DIR, filename)
     contents = await file.read()
     with open(save_path, "wb") as f:
         f.write(contents)
 
-    job_id = _new_job(file.filename)
-    _append_log(job_id, "info", 0, f"Saved to data/legal_pdfs/{file.filename}")
+    job_id = _new_job(filename)
+    _append_log(job_id, "info", 0, f"Saved to data/legal_pdfs/{filename}")
     threading.Thread(
         target=_run_pipeline_job,
         args=(job_id, save_path, no_llm),
         daemon=True,
     ).start()
 
-    return {"job_id": job_id, "filename": file.filename, "status": "queued"}
+    return {"job_id": job_id, "filename": filename, "status": "queued"}
 
 
 # ── Ingest from URL ───────────────────────────────────────────────────────────
