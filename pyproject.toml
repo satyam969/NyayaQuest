@@ -41,6 +41,7 @@ dependencies = [
     "prometheus-fastapi-instrumentator>=6.1.0",
     "prometheus-client>=0.20.0",
     "pydantic-settings>=2.0.0",
+    "python-multipart>=0.0.9",
 ]
 
 [dependency-groups]
